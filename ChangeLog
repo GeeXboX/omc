@@ -1,0 +1,13 @@
+2006-01-22  Benjamin Zores  <ben@geexbox.org>
+
+        * first inclusion of Open Media Center to GeeXboX Arch tree.
+	* support for some generic widgets : image, text, menu, border,
+	  clipper, cover, browser (files or MRLs/playlist),
+	  Playing MRL notifier.
+	* support for some screens : main screen, audio files selection screen,
+	  video files selection screen, audio player screen.
+	* audio player support with Xine
+	* basic audio player controls.
+	* cover and metadata support.
+	* amazon.com search for CD/DVD covers.
+	* support for playlists.

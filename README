@@ -1,0 +1,40 @@
+Requirements
+************
+
+- Evas >= 0.9.9.023 :
+http://enlightenment.freedesktop.org/fetch.php?file=evas-0.9.9.023.tar.gz
+- Ecore >= 0.9.9.023 :
+http://enlightenment.freedesktop.org/fetch.php?file=ecore-0.9.9.023.tar.gz
+- Xine-lib >= 1.1.1 :
+http://prdownloads.sourceforge.net/xine/xine-lib-1.1.1.tar.gz
+- Curl
+
+Build
+*****
+
+./configure --prefix=$PREFIX
+make
+
+Install
+*******
+
+No regular install right now.
+
+Configuration
+*************
+
+- Copy etc/omc.conf to $HOME/.omc.conf
+- Edit the file to fit main parameters :
+ * media_dir : default shared path
+ * screenw : screen width
+ * screenh : screen height
+ * fonts : fonts description (size, color, name etc ...)
+
+Usage
+*****
+
+From omc build dir _ONLY_ :
+./src/omc
+
+Images and Fonts (data) must be in the ./data directory where the executable
+has been started.
