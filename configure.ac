@@ -58,8 +58,14 @@ fi
 
 AC_DEFINE(_GNU_SOURCE, [],[Use GNU])
 
+DATA_DIR="$datadir/omc"
+eval DATA_PATH=`eval echo "$DATA_DIR"`
+AC_DEFINE_UNQUOTED(DATA_DIR,"$DATA_PATH",[where to install the data])
+AC_SUBST(DATA_PATH)
+
 AC_CONFIG_FILES([
         Makefile
         src/Makefile
+        data/Makefile
         ])
 AC_OUTPUT
