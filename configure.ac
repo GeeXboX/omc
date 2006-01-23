@@ -24,9 +24,6 @@ AC_CHECK_HEADERS([Ecore.h], [], [
 AC_CHECK_HEADERS([Ecore_Evas.h], [], [
   AC_MSG_ERROR(*** You need Ecore_Evas to build this program ! ***)
 ])
-AC_CHECK_HEADERS([xine.h], [], [
-  AC_MSG_ERROR(*** You need Xine to build this program ! ***)
-])
 AC_CHECK_HEADERS([curl/curl.h], [], [
   AC_MSG_ERROR(*** You need Curl to build this program ! ***)
 ])
@@ -49,8 +46,10 @@ AC_CHECK_FUNCS([memset socket strcasecmp strchr strrchr strdup strndup strerror]
 AC_SEARCH_LIBS(evas_new, evas, [], [exit])
 AC_SEARCH_LIBS(ecore_timer_add, ecore, [], [exit])
 AC_SEARCH_LIBS(ecore_evas_init, ecore_evas, [], [exit])
-AC_SEARCH_LIBS(xine_init, xine, [], [exit])
 AC_SEARCH_LIBS(curl_easy_perform, curl, [], [exit])
+
+AM_PATH_XINE(1.0.1,, AC_MSG_ERROR(*** Please install xine-lib first! ***))
+AC_SEARCH_LIBS(xine_init, xine, [], [exit])
 
 if test "x$GCC" = "xyes"; then
   CFLAGS="$CFLAGS -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT"

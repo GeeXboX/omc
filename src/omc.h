@@ -20,6 +20,12 @@
 #ifndef _OMC_H_
 #define _OMC_H_
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#else
+#error "Missing config.h file : run configure again"
+#endif
+
 #include <Evas.h>
 #include <Ecore_Evas.h>
 
@@ -42,7 +48,7 @@ struct omc_t *omc;
 #define OMC_DEFAULT_WIDTH  640
 #define OMC_DEFAULT_HEIGHT 480
 #define OMC_WM_TITLE "GeeXboX Open Media Center"
-#define OMC_DATA_DIR "./data"
+#define OMC_DATA_DIR DATA_DIR
 #define OMC_MEDIA_DIR "/"
 
 #endif /* _OMC_H_ */
