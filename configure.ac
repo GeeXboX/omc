@@ -64,7 +64,7 @@ AC_SUBST(DATA_PATH)
 
 CFG_DIR="/etc/omc"
 eval CFG_PATH=`eval echo "$CFG_DIR"`
-AC_DEFINE_UNQUOTED(CFG_DIR,"CFG_PATH",[where to install the configuration files])
+AC_DEFINE_UNQUOTED(CFG_DIR,"$CFG_PATH",[where to install the configuration files])
 AC_SUBST(CFG_PATH)
 
 AC_CONFIG_FILES([
