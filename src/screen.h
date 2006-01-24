@@ -52,6 +52,8 @@ void widget_common_headers_setup (struct screen_t *screen);
 void widget_common_toolbar_setup (struct screen_t *screen);
 
 void screen_init (char *id);
+void screen_uninit (struct screen_t *screen);
+
 void switch_screen (char *id);
 void cb_switch_screen (void *data, Evas *e,
                        Evas_Object *obj, void *event_info);

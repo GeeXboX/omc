@@ -131,6 +131,30 @@ omc_init (void)
   return o;
 }
 
+void
+omc_uninit (struct omc_t *o)
+{
+  if (!o)
+    return;
+
+  if (o->evas)
+    evas_free (o->evas);
+  if (o->ee)
+    ecore_evas_free (o->ee);
+  if (o->filters)
+    filter_free (o->filters);
+  if (o->cfg)
+    config_free (o->cfg);
+  if (o->cwd)
+    free (o->cwd);
+
+  if (o->screen)
+    screen_uninit (o->screen);
+  if (o->player)
+    player_uninit (o->player);
+  free (o);
+}
+
 int
 main (int argc, char **argv)
 {
@@ -141,6 +165,7 @@ main (int argc, char **argv)
   screen_init (SCREEN_MAIN_TITLE);
   ecore_main_loop_begin ();
   main_stop ();
-
+  omc_uninit (omc);
+    
   return 0;
 }

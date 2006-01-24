@@ -44,7 +44,6 @@ struct mrl_t {
 };
 
 struct player_t {
-  Evas_Object *em;
   xine_t *xine;
   xine_stream_t *stream;
   xine_event_queue_t *event_queue;

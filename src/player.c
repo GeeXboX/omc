@@ -101,11 +101,35 @@ player_init (void)
 void
 player_uninit (struct player_t *player)
 {
+  Evas_List *list;
+  
   if (!player)
     return;
 
+  if (player->ao_port)
+    xine_close_audio_driver (player->xine, player->ao_port);
+  if (player->vo_port)
+    xine_close_video_driver (player->xine, player->vo_port);
+  if (player->event_queue)
+    xine_event_dispose_queue (player->event_queue);
+  if (player->stream)
+    xine_dispose (player->stream);
+  if (player->stream)
+    xine_close (player->stream);
   if (player->xine)
     xine_exit (player->xine);
+
+  for (list = player->playlist; list; list = list->next)
+  {
+    struct mrl_t *mrl = NULL;
+
+    mrl = (struct mrl_t *) list->data;
+    if (mrl)
+      mrl_free (mrl);
+  }
+  
+  if (player->current)
+    free (player->current);
   
   free (player);
 }

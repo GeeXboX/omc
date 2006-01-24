@@ -37,6 +37,7 @@ struct config_t {
 };
 
 struct config_t *parse_config (void);
+void config_free (struct config_t *cfg);
 
 struct font_t *get_font (Evas_List *list, char *id);
 
