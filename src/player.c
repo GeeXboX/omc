@@ -285,12 +285,18 @@ player_stop (struct player_t *player)
 
   player->state = PLAYER_STATE_IDLE;
 
+  if (player->event_queue)
+  {
+    xine_event_dispose_queue (player->event_queue);
+    player->event_queue = NULL;
+  }
+
   if (player->stream)
+  {
     xine_close (player->stream);
-  //if (player->event_queue)
-  //xine_event_dispose_queue (player->event_queue);
-  //if (player->stream)
-  //xine_dispose (player->stream);
+    xine_dispose (player->stream);
+    player->stream = NULL;
+  }
 
   if (omc->screen->type == SCREEN_TYPE_APLAYER)
   {
