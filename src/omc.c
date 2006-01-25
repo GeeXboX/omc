@@ -141,8 +141,20 @@ omc_uninit (struct omc_t *o)
     evas_free (o->evas);
   if (o->ee)
     ecore_evas_free (o->ee);
+
   if (o->filters)
-    filter_free (o->filters);
+  {
+    Evas_List *l;
+    for (l = o->filters; l; l = l->next)
+    {
+      struct filter_t *filter = NULL;
+      filter = (struct filter_t *) l->data;
+      if (filter)
+        filter_free (filter);
+    }
+    free (o->filters);
+  }
+  
   if (o->cfg)
     config_free (o->cfg);
   if (o->cwd)
