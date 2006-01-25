@@ -141,7 +141,7 @@ get_config_file (void)
 
   /* no config file in user directory : try to a more generic path */
   memset (path, '\0', 1024);
-  sprintf (path, "%s/%s", OMC_DATA_DIR, CONFIG_FILE_NAME);
+  sprintf (path, "%s/%s", CFG_DIR, CONFIG_FILE_NAME);
   if ((stat (path, &st) == 0) && S_ISREG (st.st_mode))
     return strdup (path);
 
