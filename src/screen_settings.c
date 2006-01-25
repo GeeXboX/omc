@@ -54,7 +54,6 @@ screen_settings_setup (struct screen_t *screen)
 {
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);
-  widget_common_headers_setup (screen);
   
   settings_headers_setup (screen);
 }

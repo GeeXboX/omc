@@ -29,32 +29,10 @@
 #include "screen.h"
 #include "screen_image.h"
 
-#define IMG_ICON_LOGO_IMAGE OMC_DATA_DIR"/logo_img_small.png"
-
-static void
-image_headers_setup (struct screen_t *screen)
-{
-  Evas_Object *obj = NULL;
-  struct font_t *font = NULL;
-
-  font = get_font (omc->cfg->fonts, "header");
-  if (!font)
-    return;
-  
-  obj = image_new (omc, 0, IMG_ICON_LOGO_IMAGE,
-                   NULL, 0, "1%", "2%", "80", "60");
-  screen->objects = evas_list_append (screen->objects, obj);
-
-  obj = text_new (omc, 0, font, "Pictures Viewer", 255, 0, "15%", "3%");
-  screen->objects = evas_list_append (screen->objects, obj);
-}
-
 void
 screen_image_setup (struct screen_t *screen)
 {
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);
-  widget_common_headers_setup (screen);
-  
-  image_headers_setup (screen);
+  browser_filter_toolbar_setup (screen);
 }

@@ -47,8 +47,8 @@ void signal_quit_cb (void *data, Evas_Object *o,
 
 void screen_object_set_cb (Evas_Object *obj);
 
+void browser_filter_toolbar_setup (struct screen_t *screen);
 void widget_background_setup (struct screen_t *screen);
-void widget_common_headers_setup (struct screen_t *screen);
 void widget_common_toolbar_setup (struct screen_t *screen);
 
 void screen_init (char *id);

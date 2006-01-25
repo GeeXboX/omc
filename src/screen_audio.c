@@ -72,31 +72,6 @@ audio_free (struct audio_t *audio)
   free (audio);
 }
 
-#define IMG_ICON_LOGO_AUDIO OMC_DATA_DIR"/logo_snd_small.png"
-
-static void
-audio_headers_setup (struct screen_t *screen)
-{
-  Evas_Object *obj = NULL;
-  struct font_t *font = NULL;
-
-  font = get_font (omc->cfg->fonts, "header");
-  if (!font)
-    return;
-    
-  obj = image_new (omc, 0, IMG_ICON_LOGO_AUDIO,
-                   NULL, 0, "1%", "2%", "80", "60");
-  omc->screen->objects = evas_list_append (omc->screen->objects, obj);
-
-  obj = text_new (omc, 0, font, "Audio Jukebox", 255, 0, "15%", "3%");
-  omc->screen->objects = evas_list_append (omc->screen->objects, obj);
-}
-
-#define IMG_ICON_MOVIE OMC_DATA_DIR"/film.png"
-#define IMG_ICON_MOVIE_FOCUS OMC_DATA_DIR"/film_focus.png"
-#define IMG_ICON_IMAGE OMC_DATA_DIR"/picture.png"
-#define IMG_ICON_IMAGE_FOCUS OMC_DATA_DIR"/picture_focus.png"
-
 #define IMG_ICON_PLAYER_AUDIO OMC_DATA_DIR"/player_audio.png"
 #define IMG_ICON_PLAYER_AUDIO_FOCUS OMC_DATA_DIR"/player_audio_focus.png"
 
@@ -105,23 +80,9 @@ audio_toolbar_setup (struct screen_t *screen)
 {
   Evas_Object *obj = NULL;
   
-  obj = image_new (omc, 1, IMG_ICON_MOVIE, IMG_ICON_MOVIE_FOCUS,
-                   0, "0%", "17%", "65", "62");
-  omc->screen->objects = evas_list_append (omc->screen->objects, obj);
-  object_add_default_cb (obj);
-  evas_object_event_callback_add (obj, EVAS_CALLBACK_MOUSE_DOWN,
-                                  cb_switch_screen, SCREEN_VIDEO_TITLE);
-
-  obj = image_new (omc, 1, IMG_ICON_IMAGE, IMG_ICON_IMAGE_FOCUS,
-                   0, "1%", "32%", "50", "62");
-  omc->screen->objects = evas_list_append (omc->screen->objects, obj);
-  object_add_default_cb (obj);
-  evas_object_event_callback_add (obj, EVAS_CALLBACK_MOUSE_DOWN,
-                                  cb_switch_screen, SCREEN_IMAGE_TITLE);
-
   obj = image_new (omc, 1, IMG_ICON_PLAYER_AUDIO, IMG_ICON_PLAYER_AUDIO_FOCUS,
                    0, "0%", "75%", "65", "65");
-  omc->screen->objects = evas_list_append (omc->screen->objects, obj);
+  screen->objects = evas_list_append (screen->objects, obj);
   object_add_default_cb (obj);
   evas_object_event_callback_add (obj, EVAS_CALLBACK_MOUSE_DOWN,
                                   cb_switch_screen, SCREEN_APLAYER_TITLE);
@@ -163,7 +124,7 @@ audio_infos_setup (struct screen_t *screen)
     return;
   
   audio->infobox =
-    text_block_new (omc, 0, "12%", "75%", "62%", "20%", 0, font,
+    text_block_new (omc, 0, "12%", "69%", "56%", "20%", 0, font,
                     BLK_ALIGN_LEFT, BLK_ALIGN_TOP);
 }
 
@@ -243,10 +204,10 @@ audio_cover_setup (struct screen_t *screen)
   audio->cover->border = evas_list_append (audio->cover->border, dummy);
 
   border_new (omc, audio->cover->border,
-              BORDER_TYPE_COVER, "75%", "77%", "20%", "20%");
+              BORDER_TYPE_COVER, "70%", "69%", "25%", "25%");
 
   audio->cover->cover =
-    image_new (omc, 0, NULL, NULL, 0, "75%", "77%", "20%", "20%");
+    image_new (omc, 0, NULL, NULL, 0, "70%", "69%", "25%", "25%");
 }
 
 static void
@@ -265,7 +226,7 @@ audio_browser_setup (struct screen_t *screen)
 
   audio->browser =
     browser_new (omc->screen, font,
-                 FILTER_TYPE_AUDIO, "14%", "20%", "80%", "50%");
+                 FILTER_TYPE_AUDIO, "14%", "7%", "80%", "55%");
 }
 
 void
@@ -316,9 +277,8 @@ screen_audio_setup (struct screen_t *screen)
   
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);
-  widget_common_headers_setup (screen);
+  browser_filter_toolbar_setup (screen);
   
-  audio_headers_setup (screen);
   audio_toolbar_setup (screen);
   audio_infos_setup (screen);
   audio_cover_setup (screen);

@@ -43,21 +43,38 @@ signal_quit_cb (void *data, Evas_Object *o,
   ecore_main_loop_quit ();
 }
 
-#define SCREEN_IMG_TOP_BORDER OMC_DATA_DIR"/top_border.png"
-#define SCREEN_IMG_LOGO_GEEXBOX OMC_DATA_DIR"/logo_gx.png"
+#define IMG_ICON_MOVIE OMC_DATA_DIR"/film.png"
+#define IMG_ICON_MOVIE_FOCUS OMC_DATA_DIR"/film_focus.png"
+#define IMG_ICON_AUDIO OMC_DATA_DIR"/music.png"
+#define IMG_ICON_AUDIO_FOCUS OMC_DATA_DIR"/music_focus.png"
+#define IMG_ICON_IMAGE OMC_DATA_DIR"/picture.png"
+#define IMG_ICON_IMAGE_FOCUS OMC_DATA_DIR"/picture_focus.png"
 
 void
-widget_common_headers_setup (struct screen_t *screen)
+browser_filter_toolbar_setup (struct screen_t *screen)
 {
   Evas_Object *obj = NULL;
   
-  obj = image_new (omc, 0, SCREEN_IMG_TOP_BORDER,
-                   NULL, 0, "0", "0", "100%", "76");
+  obj = image_new (omc, 1, IMG_ICON_MOVIE, IMG_ICON_MOVIE_FOCUS,
+                   0, "0%", "2%", "65", "62");
   screen->objects = evas_list_append (screen->objects, obj);
+  object_add_default_cb (obj);
+  evas_object_event_callback_add (obj, EVAS_CALLBACK_MOUSE_DOWN,
+                                  cb_switch_screen, SCREEN_VIDEO_TITLE);
+
+  obj = image_new (omc, 1, IMG_ICON_AUDIO, IMG_ICON_AUDIO_FOCUS,
+                   0, "1%", "13%", "50", "62");
+  screen->objects = evas_list_append (screen->objects, obj);
+  object_add_default_cb (obj);
+  evas_object_event_callback_add (obj, EVAS_CALLBACK_MOUSE_DOWN,
+                                  cb_switch_screen, SCREEN_AUDIO_TITLE);
   
-  obj = image_new (omc, 0, SCREEN_IMG_LOGO_GEEXBOX,
-                   NULL, 0, "70%", "2%", "190", "52");
+  obj = image_new (omc, 1, IMG_ICON_IMAGE, IMG_ICON_IMAGE_FOCUS,
+                   0, "1%", "24%", "50", "62");
   screen->objects = evas_list_append (screen->objects, obj);
+  object_add_default_cb (obj);
+  evas_object_event_callback_add (obj, EVAS_CALLBACK_MOUSE_DOWN,
+                                  cb_switch_screen, SCREEN_IMAGE_TITLE);
 }
 
 #define SCREEN_IMG_LEFT_BORDER OMC_DATA_DIR"/border.png"
@@ -70,11 +87,11 @@ widget_common_toolbar_setup (struct screen_t *screen)
   Evas_Object *obj = NULL;
   
   obj = image_new (omc, 0, SCREEN_IMG_LEFT_BORDER,
-                   NULL, 0, "0", "65", "50", "100%");
+                   NULL, 0, "0", "0", "50", "100%");
   screen->objects = evas_list_append (screen->objects, obj);
 
   obj = image_new (omc, 1, IMG_ICON_BACK, IMG_ICON_BACK_FOCUS,
-                   0, "2%", "89%", "48", "49");
+                   0, "1%", "91%", "48", "49");
   screen->objects = evas_list_append (screen->objects, obj);
   object_add_default_cb (obj);
   evas_object_event_callback_add (obj, EVAS_CALLBACK_MOUSE_DOWN,

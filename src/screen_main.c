@@ -67,6 +67,9 @@ smain_free (struct smain_t *smain)
   free (smain);
 }
 
+#define SCREEN_IMG_TOP_BORDER OMC_DATA_DIR"/top_border.png"
+#define SCREEN_IMG_LOGO_GEEXBOX OMC_DATA_DIR"/logo_gx.png"
+
 static void
 main_headers_setup (struct screen_t *screen)
 {
@@ -76,6 +79,14 @@ main_headers_setup (struct screen_t *screen)
   font = get_font (omc->cfg->fonts, "header");
   if (!font)
     return;
+
+  obj = image_new (omc, 0, SCREEN_IMG_TOP_BORDER,
+                   NULL, 0, "0", "0", "100%", "76");
+  screen->objects = evas_list_append (screen->objects, obj);
+  
+  obj = image_new (omc, 0, SCREEN_IMG_LOGO_GEEXBOX,
+                   NULL, 0, "75%", "8", "190", "52");
+  screen->objects = evas_list_append (screen->objects, obj);
   
   obj = text_new (omc, 0, font, "Development Release", 255, 0, "2%", "2%");
   screen->objects = evas_list_append (screen->objects, obj);
@@ -110,31 +121,31 @@ main_menu_setup (struct screen_t *screen)
     return;
   
   smain->menu =
-    menu_new (omc, font, MENU_ALIGN_RIGHT, IMG_MENU_SELECTOR, "335", "50",
+    menu_new (omc, font, MENU_ALIGN_RIGHT, IMG_MENU_SELECTOR, "50%", "50",
               "55%", "20%", "40%", "63%");
 
   item = menu_add_menuitem (omc, smain->menu, "Video player",
-                            IMG_MENU_MOVIES, "7%", "16%", "258", "341");
+                            IMG_MENU_MOVIES, "10%", "25%", "35%", "56%");
   evas_object_event_callback_add (item, EVAS_CALLBACK_MOUSE_DOWN,
                                   cb_switch_screen, SCREEN_VIDEO_TITLE);
 
   item = menu_add_menuitem (omc, smain->menu, "Audio Jukebox",
-                            IMG_MENU_AUDIO, "10%", "25%", "155", "250");
+                            IMG_MENU_AUDIO, "11%", "25%", "30%", "56%");
   evas_object_event_callback_add (item, EVAS_CALLBACK_MOUSE_DOWN,
                                   cb_switch_screen, SCREEN_AUDIO_TITLE);
 
   item = menu_add_menuitem (omc, smain->menu, "TV Center",
-                            IMG_MENU_TV, "5%", "23%", "276", "266");
+                            IMG_MENU_TV, "5%", "30%", "35%", "40%");
   evas_object_event_callback_add (item, EVAS_CALLBACK_MOUSE_DOWN,
                                   cb_switch_screen, SCREEN_TV_TITLE);
 
   item = menu_add_menuitem (omc, smain->menu, "Pictures Viewer",
-                            IMG_MENU_PICTURES, "8%", "15%", "256", "322");
+                            IMG_MENU_PICTURES, "8%", "20%", "35%", "65%");
   evas_object_event_callback_add (item, EVAS_CALLBACK_MOUSE_DOWN,
                                   cb_switch_screen, SCREEN_IMAGE_TITLE);
 
   item = menu_add_menuitem (omc, smain->menu, "Settings",
-                            IMG_MENU_SETTINGS, "8%", "30%", "207", "207");
+                            IMG_MENU_SETTINGS, "8%", "35%", "35%", "40%");
   evas_object_event_callback_add (item, EVAS_CALLBACK_MOUSE_DOWN,
                                   cb_switch_screen, SCREEN_SETTINGS_TITLE);
 
@@ -225,7 +236,6 @@ screen_main_setup (struct screen_t *screen)
   screen->private = (struct smain_t *) smain_new ();
   
   widget_background_setup (screen);
-  widget_common_headers_setup (screen);
   
   main_headers_setup (screen);
   main_menu_setup (screen);

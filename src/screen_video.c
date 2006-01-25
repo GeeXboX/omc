@@ -66,26 +66,6 @@ video_free (struct video_t *video)
   free (video);
 }
 
-#define IMG_ICON_LOGO_VIDEO OMC_DATA_DIR"/logo_mov_small.png"
-
-static void
-video_headers_setup (struct screen_t *screen)
-{
-  Evas_Object *obj = NULL;
-  struct font_t *font = NULL;
-
-  font = get_font (omc->cfg->fonts, "header");
-  if (!font)
-    return;
-  
-  obj = image_new (omc, 0, IMG_ICON_LOGO_VIDEO,
-                   NULL, 0, "1%", "2%", "80", "60");
-  screen->objects = evas_list_append (screen->objects, obj);
-
-  obj = text_new (omc, 0, font, "Video Player", 255, 0, "15%", "3%");
-  screen->objects = evas_list_append (screen->objects, obj);
-}
-
 void
 screen_video_update_infos (struct screen_t *screen, char *infos, int display)
 {
@@ -126,31 +106,6 @@ video_infos_setup (struct screen_t *screen)
                     BLK_ALIGN_LEFT, BLK_ALIGN_TOP);
 }
 
-#define IMG_ICON_AUDIO OMC_DATA_DIR"/music.png"
-#define IMG_ICON_AUDIO_FOCUS OMC_DATA_DIR"/music_focus.png"
-#define IMG_ICON_IMAGE OMC_DATA_DIR"/picture.png"
-#define IMG_ICON_IMAGE_FOCUS OMC_DATA_DIR"/picture_focus.png"
-
-static void
-video_toolbar_setup (struct screen_t *screen)
-{
-  Evas_Object *obj = NULL;
-  
-  obj = image_new (omc, 1, IMG_ICON_AUDIO, IMG_ICON_AUDIO_FOCUS,
-                   0, "1%", "17%", "50", "62");
-  screen->objects = evas_list_append (screen->objects, obj);
-  object_add_default_cb (obj);
-  evas_object_event_callback_add (obj, EVAS_CALLBACK_MOUSE_DOWN,
-                                  cb_switch_screen, SCREEN_AUDIO_TITLE);
-
-  obj = image_new (omc, 1, IMG_ICON_IMAGE, IMG_ICON_IMAGE_FOCUS,
-                   0, "1%", "32%", "50", "62");
-  screen->objects = evas_list_append (screen->objects, obj);
-  object_add_default_cb (obj);
-  evas_object_event_callback_add (obj, EVAS_CALLBACK_MOUSE_DOWN,
-                                  cb_switch_screen, SCREEN_IMAGE_TITLE);
-}
-
 static void
 video_browser_setup (struct screen_t *screen)
 {
@@ -167,7 +122,7 @@ video_browser_setup (struct screen_t *screen)
   
   video->browser =
     browser_new (omc->screen, font,
-                 FILTER_TYPE_VIDEO, "13%", "20%", "55%", "72%");
+                 FILTER_TYPE_VIDEO, "13%", "7%", "50%", "85%");
 }
 
 void
@@ -218,10 +173,8 @@ screen_video_setup (struct screen_t *screen)
   
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);
-  widget_common_headers_setup (screen);
+  browser_filter_toolbar_setup (screen);
   
-  video_headers_setup (screen);
-  video_toolbar_setup (screen);
   video_infos_setup (screen);
   video_browser_setup (screen);
   video_notifier_setup (screen);
