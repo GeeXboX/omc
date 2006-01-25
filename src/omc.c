@@ -139,8 +139,6 @@ omc_uninit (struct omc_t *o)
 
   if (o->evas)
     evas_free (o->evas);
-  if (o->ee)
-    ecore_evas_free (o->ee);
 
   if (o->filters)
   {
