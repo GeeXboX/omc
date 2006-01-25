@@ -465,7 +465,7 @@ amazon_get_cover (struct item_t *item, char *country, char *type)
   xml_parser_init (info, strlen (info), XML_PARSER_CASE_SENSITIVE);
   xml_parser_build_tree (&root_node);
 
-  node = xml_find_node (root_node, URL_THUMB_MEDIUM);
+  node = xml_find_node (root_node, URL_THUMB_LARGE);
   if (node)
   {
     char file[1024];
