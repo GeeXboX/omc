@@ -33,6 +33,7 @@
 #include <curl/curl.h>
 #include <curl/types.h>
 #include <curl/easy.h>
+#include <pthread.h>
 
 #include "omc.h"
 #include "screen.h"
@@ -199,17 +200,19 @@ grab_video_file_info (struct item_t *item, xine_stream_t *stream)
   grab_file_size (item);
 }
 
-void
-grab_file_infos (struct item_t *item)
+static void *
+th_info_grabber (void *data)
 {
+  struct item_t *item = NULL;
   xine_stream_t *stream = NULL;
   
+  item = (struct item_t *) data;
   if (!item)
-    return;
+    return NULL;
 
   stream = xine_stream_new (omc->player->xine, NULL, NULL);
   if (!stream)
-    return;
+    return NULL;
 
   if (!item->infos)
   {
@@ -231,9 +234,26 @@ grab_file_infos (struct item_t *item)
 
     break;
   }
- 
+
   xine_close (stream);
   xine_dispose (stream);
+  
+  return NULL;
+}
+
+void
+grab_file_infos (struct item_t *item)
+{
+  pthread_t th;
+  
+  if (!item)
+    return;
+
+  if (item->type != ITEM_TYPE_FILE)
+    return;
+
+  pthread_create (&th, NULL, th_info_grabber, (void *) item);
+  pthread_detach (th);
 }
 
 #define AMAZON_DEVEL_ID "0HV80J2YXZPNRRPKVTG2"
@@ -497,18 +517,16 @@ amazon_get_cover (struct item_t *item, char *country, char *type)
   curl_global_cleanup ();
 }
 
-void
-grab_file_covers (struct item_t *item)
+static void *
+th_cover_grabber (void *data)
 {
   struct dirent **namelist;
+  struct item_t *item = NULL;
   int n, i;
-  
-  if (!item)
-    return;
 
-  /* already have a cover */
-  if (item->cover)
-    return;
+  item = (struct item_t *) data;
+  if (!item)
+    return NULL;
 
   switch (item->mrl_type)
   {
@@ -580,5 +598,25 @@ grab_file_covers (struct item_t *item)
     /* no covers available for images */
     break;
   }
+
+  return NULL;
+}
+
+void
+grab_file_covers (struct item_t *item)
+{
+  pthread_t th;
   
+  if (!item)
+    return;
+
+  if (item->type != ITEM_TYPE_FILE)
+    return;
+
+  /* already have a cover : do not create a thread */
+  if (item->cover)
+    return;
+
+  pthread_create (&th, NULL, th_cover_grabber, (void *) item);
+  pthread_detach (th);
 }
