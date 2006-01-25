@@ -426,6 +426,7 @@ amazon_get_cover (struct item_t *item, char *country, char *type)
   xml_node_t *root_node, *node;
   char keywords[1024];
   char escaped_keywords[2048];
+  char *x = NULL, *item_name = NULL;
   
   if (!item || !country || !type || item->cover)
     return;
@@ -443,9 +444,21 @@ amazon_get_cover (struct item_t *item, char *country, char *type)
       strcat (keywords, item->album);
     }
     if (!item->artist && !item->album)
-      strcat (keywords, basename (item->mrl));
+    {
+      item_name = strdup (basename (item->mrl));
+      x = strrchr (item_name, '.');
+      if (x)
+        *x = '\0';
+      strcat (keywords, item_name);
+    }
     break;
   case PLAYER_MRL_TYPE_VIDEO:
+    memset (keywords, '\0', 1024);
+    item_name = strdup (basename (item->mrl));
+    x = strrchr (item_name, '.');
+    if (x)
+      *x = '\0';
+    strcat (keywords, item_name);
     break;
   }
 
@@ -512,6 +525,35 @@ amazon_get_cover (struct item_t *item, char *country, char *type)
     if (cover_file)
       fclose (cover_file);
   }
+  else if (item->mrl_type == PLAYER_MRL_TYPE_VIDEO)
+  {
+    /* try to prevent searching again on amazon next time */
+    FILE *cover_file = NULL;
+    char cover_file_name[1024];
+   
+    sprintf (cover_file_name, "%s/%s.png", omc->cwd, item_name);
+    cover_file = fopen (cover_file_name, "w+");
+
+    if (item->cover)
+    {
+      /* a cover has been found : copy it to cwd */
+      char *buf = NULL;
+      struct stat st;
+      int fd;
+
+      stat (item->cover, &st);
+      fd = open (item->cover, O_RDONLY);
+      buf = (char *) malloc ((st.st_size + 1) * sizeof (char));
+      read (fd, buf, st.st_size);
+      close (fd);
+
+      if (cover_file)
+        fwrite (buf, st.st_size, 1, cover_file);
+    }
+  
+    if (cover_file)
+      fclose (cover_file);
+  }
   
   curl_easy_cleanup (curl);
   curl_global_cleanup ();
@@ -522,6 +564,7 @@ th_cover_grabber (void *data)
 {
   struct dirent **namelist;
   struct item_t *item = NULL;
+  char *x = NULL, *item_name = NULL;
   int n, i;
 
   item = (struct item_t *) data;
@@ -591,8 +634,65 @@ th_cover_grabber (void *data)
     break;
     
   case PLAYER_MRL_TYPE_VIDEO:
-    // 1. Look for a picture file with same name than movie file.
-    // 2. Look on Amazon for DVD cover according to file name.
+    /* 1. Look for a picture file with same name than movie file. */
+    item_name = strdup (basename (item->mrl));
+    x = strrchr (item_name, '.');
+    if (x)
+      *x = '\0';
+
+    n = scandir (omc->cwd, &namelist, 0, alphasort);
+    if (n > 0)
+    {
+      for (i = 0; i < n; i++)
+      {
+        char *path = NULL;
+        int len;
+
+        /* already have a cover : stop looking for */
+        if (item->cover)
+        {
+          free (namelist[i]);
+          continue;
+        }
+
+        len = strlen (omc->cwd) + 1 + strlen (namelist[i]->d_name) + 1;
+        path = (char *) malloc (len);
+        if (!strcmp (omc->cwd, "/"))
+          sprintf (path, "/%s", namelist[i]->d_name);
+        else
+          sprintf (path, "%s/%s", omc->cwd, namelist[i]->d_name);
+
+        /* do not consider hidden files */
+        if (namelist[i]->d_name[0] == '.')
+        {
+          free (namelist[i]);
+          continue;
+        }
+
+        /* look for a picture file with the same file name */
+        if (strcasestr (namelist[i]->d_name, item_name))
+        {
+          if (strcasestr (namelist[i]->d_name, ".jpg")
+              || strcasestr (namelist[i]->d_name, ".jpeg")
+              || strcasestr (namelist[i]->d_name, ".png"))
+          {
+            item->cover = strdup (path);
+          }
+        }
+        free (namelist[i]);
+      }
+      free (namelist);
+    }
+
+    if (item->cover)
+    {
+      free (item_name);
+      break;
+    }
+
+    /* 2. Look on Amazon for DVD cover according to file name. */
+    amazon_get_cover (item, AMAZON_COUNTRY_SEARCH_US, AMAZON_MEDIA_TYPE_DVD);
+    free (item_name);
     break;
   case PLAYER_MRL_TYPE_IMAGE:
     /* no covers available for images */

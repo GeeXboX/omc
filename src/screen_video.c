@@ -34,6 +34,7 @@
 
 struct video_t {
   Evas_Object *infobox;
+  struct cover_t *cover;
   struct browser_t *browser;
   struct notifier_t *notifier;
 };
@@ -45,6 +46,7 @@ video_new (void)
 
   video = (struct video_t *) malloc (sizeof (struct video_t));
   video->infobox = NULL;
+  video->cover = NULL;
   video->browser = NULL;
   video->notifier = NULL;
   
@@ -59,6 +61,8 @@ video_free (struct video_t *video)
 
   if (video->infobox)
     evas_object_del (video->infobox);
+  if (video->cover)
+    cover_free (video->cover);
   if (video->browser)
     browser_free (video->browser);
   if (video->notifier)
@@ -102,8 +106,90 @@ video_infos_setup (struct screen_t *screen)
     return;
   
   video->infobox =
-    text_block_new (omc, 0, "72%", "20%", "27%", "30%", 0, font,
+    text_block_new (omc, 0, "68%", "7%", "30%", "25%", 0, font,
                     BLK_ALIGN_LEFT, BLK_ALIGN_TOP);
+}
+
+void
+screen_video_update_cover (struct screen_t *screen, char *img, int display)
+{
+  struct video_t *video = NULL;
+  struct cover_t *cover = NULL;
+  
+  if (!screen || screen->type != SCREEN_TYPE_VIDEO)
+    return;
+
+  video = (struct video_t *) screen->private;
+  if (!video)
+    return;
+
+  cover = video->cover;
+  if (!cover || !cover->cover)
+    return;
+
+  if (display && img)
+  {
+    Evas_List *list;
+
+    if (cover->border)
+    {
+      for (list = cover->border; list; list = list->next)
+      {
+        Evas_Object *obj;
+        
+        obj = (Evas_Object *) list->data;
+        evas_object_show (obj);
+      }
+    }
+
+    if (cover->cover)
+    {
+      evas_object_image_file_set (cover->cover, img, NULL);
+      evas_object_show (cover->cover);
+    }
+  }
+  else
+  {
+    Evas_List *list;
+
+    if (cover->border)
+    {
+      for (list = cover->border; list; list = list->next)
+      {
+        Evas_Object *obj;
+        
+        obj = (Evas_Object *) list->data;
+        evas_object_hide (obj);
+      }
+    }
+
+    if (cover->cover)
+      evas_object_hide (cover->cover);
+  }
+}
+
+static void
+video_cover_setup (struct screen_t *screen)
+{
+  struct video_t *video = NULL;
+  Evas_Object *dummy = NULL;
+  
+  video = (struct video_t *) screen->private;
+  if (!video)
+    return;
+
+  video->cover = cover_new ();
+  if (!video->cover)
+    return;
+
+  dummy = evas_object_image_add (omc->evas);
+  video->cover->border = evas_list_append (video->cover->border, dummy);
+
+  border_new (omc, video->cover->border,
+              BORDER_TYPE_COVER, "68%", "35%", "30%", "58%");
+
+  video->cover->cover =
+    image_new (omc, 0, NULL, NULL, 0, "68%", "35%", "30%", "58%");
 }
 
 static void
@@ -176,6 +262,7 @@ screen_video_setup (struct screen_t *screen)
   browser_filter_toolbar_setup (screen);
   
   video_infos_setup (screen);
+  video_cover_setup (screen);
   video_browser_setup (screen);
   video_notifier_setup (screen);
 }

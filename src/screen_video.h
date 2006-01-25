@@ -25,6 +25,8 @@
 void screen_video_setup (struct screen_t *screen);
 void
 screen_video_update_infos (struct screen_t *screen, char *infos, int display);
+void
+screen_video_update_cover (struct screen_t *screen, char *img, int display);
 void screen_video_display (struct screen_t *screen);
 void screen_video_free (struct screen_t *screen);
 void screen_video_update_notifier (struct screen_t *screen,

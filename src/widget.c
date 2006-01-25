@@ -884,6 +884,8 @@ cb_browser_get_file_info (void *data, Evas *e,
   case SCREEN_TYPE_VIDEO:
     if (item->infos)
       screen_video_update_infos (omc->screen, item->infos, 1);
+    if (item->cover)
+      screen_video_update_cover (omc->screen, item->cover, 1);
     break;
   default:
     break;
@@ -902,6 +904,7 @@ cb_browser_hide_file_info (void *data, Evas *e,
     break;
   case SCREEN_TYPE_VIDEO:
     screen_video_update_infos (omc->screen, NULL, 0);
+    screen_video_update_cover (omc->screen, NULL, 0);
     break;
   default:
     break;
