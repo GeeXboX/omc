@@ -118,7 +118,6 @@ config_free (struct config_t *cfg)
     font = (struct font_t *) l->data;
     font_free (font);
   }
-  free (cfg->fonts);
 
   free (cfg);
 }

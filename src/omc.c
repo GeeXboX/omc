@@ -149,8 +149,8 @@ omc_uninit (struct omc_t *o)
       filter = (struct filter_t *) l->data;
       if (filter)
         filter_free (filter);
+      o->filters = evas_list_remove (o->filters, o->filters);
     }
-    free (o->filters);
   }
   
   if (o->cfg)

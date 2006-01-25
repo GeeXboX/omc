@@ -32,7 +32,7 @@ filter_add_extension (struct filter_t *filter, char *extension)
   if (!filter || !extension)
     return;
   
-  filter->exts = evas_list_append (filter->exts, extension);
+  filter->exts = evas_list_append (filter->exts, strdup (extension));
 }
 
 static void
