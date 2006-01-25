@@ -112,10 +112,13 @@ player_uninit (struct player_t *player)
     xine_close_video_driver (player->xine, player->vo_port);
   if (player->event_queue)
     xine_event_dispose_queue (player->event_queue);
+
   if (player->stream)
-    xine_dispose (player->stream);
-  if (player->stream)
+  {
     xine_close (player->stream);
+    xine_dispose (player->stream);
+  }
+
   if (player->xine)
     xine_exit (player->xine);
 
