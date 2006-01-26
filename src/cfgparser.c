@@ -96,6 +96,8 @@ config_new (void)
 
   cfg = (struct config_t *) malloc (sizeof (struct config_t));
   cfg->media_dir = NULL;
+  cfg->screenw = NULL;
+  cfg->screenh = NULL;
   cfg->fonts = NULL;
   cfg->show_infos = 1;
   cfg->show_cover = 1;
@@ -114,6 +116,10 @@ config_free (struct config_t *cfg)
 
   if (cfg->media_dir)
     free (cfg->media_dir);
+  if (cfg->screenw)
+    free (cfg->screenw);
+  if (cfg->screenh)
+    free (cfg->screenh);
 
   for (l = cfg->fonts; l; l = l->next)
   {
