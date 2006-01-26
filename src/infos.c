@@ -491,13 +491,17 @@ amazon_get_cover (struct item_t *item, char *country, char *type)
 
   xml_parser_free_tree (root_node);
 
-  if (item->mrl_type == PLAYER_MRL_TYPE_AUDIO)
+  /* try to prevent searching again on amazon next time : save cover */
+  if (omc->cfg->save_cover)
   {
-    /* try to prevent searching again on amazon next time */
     FILE *cover_file = NULL;
     char cover_file_name[1024];
-   
-    sprintf (cover_file_name, "%s/%s", omc->cwd, DEFAULT_AUDIO_COVER_FILE);
+
+    if (item->mrl_type == PLAYER_MRL_TYPE_AUDIO)
+      sprintf (cover_file_name, "%s/%s", omc->cwd, DEFAULT_AUDIO_COVER_FILE);
+    else if (item->mrl_type == PLAYER_MRL_TYPE_VIDEO)
+      sprintf (cover_file_name, "%s/%s.png", omc->cwd, item_name);
+
     cover_file = fopen (cover_file_name, "w+");
 
     if (item->cover)
@@ -525,36 +529,7 @@ amazon_get_cover (struct item_t *item, char *country, char *type)
     if (cover_file)
       fclose (cover_file);
   }
-  else if (item->mrl_type == PLAYER_MRL_TYPE_VIDEO)
-  {
-    /* try to prevent searching again on amazon next time */
-    FILE *cover_file = NULL;
-    char cover_file_name[1024];
    
-    sprintf (cover_file_name, "%s/%s.png", omc->cwd, item_name);
-    cover_file = fopen (cover_file_name, "w+");
-
-    if (item->cover)
-    {
-      /* a cover has been found : copy it to cwd */
-      char *buf = NULL;
-      struct stat st;
-      int fd;
-
-      stat (item->cover, &st);
-      fd = open (item->cover, O_RDONLY);
-      buf = (char *) malloc ((st.st_size + 1) * sizeof (char));
-      read (fd, buf, st.st_size);
-      close (fd);
-
-      if (cover_file)
-        fwrite (buf, st.st_size, 1, cover_file);
-    }
-  
-    if (cover_file)
-      fclose (cover_file);
-  }
-  
   curl_easy_cleanup (curl);
   curl_global_cleanup ();
 }

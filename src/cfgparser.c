@@ -97,7 +97,10 @@ config_new (void)
   cfg = (struct config_t *) malloc (sizeof (struct config_t));
   cfg->media_dir = NULL;
   cfg->fonts = NULL;
-  
+  cfg->show_infos = 1;
+  cfg->show_cover = 1;
+  cfg->save_cover = 1;
+
   return cfg;
 }
 
@@ -212,7 +215,13 @@ parse_font (struct config_t *cfg, char *line)
 #define TAG_MEDIA_DIR "media_dir"
 #define TAG_SCREEN_WIDTH "screenw"
 #define TAG_SCREEN_HEIGHT "screenh"
+#define TAG_SHOW_INFOS "show_infos"
+#define TAG_SHOW_COVER "show_cover"
+#define TAG_SAVE_COVER "save_cover"
 #define TAG_FONT "font"
+
+#define VAL_YES "yes"
+#define VAL_NO "no"
 
 static void
 parse_line (struct config_t *cfg, char *line)
@@ -239,6 +248,27 @@ parse_line (struct config_t *cfg, char *line)
     cfg->screenw = xstrdup (cfg->screenw, val);
   else if (!strcmp (tag, TAG_SCREEN_HEIGHT))
     cfg->screenh = xstrdup (cfg->screenh, val);
+  else if (!strcmp (tag, TAG_SHOW_INFOS))
+  {
+    if (!strcmp (val, VAL_YES))
+      cfg->show_infos = 1;
+    else if (!strcmp (val, VAL_NO))
+      cfg->show_infos = 0;
+  }
+  else if (!strcmp (tag, TAG_SHOW_COVER))
+  {
+    if (!strcmp (val, VAL_YES))
+      cfg->show_cover = 1;
+    else if (!strcmp (val, VAL_NO))
+      cfg->show_cover = 0;
+  }
+  else if (!strcmp (tag, TAG_SAVE_COVER))
+  {
+    if (!strcmp (val, VAL_YES))
+      cfg->save_cover = 1;
+    else if (!strcmp (val, VAL_NO))
+      cfg->save_cover = 0;
+  }
   else if (!strcmp (tag, TAG_FONT))
     parse_font (cfg, val);
 

@@ -1168,15 +1168,23 @@ browser_update (struct omc_t *omc, struct browser_t *browser)
         evas_object_clip_set (txt, browser->clip);
       
       item = item_new (browser, icon, txt, type, path, mrl_type);
-      grab_file_infos (item);
       
-      if (cwd_cover)
-        item->cover = strdup (cwd_cover);
-      else
-        grab_file_covers (item);
-      
-      if (item->cover && item->type == PLAYER_MRL_TYPE_AUDIO)
-        cwd_cover = strdup (item->cover);
+      if (item->type == ITEM_TYPE_FILE)
+      {
+        if (omc->cfg->show_infos)
+          grab_file_infos (item);
+        
+        if (omc->cfg->show_cover)
+        {
+          if (cwd_cover)
+            item->cover = strdup (cwd_cover);
+          else
+            grab_file_covers (item);
+        }
+        
+        if (item->cover && item->type == PLAYER_MRL_TYPE_AUDIO)
+          cwd_cover = strdup (item->cover);
+      }
       
       evas_object_event_callback_add (txt, EVAS_CALLBACK_MOUSE_DOWN,
                                       cb_browser_entry_execute, item);

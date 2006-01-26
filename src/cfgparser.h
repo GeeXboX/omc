@@ -34,6 +34,9 @@ struct config_t {
   char *screenw;
   char *screenh;
   Evas_List *fonts;
+  int show_infos;
+  int show_cover;
+  int save_cover;
 };
 
 struct config_t *parse_config (void);
