@@ -57,6 +57,11 @@ fi
 
 AC_DEFINE(_GNU_SOURCE, [],[Use GNU])
 
+# Ensure we have a valid $prefix
+if test "x$prefix" = "xNONE"; then
+  prefix="/usr"
+fi
+
 DATA_DIR="$datadir/omc"
 eval DATA_PATH=`eval echo "$DATA_DIR"`
 AC_DEFINE_UNQUOTED(DATA_DIR,"$DATA_PATH",[where to install the data])
