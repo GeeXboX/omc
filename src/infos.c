@@ -492,42 +492,37 @@ amazon_get_cover (struct item_t *item, char *country, char *type)
   xml_parser_free_tree (root_node);
 
   /* try to prevent searching again on amazon next time : save cover */
-  if (omc->cfg->save_cover)
+  if (item->cover && omc->cfg->save_cover)
   {
-    FILE *cover_file = NULL;
     char cover_file_name[1024];
+    struct stat st;
 
     if (item->mrl_type == PLAYER_MRL_TYPE_AUDIO)
       sprintf (cover_file_name, "%s/%s", omc->cwd, DEFAULT_AUDIO_COVER_FILE);
     else if (item->mrl_type == PLAYER_MRL_TYPE_VIDEO)
       sprintf (cover_file_name, "%s/%s.png", omc->cwd, item_name);
 
-    cover_file = fopen (cover_file_name, "w+");
+    stat (item->cover, &st);
 
-    if (item->cover)
+    /* check for file size : sometimes Amazon cover files are dummies
+       only containing the "gif89a" reference. If the size is too small
+       to be an image, there's no need to keep is saved */
+    if (st.st_size > 10)
     {
-      /* a cover has been found : copy it to cwd */
+      FILE *cover_file = NULL;
       char *buf = NULL;
-      struct stat st;
       int fd;
-
-      stat (item->cover, &st);
+      
+      /* a cover has been found : copy it to cwd */
+      cover_file = fopen (cover_file_name, "w+");
       fd = open (item->cover, O_RDONLY);
       buf = (char *) malloc ((st.st_size + 1) * sizeof (char));
       read (fd, buf, st.st_size);
       close (fd);
-
-      if (cover_file)
-        fwrite (buf, st.st_size, 1, cover_file);
-    }
-    else
-    {
-      /* no cover has been found : create a dummy file to prevent
-         searching again with failure next time we enter the dir */
-    }
-
-    if (cover_file)
+      fwrite (buf, st.st_size, 1, cover_file);
       fclose (cover_file);
+      free (buf);
+    }
   }
    
   curl_easy_cleanup (curl);
