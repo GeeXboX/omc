@@ -201,6 +201,7 @@ evas_image_new (struct omc_t *omc, int focusable, char *name, char *fname,
   evas_object_resize (img, w, h);
   evas_object_image_fill_set (img, 0, 0, w, h);
   evas_object_layer_set (img, layer);
+  evas_object_image_smooth_scale_set (img, 1);
 
   if (focusable && fname)
   {
