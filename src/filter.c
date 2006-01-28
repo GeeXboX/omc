@@ -173,7 +173,7 @@ filter_supports_extension (struct filter_t *filter, char *extension)
     char *ext = NULL;
 
     ext = (char *) list->data;
-    if (ext && !strcmp (ext, extension))
+    if (ext && strcasecmp (ext, extension) == 0)
       return 1;
   }
   
