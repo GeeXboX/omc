@@ -60,5 +60,6 @@ void cb_switch_screen (void *data, Evas *e,
 
 void screen_update_notifier (struct screen_t *screen,
                              char *cover, char *infos);
+void screen_update_cwd (struct screen_t *screen);
 
 #endif /* _SCREEN_H_ */

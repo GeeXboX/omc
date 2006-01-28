@@ -33,6 +33,7 @@
 
 struct simage_t {
   struct browser_t *browser;
+  struct cwd_t *cwd;
 };
 
 static struct simage_t *
@@ -42,6 +43,7 @@ simage_new (void)
 
   simage = (struct simage_t *) malloc (sizeof (struct simage_t));
   simage->browser = NULL;
+  simage->cwd = NULL;
   
   return simage;
 }
@@ -54,7 +56,69 @@ simage_free (struct simage_t *simage)
 
   if (simage->browser)
     browser_free (simage->browser);
+  if (simage->cwd)
+    cwd_free (simage->cwd);
   free (simage);
+}
+
+#define CWD_TEXT "Current Path : "
+
+void
+screen_image_update_cwd (struct screen_t *screen)
+{
+  struct simage_t *simage = NULL;
+  struct cwd_t *cwd = NULL;
+  
+  if (!screen || screen->type != SCREEN_TYPE_IMAGE)
+    return;
+
+  simage = (struct simage_t *) screen->private;
+  if (!simage)
+    return;
+
+  cwd = simage->cwd;
+  if (!cwd)
+    return;
+
+  if (cwd->path)
+  {
+    char path[1024];
+
+    sprintf (path, "%s%s", CWD_TEXT, omc->cwd);
+    evas_object_textblock_clear (cwd->path);
+    text_block_add_text (cwd->path, path);
+  }
+}
+
+static void
+simage_cwd_setup (struct screen_t *screen)
+{
+  struct simage_t *simage = NULL;
+  struct font_t *font = NULL;
+  Evas_Object *dummy = NULL;
+  
+  font = get_font (omc->cfg->fonts, "browser_small");
+  if (!font)
+    return;
+  
+  simage = (struct simage_t *) screen->private;
+  if (!simage)
+    return;
+
+  simage->cwd = cwd_new ();
+  if (!simage->cwd)
+    return;
+
+  
+  dummy = evas_object_image_add (omc->evas);
+  simage->cwd->border = evas_list_append (simage->cwd->border, dummy);
+
+  border_new (omc, simage->cwd->border,
+              BORDER_TYPE_COVER, "25%", "3%", "100%", "4%");
+
+  simage->cwd->path =
+    text_block_new (omc, 0, "25%", "3%", "72%", "4%", 0, font,
+                    BLK_ALIGN_LEFT, BLK_ALIGN_CENTER);
 }
 
 static void
@@ -88,16 +152,35 @@ screen_image_setup (struct screen_t *screen)
   widget_common_toolbar_setup (screen);
   browser_filter_toolbar_setup (screen);
 
+  simage_cwd_setup (screen);
   simage_browser_setup (screen);
 }
 
 void
 screen_image_display (struct screen_t *screen)
 {
-  struct simage_t *simage = (struct simage_t *) screen->private;
+  struct simage_t *simage = NULL;
+  struct cwd_t *cwd = NULL;
 
+  simage = (struct simage_t *) screen->private;
   if (!simage)
     return;
+
+  cwd = simage->cwd;
+  if (!cwd)
+    return;
+  
+  if (cwd->border)
+  {
+    Evas_List *list;
+    for (list = cwd->border; list; list = list->next)
+    {
+      Evas_Object *obj;
+      
+      obj = (Evas_Object *) list->data;
+      evas_object_show (obj);
+    }
+  }
 }
 
 void

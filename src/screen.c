@@ -280,3 +280,13 @@ screen_update_notifier (struct screen_t *screen, char *cover, char *infos)
   if (screen->type == SCREEN_TYPE_AUDIO)
     screen_audio_update_notifier (screen, cover, infos);
 }
+
+void
+screen_update_cwd (struct screen_t *screen)
+{
+  if (!screen)
+    return;
+
+  if (screen->type == SCREEN_TYPE_IMAGE)
+    screen_image_update_cwd (screen);
+}

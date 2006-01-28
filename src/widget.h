@@ -136,6 +136,14 @@ struct cover_t {
 struct cover_t *cover_new (void);
 void cover_free (struct cover_t *cover);
 
+struct cwd_t {
+  Evas_List *border;
+  Evas_Object *path;
+};
+
+struct cwd_t *cwd_new (void);
+void cwd_free (struct cwd_t *cwd);
+
 struct notifier_t {
   Ecore_Timer *timer;
   Evas_List *border;

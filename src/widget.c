@@ -1395,6 +1395,7 @@ browser_update (struct omc_t *omc, struct browser_t *browser)
   
   browser_compute (browser);
   browser_display_update (browser);
+  screen_update_cwd (omc->screen);
 }
 
 Evas_Object *
@@ -1692,6 +1693,47 @@ cover_free (struct cover_t *cover)
   if (cover->cover)
     evas_object_del (cover->cover);
   free (cover);
+}
+
+/* Current Working Directory (CWD) items */
+struct cwd_t *
+cwd_new (void)
+{
+  struct cwd_t *cwd = NULL;
+
+  cwd = (struct cwd_t *) malloc (sizeof (struct cwd_t));
+  cwd->border = NULL;
+  cwd->path = NULL;
+
+  return cwd;
+}
+
+void
+cwd_free (struct cwd_t *cwd)
+{
+  Evas_List *list;
+  
+  if (!cwd)
+    return;
+
+  if (cwd->border)
+  {
+    for (list = cwd->border; list; list = list->next)
+    {
+      Evas_Object *obj = NULL;
+    
+      obj = (Evas_Object *) list->data;
+      if (!obj)
+        continue;
+      
+      evas_object_del (obj);
+      cwd->border = evas_list_remove_list (cwd->border, cwd->border);
+    }
+    free (cwd->border);
+  }
+  if (cwd->path)
+    evas_object_del (cwd->path);
+  free (cwd);
 }
 
 /* Notifier Widget */
