@@ -139,6 +139,9 @@ screen_uninit (struct screen_t *screen)
   case SCREEN_TYPE_VIDEO:
     screen_video_free (screen);
     break;
+  case SCREEN_TYPE_IMAGE:
+    screen_image_free (screen);
+    break;
   case SCREEN_TYPE_APLAYER:
     screen_aplayer_free (screen);
     break;
@@ -175,6 +178,9 @@ screen_display (struct screen_t *screen)
     break;
   case SCREEN_TYPE_VIDEO:
     screen_video_display (screen);
+    break;
+  case SCREEN_TYPE_IMAGE:
+    screen_image_display (screen);
     break;
   case SCREEN_TYPE_APLAYER:
     screen_aplayer_display (screen);

@@ -197,7 +197,7 @@ evas_image_new (struct omc_t *omc, int focusable, char *name, char *fname,
   
   img = evas_object_image_add (omc->evas);
   evas_object_image_file_set (img, name, NULL);
-  evas_object_move (img, x, y);
+  evas_object_move (img, x, y); 
   evas_object_resize (img, w, h);
   evas_object_image_fill_set (img, 0, 0, w, h);
   evas_object_layer_set (img, layer);
@@ -597,6 +597,7 @@ item_new (struct browser_t *browser, Evas_Object *icon, Evas_Object *text,
   item->browser = browser; /* browser the item belongs to */
   item->icon = icon;
   item->text = text;
+  item->clip = NULL;
   item->type = type;
   item->mrl = mrl ? strdup (mrl) : NULL;
   item->mrl_type = mrl_type;
@@ -604,6 +605,7 @@ item_new (struct browser_t *browser, Evas_Object *icon, Evas_Object *text,
   item->artist = NULL;
   item->album = NULL;
   item->cover = NULL;
+  item->updated = 0;
   
   return item;
 }
@@ -618,6 +620,8 @@ item_free (struct item_t *item)
     evas_object_del (item->icon);
   if (item->text)
     evas_object_del (item->text);
+  if (item->clip)
+    evas_object_del (item->clip);
   if (item->mrl)
     free (item->mrl);
   if (item->infos)
@@ -632,6 +636,11 @@ item_free (struct item_t *item)
   free (item);
 }
 
+#define BROWSER_THUMBNAIL_MAX_SIZE_W 164
+#define BROWSER_THUMBNAIL_MAX_SIZE_H 110
+#define BROWSER_THUMBNAIL_PADDING_W 20
+#define BROWSER_THUMBNAIL_PADDING_H 25
+
 static void
 browser_compute (struct browser_t *browser)
 {
@@ -641,6 +650,25 @@ browser_compute (struct browser_t *browser)
 
   if (!browser->entries)
     return;
+
+  if (browser->filter_type == FILTER_TYPE_IMAGE)
+  {
+    evas_object_geometry_get (browser->clip, &x, &y, &w, &h);
+
+    obj = ((struct item_t *) browser->entries[0].data)->text;
+    if (obj)
+      evas_object_geometry_get (obj, NULL, NULL, NULL, &txt_size);
+
+    browser->pos = 0;
+    browser->capacity_w =
+      (int) (w / (BROWSER_THUMBNAIL_MAX_SIZE_W
+                  + BROWSER_THUMBNAIL_PADDING_W));
+    browser->capacity_h =
+      (int) (h / (BROWSER_THUMBNAIL_MAX_SIZE_H
+                  + txt_size + BROWSER_THUMBNAIL_PADDING_H));
+
+    return;
+  }
   
   obj = ((struct item_t *) browser->entries[0].data)->text;
   if (obj)
@@ -657,7 +685,8 @@ browser_compute (struct browser_t *browser)
   }
   
   browser->pos = 0;
-  browser->capacity = (txt_size > icon_size) ? txt_size : icon_size;
+  browser->capacity_w = 1;
+  browser->capacity_h = (txt_size > icon_size) ? txt_size : icon_size;
 }
 
 static void
@@ -669,6 +698,9 @@ browser_hide (struct browser_t *browser)
     Evas_Object *obj = NULL;
 
     obj = ((struct item_t *) l->data)->text;
+    if (obj)
+      evas_object_hide (obj);
+    obj = ((struct item_t *) l->data)->clip;
     if (obj)
       evas_object_hide (obj);
     obj = ((struct item_t *) l->data)->icon;
@@ -695,20 +727,161 @@ browser_display_update (struct browser_t *browser)
   browser_hide (browser);
 
   /* determine which items should be displayed */
-  if (browser->pos < browser->capacity)
+  if (browser->pos < browser->capacity_h)
   {
     start = 0;
-    end = browser->capacity + 1;
+    end = browser->capacity_h + 1;
   }
   else
   {
-    start = browser->pos - browser->capacity;
+    start = browser->pos - browser->capacity_h;
     end = browser->pos + 1;
   }
 
+  if (browser->filter_type == FILTER_TYPE_IMAGE)
+  {
+    int capacity_w = 0;
+    for (l = evas_list_nth_list (browser->entries, browser->pos);
+         l && count++ <= (int)(browser->capacity_w * browser->capacity_h) - 1;
+         l = l->next)
+    {
+      struct item_t *item = NULL;
+      Evas_Object *icon, *text;
+      int txt_size = 0;
+      
+      item = (struct item_t *) l->data;
+      if (!item)
+        continue;
+
+      icon = item->icon;
+      if (icon)
+      {
+        Evas_Coord cx, cy, cw, ch;
+
+        /* the image thumbnail hasn't been calculated yet */
+        if (!item->updated && item->type == ITEM_TYPE_FILE)
+        {
+          evas_object_image_file_set (icon, item->mrl, NULL);
+          evas_object_image_size_get (icon, &cw, &ch);
+
+          if (cw == ch &&
+              ((cw > BROWSER_THUMBNAIL_MAX_SIZE_W)
+               || (ch > BROWSER_THUMBNAIL_MAX_SIZE_H)))
+            cw = ch =
+              (BROWSER_THUMBNAIL_MAX_SIZE_W > BROWSER_THUMBNAIL_MAX_SIZE_H) ?
+              BROWSER_THUMBNAIL_MAX_SIZE_H : BROWSER_THUMBNAIL_MAX_SIZE_W;
+          
+          if (cw > 0 && cw > ch && cw > BROWSER_THUMBNAIL_MAX_SIZE_W)
+          {
+            int hmax = (int) (ch * BROWSER_THUMBNAIL_MAX_SIZE_W / cw);
+
+            if (hmax < BROWSER_THUMBNAIL_MAX_SIZE_H)
+            {
+              ch = hmax;
+              cw = BROWSER_THUMBNAIL_MAX_SIZE_W;
+            }
+            else
+            {
+              cw = (int) (cw * BROWSER_THUMBNAIL_MAX_SIZE_H / ch);
+              ch = BROWSER_THUMBNAIL_MAX_SIZE_H;
+            }
+          }
+
+          if (ch > 0 && ch > cw && ch > BROWSER_THUMBNAIL_MAX_SIZE_H)
+          {
+            int wmax = (int) (cw * BROWSER_THUMBNAIL_MAX_SIZE_H / ch);
+
+            if (wmax < BROWSER_THUMBNAIL_MAX_SIZE_W)
+            {
+              cw = wmax;
+              ch = BROWSER_THUMBNAIL_MAX_SIZE_H;
+            }
+            else
+            {
+              ch = (int) (ch * BROWSER_THUMBNAIL_MAX_SIZE_W / cw);
+              cw = BROWSER_THUMBNAIL_MAX_SIZE_W;
+            }
+          }
+  
+          evas_object_resize (icon, cw, ch);
+          evas_object_image_fill_set (icon, 0, 0, cw, ch);
+          
+          item->updated = 1;
+        }
+
+        evas_object_geometry_get (icon, &cx, &cy, &cw, &ch);
+
+        cx = x;      
+        if (cw > BROWSER_THUMBNAIL_MAX_SIZE_W)
+          cw = BROWSER_THUMBNAIL_MAX_SIZE_W;
+        else
+          cx += (int) ((BROWSER_THUMBNAIL_MAX_SIZE_W - cw) / 2);
+
+        cy = y;
+        if (ch > BROWSER_THUMBNAIL_MAX_SIZE_H)
+          ch = BROWSER_THUMBNAIL_MAX_SIZE_H;
+        else
+          cy += (int) ((BROWSER_THUMBNAIL_MAX_SIZE_H - ch) / 2);
+
+        evas_object_move (icon, cx, cy);
+        evas_object_show (icon);
+
+        text = item->text;
+        if (text)
+        {
+          evas_object_geometry_get (text, NULL, NULL, &cw, &ch);
+          txt_size = ch;
+          
+          cx = x;      
+          if (cw > BROWSER_THUMBNAIL_MAX_SIZE_W)
+            cw = BROWSER_THUMBNAIL_MAX_SIZE_W;
+          else
+            cx += (int) ((BROWSER_THUMBNAIL_MAX_SIZE_W - cw) / 2);
+
+          cy = y + txt_size + BROWSER_THUMBNAIL_MAX_SIZE_H;
+
+          if (cw >= BROWSER_THUMBNAIL_MAX_SIZE_W)
+          {
+            char x2[8], y2[8], w2[8], h2[8];
+
+            sprintf (x2, "%d", cx);
+            sprintf (y2, "%d", cy);
+            sprintf (w2, "%d", cw);
+            sprintf (h2, "%d", ch);
+            item->clip = object_clipper (omc, x2, y2, w2, h2);
+          }
+                  
+          evas_object_move (text, cx, cy);
+          evas_object_color_set (text, 255, 255, 255, 255);
+
+          if (item->clip)
+          {
+            evas_object_clip_set (text, item->clip);
+            evas_object_show (item->clip);
+          }
+          
+          evas_object_show (text);
+        }
+      }
+    
+      capacity_w++;
+      x += (int) (browser->w / browser->capacity_w)
+        + BROWSER_THUMBNAIL_PADDING_W;
+      if (capacity_w == browser->capacity_w)
+      {
+        x = browser->x;
+        y += BROWSER_THUMBNAIL_MAX_SIZE_H
+          + txt_size + BROWSER_THUMBNAIL_PADDING_H;
+        capacity_w = 0;
+      }
+    }
+
+    return;
+  }
+  
   /* display items */
   for (l = evas_list_nth_list (browser->entries, browser->pos);
-       l && count++ <= browser->capacity; l = l->next)
+       l && count++ <= browser->capacity_h; l = l->next)
   {
     struct item_t *item = NULL;
     Evas_Object *icon, *text;
@@ -932,7 +1105,7 @@ browser_next_item (struct browser_t *browser)
 
   l = evas_list_nth_list (browser->entries, browser->pos);
   if (l && l->next
-      && (browser->pos + browser->capacity
+      && (browser->pos + browser->capacity_h
           < evas_list_count (browser->entries) - 1))
   {
     browser->pos++;
@@ -946,15 +1119,18 @@ cb_browser_mouse_wheel (void *data, Evas *e,
 {
   Evas_Event_Mouse_Wheel *event = event_info;
   struct browser_t *browser = NULL;
-
+  int i;
+  
   browser = (struct browser_t *) data;
   if (!browser)
     return;
   
   if (event->z < 0)
-    browser_prev_item (browser);
+    for (i = 0; i < browser->capacity_w; i++)
+      browser_prev_item (browser);
   else if (event->z > 0)
-    browser_next_item (browser);
+    for (i = 0; i < browser->capacity_w; i++)
+      browser_next_item (browser);
 }
 
 #define IMG_ICON_FOLDER OMC_DATA_DIR"/folder.png"
@@ -1121,8 +1297,12 @@ browser_update (struct omc_t *omc, struct browser_t *browser)
       if (S_ISDIR (st.st_mode))
       {
         type = ITEM_TYPE_DIRECTORY;
-        icon = image_new (omc, 0, IMG_ICON_FOLDER,
-                          NULL, 0, "0", "0", "36", "25");
+        if (browser->filter_type == FILTER_TYPE_IMAGE)
+          icon = image_new (omc, 0, IMG_ICON_FOLDER,
+                            NULL, 0, "0", "0", "80", "55");
+        else
+          icon = image_new (omc, 0, IMG_ICON_FOLDER,
+                            NULL, 0, "0", "0", "36", "25");
       }
       else if (S_ISREG (st.st_mode))
       {
@@ -1154,7 +1334,7 @@ browser_update (struct omc_t *omc, struct browser_t *browser)
         case FILTER_TYPE_IMAGE:
           mrl_type = PLAYER_MRL_TYPE_IMAGE;
           icon = image_new (omc, 0, IMG_ICON_FILE_IMAGE,
-                            NULL, 0, "0", "0", "21", "25");
+                            NULL, 0, "0", "0", "51", "55");
           break;
         }
         
@@ -1170,7 +1350,7 @@ browser_update (struct omc_t *omc, struct browser_t *browser)
       
       item = item_new (browser, icon, txt, type, path, mrl_type);
       
-      if (item->type == ITEM_TYPE_FILE)
+      if (item->type == ITEM_TYPE_FILE && mrl_type != PLAYER_MRL_TYPE_IMAGE)
       {
         if (omc->cfg->show_infos)
           grab_file_infos (item);
@@ -1187,6 +1367,11 @@ browser_update (struct omc_t *omc, struct browser_t *browser)
           cwd_cover = strdup (item->cover);
       }
       
+      evas_object_event_callback_add (icon, EVAS_CALLBACK_MOUSE_DOWN,
+                                      cb_browser_entry_execute, item);
+      evas_object_event_callback_add (icon, EVAS_CALLBACK_MOUSE_WHEEL,
+                                      cb_browser_mouse_wheel, browser);
+
       evas_object_event_callback_add (txt, EVAS_CALLBACK_MOUSE_DOWN,
                                       cb_browser_entry_execute, item);
       evas_object_event_callback_add (txt, EVAS_CALLBACK_MOUSE_WHEEL,
@@ -1247,7 +1432,8 @@ browser_new (struct screen_t *screen, struct font_t *font, int filter_type,
   browser->h = omc_compute_coord (h, omc->h);
 
   browser->pos = 0;
-  browser->capacity = 0;
+  browser->capacity_w = 0;
+  browser->capacity_h = 0;
   browser->filter_type = filter_type;
   browser->entries = NULL;
   browser->clip = NULL;

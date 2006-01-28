@@ -79,7 +79,8 @@ struct browser_t {
   int x, y;
   int w, h;
   int pos;
-  int capacity;
+  int capacity_w;
+  int capacity_h;
   int filter_type;
   Evas_List *entries;
   Evas_Object *clip;
@@ -90,6 +91,7 @@ struct item_t {
   struct browser_t *browser;
   Evas_Object *icon;
   Evas_Object *text;
+  Evas_Object *clip;
   int type;
   char *mrl;
   int mrl_type;
@@ -97,6 +99,7 @@ struct item_t {
   char *artist;
   char *album;
   char *cover;
+  int updated;
 };
 
 struct browser_t *
