@@ -764,6 +764,11 @@ browser_display_update (struct browser_t *browser)
           evas_object_image_file_set (icon, item->mrl, NULL);
           evas_object_image_size_get (icon, &cw, &ch);
 
+          /* do not consider small files (usually amazon retrieved dummy
+             covers or failed FreeDesktop thumbnail files */
+          if (cw == 1 || ch == 1)
+            continue;
+          
           if (cw == ch &&
               ((cw > BROWSER_THUMBNAIL_MAX_SIZE_W)
                || (ch > BROWSER_THUMBNAIL_MAX_SIZE_H)))
