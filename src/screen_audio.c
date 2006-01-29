@@ -29,6 +29,7 @@
 #include "filter.h"
 #include "widget.h"
 #include "screen.h"
+#include "player.h"
 #include "screen_audio.h"
 #include "screen_video.h"
 #include "screen_image.h"
@@ -72,14 +73,58 @@ audio_free (struct audio_t *audio)
   free (audio);
 }
 
+void
+cb_play_dir (void *data, Evas *e, Evas_Object *obj, void *event_info)
+{
+  struct screen_t *screen = NULL;
+  struct audio_t *audio = NULL;
+  struct browser_t *browser = NULL;
+  Evas_List *list;
+  
+  screen = (struct screen_t *) data;
+  if (!screen || screen->type != SCREEN_TYPE_AUDIO)
+    return;
+
+  audio = (struct audio_t *) screen->private;
+  if (!audio)
+    return;
+  
+  browser = (struct browser_t *) audio->browser;
+  if (!browser)
+    return;
+
+  for (list = browser->entries; list; list = list->next)
+  {
+    struct item_t *item = NULL;
+
+    item = (struct item_t *) list->data;
+    if (!item)
+      continue;
+
+    if (item->type == ITEM_TYPE_FILE
+        && item->mrl_type == PLAYER_MRL_TYPE_AUDIO)
+      player_add_mrl (omc->player, item, PLAYER_ADD_MRL_QUEUE);
+  }
+}
+
 #define IMG_ICON_PLAYER_AUDIO OMC_DATA_DIR"/player_audio.png"
 #define IMG_ICON_PLAYER_AUDIO_FOCUS OMC_DATA_DIR"/player_audio_focus.png"
+
+#define IMG_ICON_PLAY_DIR OMC_DATA_DIR"/playdir.png"
+#define IMG_ICON_PLAY_DIR_FOCUS OMC_DATA_DIR"/playdir_focus.png"
 
 static void
 audio_toolbar_setup (struct screen_t *screen)
 {
   Evas_Object *obj = NULL;
-  
+
+  obj = image_new (omc, 1, IMG_ICON_PLAY_DIR, IMG_ICON_PLAY_DIR_FOCUS,
+                   0, "1%", "65%", "45", "45");
+  screen->objects = evas_list_append (screen->objects, obj);
+  object_add_default_cb (obj);
+  evas_object_event_callback_add (obj, EVAS_CALLBACK_MOUSE_DOWN,
+                                  cb_play_dir, screen);
+
   obj = image_new (omc, 1, IMG_ICON_PLAYER_AUDIO, IMG_ICON_PLAYER_AUDIO_FOCUS,
                    0, "0%", "75%", "65", "65");
   screen->objects = evas_list_append (screen->objects, obj);

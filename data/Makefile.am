@@ -84,6 +84,8 @@ pixmaps = \
 	music.png \
 	picture_focus.png \
 	picture.png \
+	playdir_focus.png \
+	playdir.png \
 	player_audio_focus.png \
 	player_audio.png \
 	playlist_focus.png \
