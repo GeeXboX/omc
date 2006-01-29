@@ -640,6 +640,7 @@ item_free (struct item_t *item)
 #define BROWSER_THUMBNAIL_MAX_SIZE_H 110
 #define BROWSER_THUMBNAIL_PADDING_W 20
 #define BROWSER_THUMBNAIL_PADDING_H 25
+#define BROWSER_TEXT_PADDING_H 10
 
 static void
 browser_compute (struct browser_t *browser)
@@ -672,21 +673,16 @@ browser_compute (struct browser_t *browser)
   
   obj = ((struct item_t *) browser->entries[0].data)->text;
   if (obj)
-  {
-    evas_object_geometry_get (obj, &x, &y, &w, &h);
-    txt_size = (int) (browser->h / (h + 5));
-  }
+    evas_object_geometry_get (obj, NULL, NULL, NULL, &txt_size);
   
   obj = ((struct item_t *) browser->entries[0].data)->icon;
   if (obj)
-  {
-    evas_object_geometry_get (obj, &x, &y, &w, &h);
-    icon_size = (int) (browser->h / (h + 5));
-  }
+    evas_object_geometry_get (obj, NULL, NULL, NULL, &icon_size);
   
   browser->pos = 0;
   browser->capacity_w = 1;
-  browser->capacity_h = (txt_size > icon_size) ? txt_size : icon_size;
+  h = (txt_size > icon_size) ? txt_size : icon_size;
+  browser->capacity_h = (int) (browser->h / (h + BROWSER_TEXT_PADDING_H)) - 1;
 }
 
 static void
@@ -884,12 +880,13 @@ browser_display_update (struct browser_t *browser)
   }
   
   /* display items */
+  x = browser->x;
   for (l = evas_list_nth_list (browser->entries, browser->pos);
        l && count++ <= browser->capacity_h; l = l->next)
   {
     struct item_t *item = NULL;
     Evas_Object *icon, *text;
-    Evas_Coord size;
+    Evas_Coord ih = 0, th = 0, shift = 0, size = 0;
 
     item = (struct item_t *) l->data;
     if (!item)
@@ -898,6 +895,9 @@ browser_display_update (struct browser_t *browser)
     icon = item->icon;
     if (icon)
     {
+      evas_object_geometry_get (icon, NULL, NULL, &shift, &ih);
+      if (shift)
+        shift += 3;
       evas_object_move (icon, x, y);
       evas_object_show (icon);
     }
@@ -905,18 +905,14 @@ browser_display_update (struct browser_t *browser)
     text = item->text;
     if (text)
     {
-      if (icon)
-        evas_object_move (text, x + 40, y);
-      else
-        evas_object_move (text, x, y);
-      size = evas_object_text_vert_advance_get (text);
-      y += 2 * size / 3;
-      if (browser->filter_type == FILTER_TYPE_MRL)
-        y += 5;
-    
+      evas_object_geometry_get (text, NULL, NULL, NULL, &th);
+      evas_object_move (text, x + shift, y);
       evas_object_color_set (text, 255, 255, 255, 255);
       evas_object_show (text);
     }
+
+    size = (ih >= th) ? ih : th;
+    y += size + BROWSER_TEXT_PADDING_H;    
   }
 }
 
