@@ -774,10 +774,28 @@ screen_aplayer_setup (struct screen_t *screen)
 void
 screen_aplayer_display (struct screen_t *screen)
 {
-  struct aplayer_t *aplayer = (struct aplayer_t *) screen->private;
+  struct aplayer_t *aplayer = NULL;
+  struct player_t *player = NULL;
 
+  aplayer = (struct aplayer_t *) screen->private;
+  if (!aplayer)
+    return;
+  
   if (aplayer->info && aplayer->info->box)
     evas_object_show (aplayer->info->box);
+
+  player = omc->player;
+  if (!player)
+    return;
+  
+  if (player && player->state == PLAYER_STATE_RUNNING)
+  {
+    if (player->current->infos)
+      screen_aplayer_update_infos (screen, player->current->infos, 1);
+    if (player->current->cover)
+      screen_aplayer_update_cover (screen, player->current->cover, 1);
+    screen_aplayer_update_browser (screen, player->current->file);
+  }
 }
 
 void
