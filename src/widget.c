@@ -719,7 +719,7 @@ browser_display_update (struct browser_t *browser)
   if (!browser->entries)
     return;
   
-  x = browser->x;
+  x = browser->x + BROWSER_THUMBNAIL_PADDING_W;
   y = browser->y;
   count = 0;
   
@@ -870,11 +870,10 @@ browser_display_update (struct browser_t *browser)
       }
     
       capacity_w++;
-      x += (int) (browser->w / browser->capacity_w)
-        + BROWSER_THUMBNAIL_PADDING_W;
+      x += (int) (browser->w / browser->capacity_w);
       if (capacity_w == browser->capacity_w)
       {
-        x = browser->x;
+        x = browser->x + BROWSER_THUMBNAIL_PADDING_W;
         y += BROWSER_THUMBNAIL_MAX_SIZE_H
           + txt_size + BROWSER_THUMBNAIL_PADDING_H;
         capacity_w = 0;
