@@ -191,6 +191,8 @@ audio_cover_setup (struct screen_t *screen)
 {
   struct audio_t *audio = NULL;
   Evas_Object *dummy = NULL;
+  int x = 0, size;
+  char x2[8], s[8];
   
   audio = (struct audio_t *) screen->private;
   if (!audio)
@@ -203,11 +205,17 @@ audio_cover_setup (struct screen_t *screen)
   dummy = evas_object_image_add (omc->evas);
   audio->cover->border = evas_list_append (audio->cover->border, dummy);
 
-  border_new (omc, audio->cover->border,
-              BORDER_TYPE_COVER, "70%", "69%", "25%", "25%");
+  size = omc_compute_coord ("25%", omc->h);
+  sprintf (s, "%d", size);
 
-  audio->cover->cover =
-    image_new (omc, 0, NULL, NULL, 0, "70%", "69%", "25%", "25%");
+  if (audio->browser)
+    x = audio->browser->x + audio->browser->w - size;
+  sprintf (x2, "%d", x);
+  
+  border_new (omc, audio->cover->border,
+              BORDER_TYPE_COVER, x2, "69%", s, s);
+
+  audio->cover->cover = image_new (omc, 0, NULL, NULL, 0, x2, "69%", s, s);
 }
 
 static void
@@ -280,9 +288,9 @@ screen_audio_setup (struct screen_t *screen)
   browser_filter_toolbar_setup (screen);
   
   audio_toolbar_setup (screen);
+  audio_browser_setup (screen);
   audio_infos_setup (screen);
   audio_cover_setup (screen);
-  audio_browser_setup (screen);
   audio_notifier_setup (screen);
 }
 

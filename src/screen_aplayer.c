@@ -500,6 +500,8 @@ aplayer_cover_setup (struct screen_t *screen)
 {
   struct aplayer_t *aplayer = NULL;
   Evas_Object *dummy = NULL;
+  char s[8];
+  int size;
   
   aplayer = (struct aplayer_t *) screen->private;
   if (!aplayer)
@@ -512,11 +514,14 @@ aplayer_cover_setup (struct screen_t *screen)
   dummy = evas_object_image_add (omc->evas);
   aplayer->cover->border = evas_list_append (aplayer->cover->border, dummy);
 
+  size = omc_compute_coord ("35%", omc->h);
+  sprintf (s, "%d", size);
+
   border_new (omc, aplayer->cover->border,
-              BORDER_TYPE_COVER, "3%", "50%", "35%", "35%");
+              BORDER_TYPE_COVER, "3%", "50%", s, s);
 
   aplayer->cover->cover =
-    image_new (omc, 0, NULL, NULL, 0, "3%", "50%", "35%", "35%");
+    image_new (omc, 0, NULL, NULL, 0, "3%", "50%", s, s);
 }
 
 static void

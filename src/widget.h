@@ -45,6 +45,8 @@ enum {
   BORDER_TYPE_COVER
 };
 
+int omc_compute_coord (char *coord, int max);
+
 Evas_Object *
 border_new (struct omc_t *omc, Evas_List *list,
             int type, char *cx, char *cy, char *cw, char *ch);

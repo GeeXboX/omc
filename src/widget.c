@@ -84,7 +84,7 @@ color_free (struct color_t *color)
 }
 
 /* Coordinates */
-static int
+int
 omc_compute_coord (char *coord, int max)
 {
   int val = 0;
