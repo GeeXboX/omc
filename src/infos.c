@@ -510,18 +510,22 @@ amazon_get_cover (struct item_t *item, char *country, char *type)
     if (st.st_size > 10)
     {
       FILE *cover_file = NULL;
-      char *buf = NULL;
-      int fd;
       
       /* a cover has been found : copy it to cwd */
       cover_file = fopen (cover_file_name, "w+");
-      fd = open (item->cover, O_RDONLY);
-      buf = (char *) malloc ((st.st_size + 1) * sizeof (char));
-      read (fd, buf, st.st_size);
-      close (fd);
-      fwrite (buf, st.st_size, 1, cover_file);
-      fclose (cover_file);
-      free (buf);
+      if (cover_file)
+      {
+        char *buf = NULL;
+        int fd;
+        
+        fd = open (item->cover, O_RDONLY);
+        buf = (char *) malloc ((st.st_size + 1) * sizeof (char));
+        read (fd, buf, st.st_size);
+        close (fd);
+        fwrite (buf, st.st_size, 1, cover_file);
+        fclose (cover_file);
+        free (buf);
+      }
     }
   }
    
