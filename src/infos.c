@@ -669,6 +669,19 @@ th_cover_grabber (void *data)
     break;
   }
 
+  if (item->cover)
+  {
+    struct stat st;
+    stat (item->cover, &st);
+    /* do not consider invalid cover files (too small to be consistent or
+       dummy files retrieved from amazon) */
+    if (st.st_size < 1024)
+    {
+      free (item->cover);
+      item->cover = NULL;
+    }
+  }
+  
   return NULL;
 }
 
