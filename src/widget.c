@@ -766,7 +766,7 @@ browser_display_update (struct browser_t *browser)
 
           /* do not consider small files (usually amazon retrieved dummy
              covers or failed FreeDesktop thumbnail files */
-          if (cw == 1 || ch == 1)
+          if (cw <= 1 || ch <= 1)
             continue;
           
           if (cw == ch &&
