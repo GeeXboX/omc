@@ -300,7 +300,7 @@ xml_find_node (xml_node_t *root, char *name)
 {
   xml_node_t *n = NULL;
 
-  if (!root || !name)
+  if (!root || !root->name || !name)
     return NULL;
 
   if (!strcmp (root->name, name))
