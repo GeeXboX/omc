@@ -61,6 +61,32 @@ mrl_free (struct mrl_t *mrl)
   free (mrl);
 }
 
+static void
+player_event_listener_cb (void *user_data, const xine_event_t *event)
+{
+  struct player_t *player = NULL;
+
+  player = (struct player_t *) user_data;
+  if (!player)
+    return;
+
+  switch (event->type)
+  {
+  case XINE_EVENT_UI_PLAYBACK_FINISHED:
+  {
+    printf ("Playback of stream has ended\n");
+    player_next_mrl (player);
+    break;
+  }
+  case XINE_EVENT_PROGRESS:
+  {
+    xine_progress_data_t *pevent = (xine_progress_data_t *) event->data;
+    printf ("%s [%d%%]\n", pevent->description, pevent->percent);
+    break;
+  }
+  }
+}
+
 struct player_t *
 player_init (void)
 {
@@ -94,6 +120,13 @@ player_init (void)
 
   //player->vo_port = xine_open_video_driver (player->xine, NULL, NULL);
   player->ao_port = xine_open_audio_driver (player->xine, "auto", NULL);
+
+  player->stream =
+    xine_stream_new (player->xine, player->ao_port, player->vo_port);
+  
+  player->event_queue = xine_event_new_queue (player->stream);
+  xine_event_create_listener_thread (player->event_queue,
+                                     player_event_listener_cb, player);
   
   return player;
 }
@@ -106,14 +139,14 @@ player_uninit (struct player_t *player)
   if (!player)
     return;
 
-  if (player->event_queue)
-    xine_event_dispose_queue (player->event_queue);
-
   if (player->stream)
   {
     xine_close (player->stream);
     xine_dispose (player->stream);
   }
+  
+  if (player->event_queue)
+    xine_event_dispose_queue (player->event_queue);
 
   if (player->ao_port)
     xine_close_audio_driver (player->xine, player->ao_port);
@@ -151,45 +184,6 @@ player_set_shuffle (struct player_t *player, int value)
     return;
 
   player->shuffle = value;
-}
-
-static void
-player_event_listener_cb (void *user_data, const xine_event_t *event)
-{
-  struct player_t *player = (struct player_t *) user_data;
-  if (!player)
-    return;
-  
-  switch (event->type)
-  {
-  case XINE_EVENT_UI_PLAYBACK_FINISHED:
-  {
-    Evas_List *list;
-    
-    printf ("Playback of stream has ended\n");
-    player_stop (player);
-     
-    for (list = player->playlist; list; list = list->next)
-    {
-      struct mrl_t *mrl;
-    
-      mrl = (struct mrl_t *) list->data;
-      if (mrl == player->current && list->next)
-      {
-        player->current = (struct mrl_t *) list->next->data;
-        player_start (player);
-        break;
-      }
-    }
-    break;
-  }
-  case XINE_EVENT_PROGRESS:
-  {
-    xine_progress_data_t *pevent = (xine_progress_data_t *) event->data;
-    printf ("%s [%d%%]\n", pevent->description, pevent->percent);
-    break;
-  }
-  }
 }
 
 void
@@ -286,17 +280,10 @@ player_stop (struct player_t *player)
 
   player->state = PLAYER_STATE_IDLE;
 
-  if (player->event_queue)
-  {
-    xine_event_dispose_queue (player->event_queue);
-    player->event_queue = NULL;
-  }
-
   if (player->stream)
   {
+    xine_stop (player->stream);
     xine_close (player->stream);
-    xine_dispose (player->stream);
-    player->stream = NULL;
   }
 
   if (omc->screen->type == SCREEN_TYPE_APLAYER)
@@ -318,22 +305,12 @@ player_start (struct player_t *player)
 
   if (!player->current)
     return;
+
+  if (!player->stream)
+    return;
   
   player->type = player->current->type;
   player->state = PLAYER_STATE_RUNNING;
-
-  if (!player->stream)
-    player->stream =
-      xine_stream_new (player->xine, player->ao_port, player->vo_port);
-  
-  if (!player->stream)
-    return;
-
-  if (!player->event_queue)
-    player->event_queue = xine_event_new_queue (player->stream);
-  xine_event_create_listener_thread (player->event_queue,
-                                     player_event_listener_cb,
-                                     player);
 
   xine_open (player->stream, player->current->file);
   xine_play (player->stream, 0, 0);
