@@ -103,7 +103,12 @@ cb_play_dir (void *data, Evas *e, Evas_Object *obj, void *event_info)
 
     if (item->type == ITEM_TYPE_FILE
         && item->mrl_type == PLAYER_MRL_TYPE_AUDIO)
-      player_add_mrl (omc->player, item, PLAYER_ADD_MRL_QUEUE);
+    {
+      if (omc->player->state == PLAYER_STATE_IDLE)
+        player_add_mrl (omc->player, item, PLAYER_ADD_MRL_NOW);
+      else
+        player_add_mrl (omc->player, item, PLAYER_ADD_MRL_QUEUE);
+    }
   }
 }
 
