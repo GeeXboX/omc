@@ -1782,7 +1782,10 @@ notifier_free (struct notifier_t *notifier)
     return;
 
   if (notifier->timer)
+  {
     ecore_timer_del (notifier->timer);
+    notifier->timer = NULL;
+  }
   
   if (notifier->border)
   {
@@ -1844,6 +1847,12 @@ notifier_timer_expired (void *data)
   if (!notifier)
     return 0;
 
+  if (notifier->timer)
+  {
+    ecore_timer_del (notifier->timer);
+    notifier->timer = NULL;
+  }
+  
   notifier->timer =
     ecore_timer_add (0.1, notifier_update_alpha, (void *) notifier);
 
@@ -1900,6 +1909,8 @@ notifier_update_alpha (void *data)
   if (notifier->show && alpha >= 255)
   {
     notifier->show = 0;
+    ecore_timer_del (notifier->timer);
+    notifier->timer = NULL;
     notifier->timer =
       ecore_timer_add (5.0, notifier_timer_expired, (void *) notifier);
     return 0;

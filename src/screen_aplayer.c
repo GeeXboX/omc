@@ -116,7 +116,10 @@ aplayer_free (struct aplayer_t *aplayer)
     return;
 
   if (aplayer->timer)
+  {
     ecore_timer_del (aplayer->timer);
+    aplayer->timer = NULL;
+  }
   if (aplayer->time_pos)
     evas_object_del (aplayer->time_pos);
   if (aplayer->time_len)
@@ -682,7 +685,7 @@ aplayer_timer_setup (struct screen_t *screen)
   aplayer->time_len = text_new (omc, 0, font, "", 255, 0, "93%", "2%");
   screen->objects = evas_list_append (screen->objects, aplayer->time_len);
 
-  ecore_timer_add (1.0, timer_position, NULL);
+  aplayer->timer = ecore_timer_add (1.0, timer_position, NULL);
 }
 
 #define IMG_ICON_VOLUME OMC_DATA_DIR"/volume.png"
