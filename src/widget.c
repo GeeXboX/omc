@@ -1743,7 +1743,7 @@ notifier_new (struct omc_t *omc, struct font_t *font,
 {
   struct notifier_t *notifier = NULL;
   Evas_Object *dummy = NULL;
-  int cx, cw, ch, padding;
+  int cx, cw, ch;
   char x2[8], w2[8];
   
   notifier = (struct notifier_t *) malloc (sizeof (struct notifier_t));
@@ -1752,6 +1752,7 @@ notifier_new (struct omc_t *omc, struct font_t *font,
   notifier->cover = NULL;
   notifier->infos = NULL;
   notifier->show = 1;
+  notifier->padding = 0;
 
   dummy = evas_object_image_add (omc->evas);
   notifier->border = evas_list_append (notifier->border, dummy);
@@ -1763,9 +1764,9 @@ notifier_new (struct omc_t *omc, struct font_t *font,
   cx = omc_compute_coord (x, omc->w);
   cw = omc_compute_coord (w, omc->w);
   ch = omc_compute_coord (h, omc->w);
-  padding = omc_compute_coord ("3%", omc->w);
-  sprintf (x2, "%d", cx + ch + padding);
-  sprintf (w2, "%d", cw - ch - padding);
+  notifier->padding = omc_compute_coord ("3%", omc->w);
+  sprintf (x2, "%d", cx + ch + notifier->padding);
+  sprintf (w2, "%d", cw - ch - notifier->padding);
   
   notifier->infos = text_block_new (omc, 0, x2, y, w2, h, 5, font,
                                     BLK_ALIGN_LEFT, BLK_ALIGN_TOP);
@@ -1816,11 +1817,21 @@ notifier_free (struct notifier_t *notifier)
 void
 notifier_update (struct notifier_t *notifier, char *cover, char *infos)
 {
+  Evas_Coord x, y, w, cw, ch;
+
   if (!notifier)
     return;
   
   if (cover && notifier->cover)
     evas_object_image_file_set (notifier->cover, cover, NULL);
+
+  evas_object_geometry_get (notifier->cover, &x, &y, &w, NULL);
+  evas_object_image_size_get (notifier->cover, &cw, &ch);
+
+  if (cw == 0 && ch == 0) /* no cover */
+    evas_object_move (notifier->infos, x, y);
+  else
+    evas_object_move (notifier->infos, x + w + notifier->padding, y);
 
   if (infos && notifier->infos)
   {

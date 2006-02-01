@@ -152,6 +152,7 @@ struct notifier_t {
   Evas_Object *cover;
   Evas_Object *infos;
   int show;
+  int padding;
 };
 
 struct notifier_t *
