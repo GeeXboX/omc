@@ -132,9 +132,6 @@ player_uninit (struct player_t *player)
       mrl_free (mrl);
   }
   
-  if (player->current)
-    free (player->current);
-  
   free (player);
 }
 
