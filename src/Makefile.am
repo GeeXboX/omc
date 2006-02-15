@@ -5,6 +5,7 @@ omc_SOURCES= \
 	widget.h widget.c \
 	filter.h filter.c \
 	infos.h infos.c \
+	gfx.h gfx.c \
 	player.h player.c \
 	screen.h screen.c \
 	screen_main.h screen_main.c \
