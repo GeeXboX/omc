@@ -35,6 +35,7 @@
 #include "screen_image.h"
 #include "screen_settings.h"
 #include "screen_aplayer.h"
+#include "screen_viewer.h"
 
 void
 signal_quit_cb (void *data, Evas_Object *o,
@@ -145,6 +146,9 @@ screen_uninit (struct screen_t *screen)
   case SCREEN_TYPE_APLAYER:
     screen_aplayer_free (screen);
     break;
+  case SCREEN_TYPE_VIEWER:
+    screen_viewer_free (screen);
+    break;
   default:
     break;
   }
@@ -185,13 +189,16 @@ screen_display (struct screen_t *screen)
   case SCREEN_TYPE_APLAYER:
     screen_aplayer_display (screen);
     break;
+  case SCREEN_TYPE_VIEWER:
+    screen_viewer_display (screen);
+    break;
   default:
     break;
   }
 }
 
 void
-screen_init (char *id)
+screen_init (char *id, void *data)
 {
   if (omc->screen)
     screen_uninit (omc->screen);
@@ -236,6 +243,11 @@ screen_init (char *id)
     omc->screen->type = SCREEN_TYPE_APLAYER;
     screen_aplayer_setup (omc->screen);
   }
+  else if (!strcmp (id, SCREEN_VIEWER_TITLE))
+  {
+    omc->screen->type = SCREEN_TYPE_VIEWER;
+    screen_viewer_setup (omc->screen, (char *) data);
+  }
   else /* default */
   {
     omc->screen->type = SCREEN_TYPE_MAIN;
@@ -246,7 +258,7 @@ screen_init (char *id)
 }
 
 void
-switch_screen (char *id)
+switch_screen (char *id, void *data)
 {
   if (strcmp (id, SCREEN_MAIN_TITLE)
       && strcmp (id, SCREEN_VIDEO_TITLE)
@@ -254,17 +266,18 @@ switch_screen (char *id)
       && strcmp (id, SCREEN_TV_TITLE)
       && strcmp (id, SCREEN_IMAGE_TITLE)
       && strcmp (id, SCREEN_SETTINGS_TITLE)
+      && strcmp (id, SCREEN_VIEWER_TITLE)
       && strcmp (id, SCREEN_APLAYER_TITLE))
     return;
 
-  screen_init (id);
+  screen_init (id, data);
 }
 
 void
 cb_switch_screen (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   char *id = (char *) data;
-  switch_screen (id);
+  switch_screen (id, NULL);
 }
 
 void

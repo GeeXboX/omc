@@ -14,4 +14,5 @@ omc_SOURCES= \
 	screen_tv.h screen_tv.c \
 	screen_image.h screen_image.c \
 	screen_settings.h screen_settings.c \
+	screen_viewer.h screen_viewer.c \
 	screen_aplayer.h screen_aplayer.c

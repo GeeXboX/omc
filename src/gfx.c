@@ -93,6 +93,37 @@ image_flip_vertical (Evas_Object *img)
 }
 
 void
+image_fit_to_screen (Evas_Object *img)
+{
+  Evas_Coord cw, ch;
+  
+  if (!img)
+    return;
+  
+  evas_object_geometry_get (img, NULL, NULL, &cw, &ch);
+
+  if (cw > omc->w || ch > omc->h) /* overflow */
+  {
+    float ratio;
+
+    ratio = (float) ((float) cw / (float) ch);
+    if (cw >= ch)
+    {
+      cw = omc->w;
+      ch = (int) (cw / ratio);
+    }
+    else
+    {
+      ch = omc->h;
+      cw = (int) (ch / ratio);
+    }
+
+    evas_object_resize (img, cw, ch);
+    evas_object_image_fill_set (img, 0, 0, cw, ch);
+  }
+}
+
+void
 image_center (Evas_Object *img)
 {
   Evas_Coord cw, ch;

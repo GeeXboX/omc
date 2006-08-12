@@ -163,4 +163,6 @@ void notifier_update (struct notifier_t *notifier, char *cover, char *infos);
 void notifier_show (struct notifier_t *notifier);
 void notifier_hide (struct notifier_t *notifier);
 
+char *getExtension (char *filename);
+
 #endif /* _WIDGET_H_ */

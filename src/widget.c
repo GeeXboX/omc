@@ -37,6 +37,7 @@
 #include "infos.h"
 #include "screen_audio.h"
 #include "screen_video.h"
+#include "screen_viewer.h"
 
 /* Colors */
 struct color_t {
@@ -980,10 +981,15 @@ cb_browser_entry_execute (void *data, Evas *e,
         break;
       }
       break;
+    case PLAYER_MRL_TYPE_IMAGE:
+      printf ("To be viewed : %s\n", item->mrl);
+      switch_screen (SCREEN_VIEWER_TITLE, strdup (item->mrl));
+      break;
     default:
       break;
     }
-  } 
+  }
+ 
 }
 
 static void
@@ -1138,7 +1144,7 @@ cb_browser_mouse_wheel (void *data, Evas *e,
 #define IMG_ICON_FILE_MOVIE OMC_DATA_DIR"/film.png"
 #define IMG_ICON_FILE_IMAGE OMC_DATA_DIR"/picture.png"
 
-static char *
+char *
 getExtension (char *filename)
 {
   char *delimiter =".";

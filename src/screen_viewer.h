@@ -17,38 +17,13 @@
  *
  */
 
-#ifndef _GFX_H_
-#define _GFX_H_
+#ifndef _SCREEN_VIEWER_H_
+#define _SCREEN_VIEWER_H_
 
-#include <Evas.h>
+#define SCREEN_VIEWER_TITLE "viewer"
 
-/* Image Positionning */
+void screen_viewer_setup (struct screen_t *screen, char *mrl);
+void screen_viewer_display (struct screen_t *screen);
+void screen_viewer_free (struct screen_t *screen);
 
-enum {
-  ROTATE_CLOCKWISE,
-  ROTATE_COUNTERCLOCKWISE
-};
-
-void image_fit_to_screen (Evas_Object *img);
-void image_center (Evas_Object *img);
-void image_move (Evas_Object *img, int x, int y);
-void image_rotate (Evas_Object *img, int direction);
-void image_flip_horizontal (Evas_Object *img);
-void image_flip_vertical (Evas_Object *img);
-
-/* Zoom Facilities */
-
-#define MAX_ZOOM_LEVEL 5.00 /* 500 % */
-#define MIN_ZOOM_LEVEL 0.05 /* 5 % */
-#define ZOOM_STEP 1.25 /* 25 % */
-
-void image_zoom_in (Evas_Object *img);
-void image_zoom_out (Evas_Object *img);
-void image_zoom_1_1 (Evas_Object *img);
-
-/* Image Transformation */
-
-void image_blur (Evas_Object *img);
-void image_sharpen (Evas_Object *img);
-
-#endif /* _GFX_H_ */
+#endif /* _SCREEN_VIEWER_H_ */

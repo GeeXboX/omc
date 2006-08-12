@@ -172,7 +172,7 @@ main (int argc, char **argv)
   if (main_start (argc, argv) < 1)
     return -1;
 
-  screen_init (SCREEN_MAIN_TITLE);
+  screen_init (SCREEN_MAIN_TITLE, NULL);
   ecore_main_loop_begin ();
   main_stop ();
   omc_uninit (omc);

@@ -29,6 +29,7 @@ enum {
   SCREEN_TYPE_IMAGE,
   SCREEN_TYPE_TV,
   SCREEN_TYPE_SETTINGS,
+  SCREEN_TYPE_VIEWER,
   SCREEN_TYPE_APLAYER
 };
 
@@ -51,10 +52,10 @@ void browser_filter_toolbar_setup (struct screen_t *screen);
 void widget_background_setup (struct screen_t *screen);
 void widget_common_toolbar_setup (struct screen_t *screen);
 
-void screen_init (char *id);
+void screen_init (char *id, void *data);
 void screen_uninit (struct screen_t *screen);
 
-void switch_screen (char *id);
+void switch_screen (char *id, void *data);
 void cb_switch_screen (void *data, Evas *e,
                        Evas_Object *obj, void *event_info);
 

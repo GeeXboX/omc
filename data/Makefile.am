@@ -3,6 +3,7 @@ fonts = \
 
 pixmaps = \
 	back_brushed2.png \
+	back_brushed3.png \
 	back_brushed.png \
 	back_focus.png \
 	background.png \
@@ -96,6 +97,36 @@ pixmaps = \
 	quit.png \
 	selector.png \
 	top_border.png \
+	viewer_1_1_focus.png \
+	viewer_1_1.png \
+	viewer_blur_focus.png \
+	viewer_blur.png \
+	viewer_exit_focus.png \
+	viewer_exit.png \
+	viewer_move_down_focus.png \
+	viewer_move_down.png \
+	viewer_move_left_focus.png \
+	viewer_move_left.png \
+	viewer_move_right_focus.png \
+	viewer_move_right.png \
+	viewer_move_up_focus.png \
+	viewer_move_up.png \
+	viewer_next_focus.png \
+	viewer_next.png \
+	viewer_prev_focus.png \
+	viewer_prev.png \
+	viewer_rotate_focus.png \
+	viewer_rotate.png \
+	viewer_sharpen_focus.png \
+	viewer_sharpen.png \
+	viewer_slideshow_focus.png \
+	viewer_slideshow.png \
+	viewer_zoom_fs_focus.png \
+	viewer_zoom_fs.png \
+	viewer_zoom_in_focus.png \
+	viewer_zoom_in.png \
+	viewer_zoom_out_focus.png \
+	viewer_zoom_out.png \
 	volume.png
 
 datadir = $(DATA_PATH)
