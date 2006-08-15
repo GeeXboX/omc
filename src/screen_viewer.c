@@ -690,7 +690,7 @@ setup_dirlist (void)
   {
     struct stat st;
     char *path = NULL;
-    int len;
+    size_t len;
  
     /* do not consider hidden files */
     if ((namelist[i]->d_name[0] == '.' && namelist[i]->d_name[1] != '.'))

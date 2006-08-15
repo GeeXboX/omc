@@ -1279,7 +1279,8 @@ browser_update (struct omc_t *omc, struct browser_t *browser)
       Evas_Object *icon = NULL;
       struct stat st;
       char *path = NULL;
-      int len, type = -1;
+      int type = -1;
+      size_t len;
       int mrl_type = PLAYER_MRL_TYPE_NONE;
       
       /* do not consider hidden files */
@@ -1515,7 +1516,7 @@ text_block_add_text (Evas_Object *blk, char *text)
 {
   Evas_Textblock_Cursor *cursor = NULL;
   char str[TXT_BLOCK_SIZE];
-  int i, x = 0;
+  unsigned int i, x = 0;
 
   if (!text)
     return;

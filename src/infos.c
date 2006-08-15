@@ -475,7 +475,7 @@ amazon_get_cover (struct item_t *item, char *country, char *type)
   }
 
   /* parse XML answer */
-  xml_parser_init (info, strlen (info), XML_PARSER_CASE_SENSITIVE);
+  xml_parser_init (info, (int) strlen (info), XML_PARSER_CASE_SENSITIVE);
   xml_parser_build_tree (&root_node);
 
   node = xml_find_node (root_node, URL_THUMB_LARGE);
@@ -519,10 +519,10 @@ amazon_get_cover (struct item_t *item, char *country, char *type)
         int fd;
         
         fd = open (item->cover, O_RDONLY);
-        buf = (char *) malloc ((st.st_size + 1) * sizeof (char));
-        read (fd, buf, st.st_size);
+        buf = (char *) malloc ((size_t) ((st.st_size + 1) * sizeof (char)));
+        read (fd, buf, (size_t) st.st_size);
         close (fd);
-        fwrite (buf, st.st_size, 1, cover_file);
+        fwrite (buf, (size_t) st.st_size, 1, cover_file);
         fclose (cover_file);
         free (buf);
       }
@@ -555,7 +555,7 @@ th_cover_grabber (void *data)
       for (i = 0; i < n; i++)
       {
         char *path = NULL;
-        int len;
+        size_t len;
 
         /* already have a cover : stop looking for */
         if (item->cover)
@@ -620,7 +620,7 @@ th_cover_grabber (void *data)
       for (i = 0; i < n; i++)
       {
         char *path = NULL;
-        int len;
+        size_t len;
 
         /* already have a cover : stop looking for */
         if (item->cover)

@@ -319,9 +319,9 @@ parse_config (void)
   if (fd < 0)
     return NULL;
 
-  buffer = (char *) malloc ((st.st_size + 1) * sizeof (char));
-  memset (buffer, '\0', (st.st_size + 1));
-  read (fd, buffer, st.st_size);
+  buffer = (char *) malloc ((size_t) ((st.st_size + 1) * sizeof (char)));
+  memset (buffer, '\0', (size_t) (st.st_size + 1));
+  read (fd, buffer, (size_t) st.st_size);
   parse_buffer (cfg, buffer);
   close (fd);
  

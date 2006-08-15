@@ -170,12 +170,12 @@ main (int argc, char **argv)
 {
   omc = omc_init ();
   if (main_start (argc, argv) < 1)
-    return -1;
+    return EXIT_FAILURE;
 
   screen_init (SCREEN_MAIN_TITLE, NULL);
   ecore_main_loop_begin ();
   main_stop ();
   omc_uninit (omc);
-    
-  return 0;
+
+  return EXIT_SUCCESS;
 }

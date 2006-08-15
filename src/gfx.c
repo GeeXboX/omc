@@ -375,7 +375,7 @@ image_sharpen (Evas_Object *img)
 }
 
 static void
-image_zoom (Evas_Object *img, float factor)
+image_zoom (Evas_Object *img, double factor)
 {
   int w, h;
    
@@ -392,8 +392,8 @@ image_zoom (Evas_Object *img, float factor)
   }
   else if (factor < 0.0)
   {
-    w /= abs (factor);
-    h /= abs (factor);
+    w /= abs ((int) factor);
+    h /= abs ((int) factor);
   }
 
   printf ("After Zoom %d-%d\n", w, h);
