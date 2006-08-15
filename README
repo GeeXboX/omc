@@ -3,6 +3,7 @@ Requirements
 
 - Evas >= 0.9.9.023 :
 http://enlightenment.freedesktop.org/fetch.php?file=evas-0.9.9.023.tar.gz
+  Evas must be compiled with png support.
 - Ecore >= 0.9.9.023 :
 http://enlightenment.freedesktop.org/fetch.php?file=ecore-0.9.9.023.tar.gz
 - Xine-lib >= 1.1.1 :
@@ -18,7 +19,7 @@ make
 Install
 *******
 
-No regular install right now.
+make install
 
 Configuration
 *************
@@ -33,8 +34,7 @@ Configuration
 Usage
 *****
 
-From omc build dir _ONLY_ :
+From omc build dir :
 ./src/omc
 
-Images and Fonts (data) must be in the ./data directory where the executable
-has been started.
+Images and Fonts (data) must have been installed in the datadir (with make install command).
