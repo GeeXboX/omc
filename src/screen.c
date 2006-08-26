@@ -197,61 +197,43 @@ screen_display (struct screen_t *screen)
   }
 }
 
+screen_def_t screen_def [] = {
+  {SCREEN_MAIN_TITLE, SCREEN_TYPE_MAIN, screen_main_setup},
+  {SCREEN_VIDEO_TITLE, SCREEN_TYPE_VIDEO, screen_video_setup},
+  {SCREEN_AUDIO_TITLE, SCREEN_TYPE_AUDIO, screen_audio_setup},
+  {SCREEN_TV_TITLE, SCREEN_TYPE_TV, screen_tv_setup},
+  {SCREEN_IMAGE_TITLE, SCREEN_TYPE_IMAGE, screen_image_setup},
+  {SCREEN_SETTINGS_TITLE, SCREEN_TYPE_SETTINGS, screen_settings_setup},
+  {SCREEN_APLAYER_TITLE, SCREEN_TYPE_APLAYER, screen_aplayer_setup},
+  {SCREEN_VIEWER_TITLE, SCREEN_TYPE_VIEWER, screen_viewer_setup},
+  {NULL, 0, NULL},
+};
+
 void
 screen_init (char *id, void *data)
 {
+  int i;
+
   if (omc->screen)
     screen_uninit (omc->screen);
-  
+
   omc->screen = (struct screen_t *) malloc (sizeof (struct screen_t));
-  omc->screen->type = SCREEN_TYPE_MAIN;
   omc->screen->objects = NULL;
   omc->screen->private = NULL;
 
-  if (!strcmp (id, SCREEN_MAIN_TITLE))
+  for (i=0 ; screen_def[i].id ; i++)
   {
-    omc->screen->type = SCREEN_TYPE_MAIN;
-    screen_main_setup (omc->screen);
+    if (!strncmp (id, screen_def[i].id, strlen (screen_def[i].id)))
+    {
+      omc->screen->type = screen_def[i].type;
+      screen_def[i].setup (omc->screen, data);
+      break;
+    }
   }
-  else if (!strcmp (id, SCREEN_VIDEO_TITLE))
+  if (!screen_def[i].id)
   {
-    omc->screen->type = SCREEN_TYPE_VIDEO;
-    screen_video_setup (omc->screen);
-  }
-  else if (!strcmp (id, SCREEN_AUDIO_TITLE))
-  {
-    omc->screen->type = SCREEN_TYPE_AUDIO;
-    screen_audio_setup (omc->screen);
-  }
-  else if (!strcmp (id, SCREEN_TV_TITLE))
-  {
-    omc->screen->type = SCREEN_TYPE_TV;
-    screen_tv_setup (omc->screen);
-  }
-  else if (!strcmp (id, SCREEN_IMAGE_TITLE))
-  {
-   omc->screen->type = SCREEN_TYPE_IMAGE;
-   screen_image_setup (omc->screen);
-  }
-  else if (!strcmp (id, SCREEN_SETTINGS_TITLE))
-  {
-    omc->screen->type = SCREEN_TYPE_SETTINGS;
-    screen_settings_setup (omc->screen);
-  }
-  else if (!strcmp (id, SCREEN_APLAYER_TITLE))
-  {
-    omc->screen->type = SCREEN_TYPE_APLAYER;
-    screen_aplayer_setup (omc->screen);
-  }
-  else if (!strcmp (id, SCREEN_VIEWER_TITLE))
-  {
-    omc->screen->type = SCREEN_TYPE_VIEWER;
-    screen_viewer_setup (omc->screen, (char *) data);
-  }
-  else /* default */
-  {
-    omc->screen->type = SCREEN_TYPE_MAIN;
-    screen_main_setup (omc->screen);
+    omc->screen->type = screen_def[0].type;
+    screen_def[0].setup (omc->screen, data);
   }
 
   screen_display (omc->screen);
@@ -260,14 +242,14 @@ screen_init (char *id, void *data)
 void
 switch_screen (char *id, void *data)
 {
-  if (strcmp (id, SCREEN_MAIN_TITLE)
-      && strcmp (id, SCREEN_VIDEO_TITLE)
-      && strcmp (id, SCREEN_AUDIO_TITLE)
-      && strcmp (id, SCREEN_TV_TITLE)
-      && strcmp (id, SCREEN_IMAGE_TITLE)
-      && strcmp (id, SCREEN_SETTINGS_TITLE)
-      && strcmp (id, SCREEN_VIEWER_TITLE)
-      && strcmp (id, SCREEN_APLAYER_TITLE))
+  int i;
+  int ret = 1;
+
+  for (i=0 ; ret && screen_def[i].id ; i++)
+  {
+    ret = ret && strncmp (id, screen_def[i].id, strlen (screen_def[i].id));
+  }
+  if (ret)
     return;
 
   screen_init (id, data);

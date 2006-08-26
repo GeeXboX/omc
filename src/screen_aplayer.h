@@ -22,7 +22,7 @@
 
 #define SCREEN_APLAYER_TITLE "aplayer"
 
-void screen_aplayer_setup (struct screen_t *screen);
+void screen_aplayer_setup (struct screen_t *screen, char *data);
 void screen_aplayer_display (struct screen_t *screen);
 void screen_aplayer_free (struct screen_t *screen);
 

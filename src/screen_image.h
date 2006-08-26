@@ -23,7 +23,7 @@
 #define SCREEN_IMAGE_TITLE "image"
 #define SCREEN_IMAGE_OBJ_HEADERS "headers_image"
 
-void screen_image_setup (struct screen_t *screen);
+void screen_image_setup (struct screen_t *screen, char *data);
 void screen_image_display (struct screen_t *screen);
 void screen_image_free (struct screen_t *screen);
 void screen_image_update_cwd (struct screen_t *screen);

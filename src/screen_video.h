@@ -22,7 +22,7 @@
 
 #define SCREEN_VIDEO_TITLE "video"
 
-void screen_video_setup (struct screen_t *screen);
+void screen_video_setup (struct screen_t *screen, char *data);
 void
 screen_video_update_infos (struct screen_t *screen, char *infos, int display);
 void

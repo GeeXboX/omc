@@ -762,7 +762,7 @@ aplayer_volume_setup (struct screen_t *screen)
 }
 
 void
-screen_aplayer_setup (struct screen_t *screen)
+screen_aplayer_setup (struct screen_t *screen, char *data)
 {
   if (!screen || screen->type != SCREEN_TYPE_APLAYER)
     return;

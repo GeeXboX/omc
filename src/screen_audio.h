@@ -22,7 +22,7 @@
 
 #define SCREEN_AUDIO_TITLE "audio"
 
-void screen_audio_setup (struct screen_t *screen);
+void screen_audio_setup (struct screen_t *screen, char *data);
 void screen_audio_display (struct screen_t *screen);
 void screen_audio_free (struct screen_t *screen);
 

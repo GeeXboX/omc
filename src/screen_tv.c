@@ -50,7 +50,7 @@ tv_headers_setup (struct screen_t *screen)
 }
 
 void
-screen_tv_setup (struct screen_t *screen)
+screen_tv_setup (struct screen_t *screen, char *data)
 {
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);

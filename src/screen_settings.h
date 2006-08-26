@@ -22,6 +22,6 @@
 
 #define SCREEN_SETTINGS_TITLE "settings"
 
-void screen_settings_setup (struct screen_t *screen);
+void screen_settings_setup (struct screen_t *screen, char *data);
 
 #endif /* _SCREEN_SETTINGS_H_ */

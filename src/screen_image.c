@@ -141,7 +141,7 @@ simage_browser_setup (struct screen_t *screen)
 }
 
 void
-screen_image_setup (struct screen_t *screen)
+screen_image_setup (struct screen_t *screen, char *data)
 {
   if (!screen || screen->type != SCREEN_TYPE_IMAGE)
     return;

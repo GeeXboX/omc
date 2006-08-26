@@ -326,7 +326,7 @@ audio_notifier_setup (struct screen_t *screen)
 }
 
 void
-screen_audio_setup (struct screen_t *screen)
+screen_audio_setup (struct screen_t *screen, char *data)
 {
   if (!screen || screen->type != SCREEN_TYPE_AUDIO)
     return;

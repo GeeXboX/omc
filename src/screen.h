@@ -22,7 +22,7 @@
 
 #include <Evas.h>
 
-enum {
+typedef enum {
   SCREEN_TYPE_MAIN,
   SCREEN_TYPE_VIDEO,
   SCREEN_TYPE_AUDIO,
@@ -31,13 +31,19 @@ enum {
   SCREEN_TYPE_SETTINGS,
   SCREEN_TYPE_VIEWER,
   SCREEN_TYPE_APLAYER
-};
+} screen_type_t;
 
 struct screen_t {
   int type;
   Evas_List *objects;
   void *private;
 };
+
+typedef struct {
+  char *id;
+  screen_type_t type;
+  void (*setup) (struct screen_t *screen, char *data);
+} screen_def_t;
 
 #define SCREEN_CB_KEY_ESCAPE "Escape"
 

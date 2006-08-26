@@ -250,7 +250,7 @@ video_notifier_setup (struct screen_t *screen)
 }
 
 void
-screen_video_setup (struct screen_t *screen)
+screen_video_setup (struct screen_t *screen, char *data)
 {
   if (!screen || screen->type != SCREEN_TYPE_VIDEO)
     return;

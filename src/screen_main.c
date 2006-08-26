@@ -228,7 +228,7 @@ main_notifier_setup (struct screen_t *screen)
 }
 
 void
-screen_main_setup (struct screen_t *screen)
+screen_main_setup (struct screen_t *screen, char *data)
 {
   if (!screen || screen->type != SCREEN_TYPE_MAIN)
     return;
