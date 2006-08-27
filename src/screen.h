@@ -34,7 +34,7 @@ typedef enum {
 } screen_type_t;
 
 struct screen_t {
-  int type;
+  screen_type_t type;
   Evas_List *objects;
   void *private;
 };
