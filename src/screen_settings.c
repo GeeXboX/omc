@@ -32,10 +32,10 @@
 #define IMG_ICON_LOGO_SETTINGS OMC_DATA_DIR"/logo_set_small.png"
 
 static void
-settings_headers_setup (struct screen_t *screen)
+settings_headers_setup (screen_t *screen)
 {
   Evas_Object *obj = NULL;
-  struct font_t *font = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "header");
   if (!font)
@@ -50,7 +50,7 @@ settings_headers_setup (struct screen_t *screen)
 }
 
 void
-screen_settings_setup (struct screen_t *screen, char *data)
+screen_settings_setup (screen_t *screen, char *data)
 {
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);

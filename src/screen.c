@@ -52,7 +52,7 @@ signal_quit_cb (void *data, Evas_Object *o,
 #define IMG_ICON_IMAGE_FOCUS OMC_DATA_DIR"/picture_focus.png"
 
 void
-browser_filter_toolbar_setup (struct screen_t *screen)
+browser_filter_toolbar_setup (screen_t *screen)
 {
   Evas_Object *obj = NULL;
   
@@ -83,7 +83,7 @@ browser_filter_toolbar_setup (struct screen_t *screen)
 #define IMG_ICON_BACK_FOCUS OMC_DATA_DIR"/back_focus.png"
 
 void
-widget_common_toolbar_setup (struct screen_t *screen)
+widget_common_toolbar_setup (screen_t *screen)
 {
   Evas_Object *obj = NULL;
   
@@ -102,7 +102,7 @@ widget_common_toolbar_setup (struct screen_t *screen)
 #define SCREEN_IMG_BACKGROUND OMC_DATA_DIR"/background.png"
 
 void
-widget_background_setup (struct screen_t *screen)
+widget_background_setup (screen_t *screen)
 {
   Evas_Object *obj = NULL;
   
@@ -112,7 +112,7 @@ widget_background_setup (struct screen_t *screen)
 }
 
 void
-screen_uninit (struct screen_t *screen)
+screen_uninit (screen_t *screen)
 {
   Evas_List *list;
   
@@ -157,7 +157,7 @@ screen_uninit (struct screen_t *screen)
 }
 
 static void
-screen_display (struct screen_t *screen)
+screen_display (screen_t *screen)
 {
   Evas_List *list;
   
@@ -217,7 +217,7 @@ screen_init (char *id, void *data)
   if (omc->screen)
     screen_uninit (omc->screen);
 
-  omc->screen = (struct screen_t *) malloc (sizeof (struct screen_t));
+  omc->screen = (screen_t *) malloc (sizeof (screen_t));
   omc->screen->objects = NULL;
   omc->screen->private = NULL;
 
@@ -263,7 +263,7 @@ cb_switch_screen (void *data, Evas *e, Evas_Object *obj, void *event_info)
 }
 
 void
-screen_update_notifier (struct screen_t *screen, char *cover, char *infos)
+screen_update_notifier (screen_t *screen, char *cover, char *infos)
 {
   if (!screen)
     return;
@@ -277,7 +277,7 @@ screen_update_notifier (struct screen_t *screen, char *cover, char *infos)
 }
 
 void
-screen_update_cwd (struct screen_t *screen)
+screen_update_cwd (screen_t *screen)
 {
   if (!screen)
     return;

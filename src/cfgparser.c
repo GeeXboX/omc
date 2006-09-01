@@ -31,16 +31,16 @@
 
 #define CONFIG_FILE_NAME "omc.conf"
 
-static struct font_t *
+static font_t *
 font_new (char *id, char *ft, int size,
           int style, char *color, char *fcolor)
 {
-  struct font_t *font = NULL;
+  font_t *font = NULL;
   
   if (!id || !ft || !color)
     return NULL;
 
-  font = (struct font_t *) malloc (sizeof (struct font_t));
+  font = (font_t *) malloc (sizeof (font_t));
   font->id = strdup (id);
   font->ft = strdup (ft);
   font->size = size;
@@ -52,7 +52,7 @@ font_new (char *id, char *ft, int size,
 }
 
 static void
-font_free (struct font_t *font)
+font_free (font_t *font)
 {
   if (!font)
     return;
@@ -68,7 +68,7 @@ font_free (struct font_t *font)
   free (font);
 }
 
-struct font_t *
+font_t *
 get_font (Evas_List *list, char *id)
 {
   Evas_List *l;
@@ -78,8 +78,8 @@ get_font (Evas_List *list, char *id)
 
   for (l = list; l; l = l->next)
   {
-    struct font_t *font = NULL;
-    font = (struct font_t *) l->data;
+    font_t *font = NULL;
+    font = (font_t *) l->data;
 
     if (font->id && !strcmp (font->id, id))
       return font;
@@ -89,12 +89,12 @@ get_font (Evas_List *list, char *id)
 }
 
 
-struct config_t *
+config_t *
 config_new (void)
 {
-  struct config_t *cfg = NULL;
+  config_t *cfg = NULL;
 
-  cfg = (struct config_t *) malloc (sizeof (struct config_t));
+  cfg = (config_t *) malloc (sizeof (config_t));
   cfg->media_dir = NULL;
   cfg->screenw = NULL;
   cfg->screenh = NULL;
@@ -107,7 +107,7 @@ config_new (void)
 }
 
 void
-config_free (struct config_t *cfg)
+config_free (config_t *cfg)
 {
   Evas_List *l;
   
@@ -123,8 +123,8 @@ config_free (struct config_t *cfg)
 
   for (l = cfg->fonts; l; l = l->next)
   {
-    struct font_t *font = NULL;
-    font = (struct font_t *) l->data;
+    font_t *font = NULL;
+    font = (font_t *) l->data;
     font_free (font);
   }
 
@@ -170,9 +170,9 @@ xstrdup (char *old, char *new)
 }
 
 static void
-parse_font (struct config_t *cfg, char *line)
+parse_font (config_t *cfg, char *line)
 {
-  struct font_t *font = NULL;
+  font_t *font = NULL;
   char *id = NULL, *ttf = NULL, *size = NULL;
   char *style = NULL, *color = NULL, *fcolor = NULL;
   char *pos;
@@ -230,7 +230,7 @@ parse_font (struct config_t *cfg, char *line)
 #define VAL_NO "no"
 
 static void
-parse_line (struct config_t *cfg, char *line)
+parse_line (config_t *cfg, char *line)
 {
   char *pos, *tag, *val;
   
@@ -283,7 +283,7 @@ parse_line (struct config_t *cfg, char *line)
 }
 
 static void
-parse_buffer (struct config_t *cfg, char *buffer)
+parse_buffer (config_t *cfg, char *buffer)
 {
   char *line;
   char *delimiter;
@@ -302,10 +302,10 @@ parse_buffer (struct config_t *cfg, char *buffer)
   }
 }
 
-struct config_t *
+config_t *
 parse_config (void)
 {
-  struct config_t *cfg = NULL;
+  config_t *cfg = NULL;
   char *buffer = NULL, *file = NULL;
   struct stat st;
   int fd;

@@ -20,16 +20,16 @@
 #ifndef _CONFIG_PARSER_H_
 #define _CONFIG_PARSER_H_
 
-struct font_t {
+typedef struct font_s {
   char *id;
   char *ft;
   int size;
   int style;
   char *color;
   char *fcolor;
-};
+} font_t;
 
-struct config_t {
+typedef struct config_s {
   char *media_dir;
   char *screenw;
   char *screenh;
@@ -37,11 +37,11 @@ struct config_t {
   int show_infos;
   int show_cover;
   int save_cover;
-};
+} config_t;
 
-struct config_t *parse_config (void);
-void config_free (struct config_t *cfg);
+struct config_s *parse_config (void);
+void config_free (struct config_s *cfg);
 
-struct font_t *get_font (Evas_List *list, char *id);
+struct font_s *get_font (Evas_List *list, char *id);
 
 #endif /* _CONFIG_PARSER_H_ */

@@ -36,48 +36,48 @@ enum {
   PLAYER_MRL_TYPE_IMAGE
 };
 
-struct mrl_t {
+typedef struct mrl_s {
   char *file;
   int type;
   char *infos;
   char *cover;
-};
+} mrl_t;
 
-struct player_t {
+typedef struct player_s {
   xine_t *xine;
   xine_stream_t *stream;
   xine_event_queue_t *event_queue;
   xine_video_port_t *vo_port;
   xine_audio_port_t *ao_port;
   Evas_List *playlist;
-  struct mrl_t *current;
+  mrl_t *current;
   int state;
   int type;
   int loop;
   int shuffle;
   int x, y;
   int w, h;
-};
+} player_t;
 
-struct player_t *player_init (void);
-void player_uninit (struct player_t *player);
+struct player_s *player_init (void);
+void player_uninit (struct player_s *player);
 
-void player_start (struct player_t *player);
-void player_prev_mrl (struct player_t *player);
-void player_next_mrl (struct player_t *player);
-void player_pause_playback (struct player_t *player);
-void player_stop (struct player_t *player);
+void player_start (struct player_s *player);
+void player_prev_mrl (struct player_s *player);
+void player_next_mrl (struct player_s *player);
+void player_pause_playback (struct player_s *player);
+void player_stop (struct player_s *player);
 
-void player_fast_forward (struct player_t *player, int value);
-void player_fast_rewind (struct player_t *player, int value);
-void player_volume_up (struct player_t *player, int value);
-void player_volume_down (struct player_t *player, int value);
+void player_fast_forward (struct player_s *player, int value);
+void player_fast_rewind (struct player_s *player, int value);
+void player_volume_up (struct player_s *player, int value);
+void player_volume_down (struct player_s *player, int value);
 
 enum {
   PLAYER_ADD_MRL_NOW,
   PLAYER_ADD_MRL_QUEUE
 };
 
-void player_add_mrl (struct player_t *player, struct item_t *item, int when);
+void player_add_mrl (struct player_s *player, struct item_s *item, int when);
 
 #endif /* _PLAYER_H_ */

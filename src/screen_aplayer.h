@@ -22,14 +22,14 @@
 
 #define SCREEN_APLAYER_TITLE "aplayer"
 
-void screen_aplayer_setup (struct screen_t *screen, char *data);
-void screen_aplayer_display (struct screen_t *screen);
-void screen_aplayer_free (struct screen_t *screen);
+void screen_aplayer_setup (struct screen_s *screen, char *data);
+void screen_aplayer_display (struct screen_s *screen);
+void screen_aplayer_free (struct screen_s *screen);
 
-void screen_aplayer_update_infos (struct screen_t *screen,
+void screen_aplayer_update_infos (struct screen_s *screen,
                                   char *infos, int display);
-void screen_aplayer_update_cover (struct screen_t *screen,
+void screen_aplayer_update_cover (struct screen_s *screen,
                                   char *img, int display);
-void screen_aplayer_update_browser (struct screen_t *screen, char *mrl);
+void screen_aplayer_update_browser (struct screen_s *screen, char *mrl);
 
 #endif /* _SCREEN_AUDIO_PLAYER_H_ */

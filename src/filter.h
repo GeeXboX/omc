@@ -28,15 +28,15 @@ enum {
   FILTER_TYPE_MRL
 };
 
-struct filter_t {
+typedef struct filter_s {
   int type;
   Evas_List *exts;
-};
+} filter_t;
 
-struct filter_t *filter_new (int type);
-void filter_free (struct filter_t *filter);
+struct filter_s *filter_new (int type);
+void filter_free (struct filter_s *filter);
 
-int filter_supports_extension (struct filter_t *filter, char *extension);
-struct filter_t *filter_get (Evas_List *filter_list, int type);
+int filter_supports_extension (struct filter_s *filter, char *extension);
+struct filter_s *filter_get (Evas_List *filter_list, int type);
 
 #endif /* _FILE_FILTERS_H_ */

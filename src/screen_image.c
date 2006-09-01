@@ -29,19 +29,20 @@
 #include "widget.h"
 #include "filter.h"
 #include "screen.h"
+#include "screen_audio.h"
 #include "screen_image.h"
 
-struct simage_t {
-  struct browser_t *browser;
-  struct cwd_t *cwd;
-};
+typedef struct simage_s {
+  browser_t *browser;
+  cwd_t *cwd;
+} simage_t;
 
-static struct simage_t *
+static simage_t *
 simage_new (void)
 {
-  struct simage_t *simage = NULL;
+  simage_t *simage = NULL;
 
-  simage = (struct simage_t *) malloc (sizeof (struct simage_t));
+  simage = (simage_t *) malloc (sizeof (simage_t));
   simage->browser = NULL;
   simage->cwd = NULL;
   
@@ -49,7 +50,7 @@ simage_new (void)
 }
 
 static void
-simage_free (struct simage_t *simage)
+simage_free (simage_t *simage)
 {
   if (!simage)
     return;
@@ -64,15 +65,15 @@ simage_free (struct simage_t *simage)
 #define CWD_TEXT "Current Path : "
 
 void
-screen_image_update_cwd (struct screen_t *screen)
+screen_image_update_cwd (screen_t *screen)
 {
-  struct simage_t *simage = NULL;
-  struct cwd_t *cwd = NULL;
+  simage_t *simage = NULL;
+  cwd_t *cwd = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_IMAGE)
     return;
 
-  simage = (struct simage_t *) screen->private;
+  simage = (simage_t *) screen->private;
   if (!simage)
     return;
 
@@ -91,17 +92,17 @@ screen_image_update_cwd (struct screen_t *screen)
 }
 
 static void
-simage_cwd_setup (struct screen_t *screen)
+simage_cwd_setup (screen_t *screen)
 {
-  struct simage_t *simage = NULL;
-  struct font_t *font = NULL;
+  simage_t *simage = NULL;
+  font_t *font = NULL;
   Evas_Object *dummy = NULL;
   
   font = get_font (omc->cfg->fonts, "browser_small");
   if (!font)
     return;
   
-  simage = (struct simage_t *) screen->private;
+  simage = (simage_t *) screen->private;
   if (!simage)
     return;
 
@@ -122,16 +123,16 @@ simage_cwd_setup (struct screen_t *screen)
 }
 
 static void
-simage_browser_setup (struct screen_t *screen)
+simage_browser_setup (screen_t *screen)
 {
-  struct simage_t *simage = NULL;
-  struct font_t *font = NULL;
+  simage_t *simage = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "browser_small");
   if (!font)
     return;
   
-  simage = (struct simage_t *) screen->private;
+  simage = (simage_t *) screen->private;
   if (!simage)
     return;
 
@@ -141,12 +142,12 @@ simage_browser_setup (struct screen_t *screen)
 }
 
 void
-screen_image_setup (struct screen_t *screen, char *data)
+screen_image_setup (screen_t *screen, char *data)
 {
   if (!screen || screen->type != SCREEN_TYPE_IMAGE)
     return;
 
-  screen->private = (struct audio_t *) simage_new ();
+  screen->private = (audio_t *) simage_new ();
   
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);
@@ -157,12 +158,12 @@ screen_image_setup (struct screen_t *screen, char *data)
 }
 
 void
-screen_image_display (struct screen_t *screen)
+screen_image_display (screen_t *screen)
 {
-  struct simage_t *simage = NULL;
-  struct cwd_t *cwd = NULL;
+  simage_t *simage = NULL;
+  cwd_t *cwd = NULL;
 
-  simage = (struct simage_t *) screen->private;
+  simage = (simage_t *) screen->private;
   if (!simage)
     return;
 
@@ -184,14 +185,14 @@ screen_image_display (struct screen_t *screen)
 }
 
 void
-screen_image_free (struct screen_t *screen)
+screen_image_free (screen_t *screen)
 {
-  struct simage_t *simage = NULL;
+  simage_t *simage = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_IMAGE)
     return;
 
-  simage = (struct simage_t *) screen->private;
+  simage = (simage_t *) screen->private;
   if (simage)
     simage_free (simage);
 }

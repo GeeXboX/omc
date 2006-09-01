@@ -35,19 +35,12 @@
 #include "screen_image.h"
 #include "screen_aplayer.h"
 
-struct audio_t {
-  Evas_Object *infobox;
-  struct cover_t *cover;
-  struct browser_t *browser;
-  struct notifier_t *notifier;
-};
-
-static struct audio_t *
+static audio_t *
 audio_new (void)
 {
-  struct audio_t *audio = NULL;
+  audio_t *audio = NULL;
 
-  audio = (struct audio_t *) malloc (sizeof (struct audio_t));
+  audio = (audio_t *) malloc (sizeof (audio_t));
   audio->infobox = NULL;
   audio->cover = NULL;
   audio->browser = NULL;
@@ -57,7 +50,7 @@ audio_new (void)
 }
 
 static void
-audio_free (struct audio_t *audio)
+audio_free (audio_t *audio)
 {
   if (!audio)
     return;
@@ -76,28 +69,28 @@ audio_free (struct audio_t *audio)
 void
 cb_play_dir (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
-  struct screen_t *screen = NULL;
-  struct audio_t *audio = NULL;
-  struct browser_t *browser = NULL;
+  screen_t *screen = NULL;
+  audio_t *audio = NULL;
+  browser_t *browser = NULL;
   Evas_List *list;
   
-  screen = (struct screen_t *) data;
+  screen = (screen_t *) data;
   if (!screen || screen->type != SCREEN_TYPE_AUDIO)
     return;
 
-  audio = (struct audio_t *) screen->private;
+  audio = (audio_t *) screen->private;
   if (!audio)
     return;
   
-  browser = (struct browser_t *) audio->browser;
+  browser = (browser_t *) audio->browser;
   if (!browser)
     return;
 
   for (list = browser->entries; list; list = list->next)
   {
-    struct item_t *item = NULL;
+    item_t *item = NULL;
 
-    item = (struct item_t *) list->data;
+    item = (item_t *) list->data;
     if (!item)
       continue;
 
@@ -119,7 +112,7 @@ cb_play_dir (void *data, Evas *e, Evas_Object *obj, void *event_info)
 #define IMG_ICON_PLAY_DIR_FOCUS OMC_DATA_DIR"/playdir_focus.png"
 
 static void
-audio_toolbar_setup (struct screen_t *screen)
+audio_toolbar_setup (screen_t *screen)
 {
   Evas_Object *obj = NULL;
 
@@ -139,14 +132,14 @@ audio_toolbar_setup (struct screen_t *screen)
 }
 
 void
-screen_audio_update_infos (struct screen_t *screen, char *infos, int display)
+screen_audio_update_infos (screen_t *screen, char *infos, int display)
 {
-  struct audio_t *audio = NULL;
+  audio_t *audio = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_AUDIO)
     return;
 
-  audio = (struct audio_t *) screen->private;
+  audio = (audio_t *) screen->private;
   if (!audio)
     return;
 
@@ -160,16 +153,16 @@ screen_audio_update_infos (struct screen_t *screen, char *infos, int display)
 }
 
 static void
-audio_infos_setup (struct screen_t *screen)
+audio_infos_setup (screen_t *screen)
 {
-  struct audio_t *audio = NULL;
-  struct font_t *font = NULL;
+  audio_t *audio = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "infos");
   if (!font)
     return;
 
-  audio = (struct audio_t *) screen->private;
+  audio = (audio_t *) screen->private;
   if (!audio)
     return;
   
@@ -179,15 +172,15 @@ audio_infos_setup (struct screen_t *screen)
 }
 
 void
-screen_audio_update_cover (struct screen_t *screen, char *img, int display)
+screen_audio_update_cover (screen_t *screen, char *img, int display)
 {
-  struct audio_t *audio = NULL;
-  struct cover_t *cover = NULL;
+  audio_t *audio = NULL;
+  cover_t *cover = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_AUDIO)
     return;
 
-  audio = (struct audio_t *) screen->private;
+  audio = (audio_t *) screen->private;
   if (!audio)
     return;
 
@@ -237,14 +230,14 @@ screen_audio_update_cover (struct screen_t *screen, char *img, int display)
 }
 
 static void
-audio_cover_setup (struct screen_t *screen)
+audio_cover_setup (screen_t *screen)
 {
-  struct audio_t *audio = NULL;
+  audio_t *audio = NULL;
   Evas_Object *dummy = NULL;
   int x = 0, size;
   char x2[8], s[8];
   
-  audio = (struct audio_t *) screen->private;
+  audio = (audio_t *) screen->private;
   if (!audio)
     return;
 
@@ -269,16 +262,16 @@ audio_cover_setup (struct screen_t *screen)
 }
 
 static void
-audio_browser_setup (struct screen_t *screen)
+audio_browser_setup (screen_t *screen)
 {
-  struct audio_t *audio = NULL;
-  struct font_t *font = NULL;
+  audio_t *audio = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "browser");
   if (!font)
     return;
   
-  audio = (struct audio_t *) screen->private;
+  audio = (audio_t *) screen->private;
   if (!audio)
     return;
 
@@ -288,16 +281,16 @@ audio_browser_setup (struct screen_t *screen)
 }
 
 void
-screen_audio_update_notifier (struct screen_t *screen,
+screen_audio_update_notifier (screen_t *screen,
                               char *cover, char *infos)
 {
-  struct audio_t *audio = NULL;
-  struct notifier_t *notifier = NULL;
+  audio_t *audio = NULL;
+  notifier_t *notifier = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_AUDIO)
     return;
 
-  audio = (struct audio_t *) screen->private;
+  audio = (audio_t *) screen->private;
   if (!audio)
     return;
 
@@ -309,16 +302,16 @@ screen_audio_update_notifier (struct screen_t *screen,
 }
 
 static void
-audio_notifier_setup (struct screen_t *screen)
+audio_notifier_setup (screen_t *screen)
 {
-  struct audio_t *audio = NULL;
-  struct font_t *font = NULL;
+  audio_t *audio = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "infos");
   if (!font)
     return;
   
-  audio = (struct audio_t *) screen->private;
+  audio = (audio_t *) screen->private;
   if (!audio)
     return;
 
@@ -326,12 +319,12 @@ audio_notifier_setup (struct screen_t *screen)
 }
 
 void
-screen_audio_setup (struct screen_t *screen, char *data)
+screen_audio_setup (screen_t *screen, char *data)
 {
   if (!screen || screen->type != SCREEN_TYPE_AUDIO)
     return;
 
-  screen->private = (struct audio_t *) audio_new ();
+  screen->private = (audio_t *) audio_new ();
   
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);
@@ -345,9 +338,9 @@ screen_audio_setup (struct screen_t *screen, char *data)
 }
 
 void
-screen_audio_display (struct screen_t *screen)
+screen_audio_display (screen_t *screen)
 {
-  struct audio_t *audio = (struct audio_t *) screen->private;
+  audio_t *audio = (audio_t *) screen->private;
 
   if (!audio)
     return;
@@ -357,14 +350,14 @@ screen_audio_display (struct screen_t *screen)
 }
 
 void
-screen_audio_free (struct screen_t *screen)
+screen_audio_free (screen_t *screen)
 {
-  struct audio_t *audio = NULL;
+  audio_t *audio = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_AUDIO)
     return;
 
-  audio = (struct audio_t *) screen->private;
+  audio = (audio_t *) screen->private;
   if (audio)
     audio_free (audio);
 }

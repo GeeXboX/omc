@@ -29,15 +29,15 @@
 #include "screen.h"
 #include "screen_aplayer.h"
 
-struct mrl_t *
+mrl_t *
 mrl_new (char *file, int type, char *infos, char *cover)
 {
-  struct mrl_t *mrl = NULL;
+  mrl_t *mrl = NULL;
 
   if (!file)
     return NULL;
   
-  mrl = (struct mrl_t *) malloc (sizeof (struct mrl_t));
+  mrl = (mrl_t *) malloc (sizeof (mrl_t));
   mrl->file = strdup (file);
   mrl->type = type;
   mrl->infos = infos ? strdup (infos) : NULL;
@@ -47,7 +47,7 @@ mrl_new (char *file, int type, char *infos, char *cover)
 }
 
 void
-mrl_free (struct mrl_t *mrl)
+mrl_free (mrl_t *mrl)
 {
   if (!mrl)
     return;
@@ -64,9 +64,9 @@ mrl_free (struct mrl_t *mrl)
 static void
 player_event_listener_cb (void *user_data, const xine_event_t *event)
 {
-  struct player_t *player = NULL;
+  player_t *player = NULL;
 
-  player = (struct player_t *) user_data;
+  player = (player_t *) user_data;
   if (!player)
     return;
 
@@ -87,12 +87,12 @@ player_event_listener_cb (void *user_data, const xine_event_t *event)
   }
 }
 
-struct player_t *
+player_t *
 player_init (void)
 {
-  struct player_t *player = NULL;
+  player_t *player = NULL;
 
-  player = (struct player_t *) malloc (sizeof (struct player_t));
+  player = (player_t *) malloc (sizeof (player_t));
   player->xine = NULL;
   player->stream = NULL;
   player->event_queue = NULL;
@@ -132,7 +132,7 @@ player_init (void)
 }
 
 void
-player_uninit (struct player_t *player)
+player_uninit (player_t *player)
 {
   Evas_List *list;
   
@@ -158,9 +158,9 @@ player_uninit (struct player_t *player)
 
   for (list = player->playlist; list; list = list->next)
   {
-    struct mrl_t *mrl = NULL;
+    mrl_t *mrl = NULL;
 
-    mrl = (struct mrl_t *) list->data;
+    mrl = (mrl_t *) list->data;
     if (mrl)
       mrl_free (mrl);
   }
@@ -169,7 +169,7 @@ player_uninit (struct player_t *player)
 }
 
 void
-player_set_loop (struct player_t *player, int value)
+player_set_loop (player_t *player, int value)
 {
   if (!player)
     return;
@@ -178,7 +178,7 @@ player_set_loop (struct player_t *player, int value)
 }
 
 void
-player_set_shuffle (struct player_t *player, int value)
+player_set_shuffle (player_t *player, int value)
 {
   if (!player)
     return;
@@ -187,7 +187,7 @@ player_set_shuffle (struct player_t *player, int value)
 }
 
 void
-player_prev_mrl (struct player_t *player)
+player_prev_mrl (player_t *player)
 {
   Evas_List *list;
 
@@ -196,14 +196,14 @@ player_prev_mrl (struct player_t *player)
 
   for (list = player->playlist; list; list = list->next)
   {
-    struct mrl_t *mrl;
+    mrl_t *mrl;
     
-    mrl = (struct mrl_t *) list->data;
+    mrl = (mrl_t *) list->data;
     if (mrl == player->current)
     {
       if (list->prev)
       {
-        player->current = (struct mrl_t *) list->prev->data;
+        player->current = (mrl_t *) list->prev->data;
         player_start (player);
         break;
       }
@@ -212,7 +212,7 @@ player_prev_mrl (struct player_t *player)
       {
         while (list && list->next)
           list = list->next;
-        player->current = (struct mrl_t *) list->data;
+        player->current = (mrl_t *) list->data;
         player_start (player);
         break;
       }
@@ -221,7 +221,7 @@ player_prev_mrl (struct player_t *player)
 }
 
 void
-player_next_mrl (struct player_t *player)
+player_next_mrl (player_t *player)
 {
   Evas_List *list;
 
@@ -230,14 +230,14 @@ player_next_mrl (struct player_t *player)
 
   for (list = player->playlist; list; list = list->next)
   {
-    struct mrl_t *mrl;
+    mrl_t *mrl;
     
-    mrl = (struct mrl_t *) list->data;
+    mrl = (mrl_t *) list->data;
     if (mrl == player->current)
     {
       if (list->next)
       {
-        player->current = (struct mrl_t *) list->next->data;
+        player->current = (mrl_t *) list->next->data;
         player_start (player);
         break;
       }
@@ -246,7 +246,7 @@ player_next_mrl (struct player_t *player)
       {
         while (list && list->prev)
           list = list->prev;
-        player->current = (struct mrl_t *) list->data;
+        player->current = (mrl_t *) list->data;
         player_start (player);
         break;
       }
@@ -255,7 +255,7 @@ player_next_mrl (struct player_t *player)
 }
 
 void
-player_pause_playback (struct player_t *player)
+player_pause_playback (player_t *player)
 {
   if (!player || !player->stream)
     return;
@@ -273,7 +273,7 @@ player_pause_playback (struct player_t *player)
 }
 
 void
-player_stop (struct player_t *player)
+player_stop (player_t *player)
 {
   if (player->state == PLAYER_STATE_IDLE)
     return; /* not running */
@@ -295,7 +295,7 @@ player_stop (struct player_t *player)
 }
 
 void
-player_start (struct player_t *player)
+player_start (player_t *player)
 {
   if (!player)
     return;
@@ -332,7 +332,7 @@ player_start (struct player_t *player)
 }
 
 void
-player_fast_forward (struct player_t *player, int value)
+player_fast_forward (player_t *player, int value)
 {
   int pos_time = 0, length = 0;
   
@@ -347,7 +347,7 @@ player_fast_forward (struct player_t *player, int value)
 }
 
 void
-player_fast_rewind (struct player_t *player, int value)
+player_fast_rewind (player_t *player, int value)
 {
   int pos_time = 0, length = 0;
   
@@ -362,7 +362,7 @@ player_fast_rewind (struct player_t *player, int value)
 }
 
 void
-player_volume_up (struct player_t *player, int value)
+player_volume_up (player_t *player, int value)
 {
   if (!player || !player->stream)
     return;
@@ -373,7 +373,7 @@ player_volume_up (struct player_t *player, int value)
 }
 
 void
-player_volume_down (struct player_t *player, int value)
+player_volume_down (player_t *player, int value)
 {
   if (!player || !player->stream)
     return;
@@ -384,9 +384,9 @@ player_volume_down (struct player_t *player, int value)
 }
 
 void
-player_add_mrl (struct player_t *player, struct item_t *item, int when)
+player_add_mrl (player_t *player, item_t *item, int when)
 {
-  struct mrl_t *mrl = NULL;
+  mrl_t *mrl = NULL;
 
   if (!item)
     return;

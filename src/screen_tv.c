@@ -32,10 +32,10 @@
 #define IMG_ICON_LOGO_TV OMC_DATA_DIR"/logo_tv_small.png"
 
 static void
-tv_headers_setup (struct screen_t *screen)
+tv_headers_setup (screen_t *screen)
 {
   Evas_Object *obj = NULL;
-  struct font_t *font = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "header");
   if (!font)
@@ -50,7 +50,7 @@ tv_headers_setup (struct screen_t *screen)
 }
 
 void
-screen_tv_setup (struct screen_t *screen, char *data)
+screen_tv_setup (screen_t *screen, char *data)
 {
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);

@@ -87,7 +87,7 @@ main_stop (void)
 }
 
 void
-omc_update_cwd (struct omc_t *omc, char *dir)
+omc_update_cwd (omc_t *omc, char *dir)
 {
   if (!omc || !dir)
     return;
@@ -97,13 +97,13 @@ omc_update_cwd (struct omc_t *omc, char *dir)
   omc->cwd = strdup (dir);
 }
 
-static struct omc_t *
+static omc_t *
 omc_init (void)
 {
-  struct omc_t *o = NULL;
-  struct filter_t *filter = NULL;
+  omc_t *o = NULL;
+  filter_t *filter = NULL;
   
-  o = (struct omc_t *) malloc (sizeof (struct omc_t));
+  o = (omc_t *) malloc (sizeof (omc_t));
   o->evas = NULL;
   o->ee = NULL;
   o->filters = NULL;
@@ -132,7 +132,7 @@ omc_init (void)
 }
 
 void
-omc_uninit (struct omc_t *o)
+omc_uninit (omc_t *o)
 {
   if (!o)
     return;
@@ -145,8 +145,8 @@ omc_uninit (struct omc_t *o)
     Evas_List *l;
     for (l = o->filters; l; l = l->next)
     {
-      struct filter_t *filter = NULL;
-      filter = (struct filter_t *) l->data;
+      filter_t *filter = NULL;
+      filter = (filter_t *) l->data;
       if (filter)
         filter_free (filter);
       o->filters = evas_list_remove (o->filters, o->filters);

@@ -36,17 +36,17 @@
 #include "screen_image.h"
 #include "screen_settings.h"
 
-struct smain_t {
-  struct menu_t *menu;
-  struct notifier_t *notifier;
-};
+typedef struct smain_s {
+  menu_t *menu;
+  notifier_t *notifier;
+} smain_t;
 
-static struct smain_t *
+static smain_t *
 smain_new (void)
 {
-  struct smain_t *smain = NULL;
+  smain_t *smain = NULL;
 
-  smain = (struct smain_t *) malloc (sizeof (struct smain_t));
+  smain = (smain_t *) malloc (sizeof (smain_t));
   smain->menu = NULL;
   smain->notifier = NULL;
   
@@ -54,7 +54,7 @@ smain_new (void)
 }
 
 static void
-smain_free (struct smain_t *smain)
+smain_free (smain_t *smain)
 {
   if (!smain)
     return;
@@ -71,10 +71,10 @@ smain_free (struct smain_t *smain)
 #define SCREEN_IMG_LOGO_GEEXBOX OMC_DATA_DIR"/logo_gx.png"
 
 static void
-main_headers_setup (struct screen_t *screen)
+main_headers_setup (screen_t *screen)
 {
   Evas_Object *obj = NULL;
-  struct font_t *font = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "header");
   if (!font)
@@ -103,16 +103,16 @@ main_headers_setup (struct screen_t *screen)
 #define IMG_MENU_SETTINGS OMC_DATA_DIR"/logo_set.png"
 
 static void
-main_menu_setup (struct screen_t *screen)
+main_menu_setup (screen_t *screen)
 {
   Evas_Object *item = NULL;
-  struct smain_t *smain = NULL;
-  struct font_t *font = NULL;
+  smain_t *smain = NULL;
+  font_t *font = NULL;
 
   if (!screen || screen->type != SCREEN_TYPE_MAIN)
     return;
   
-  smain = (struct smain_t *) screen->private;
+  smain = (smain_t *) screen->private;
   if (!smain)
     return;
 
@@ -167,7 +167,7 @@ cb_button_exit_clicked (void *data, Evas *e,
 }
 
 static void
-main_buttons_setup (struct screen_t *screen)
+main_buttons_setup (screen_t *screen)
 {
   Evas_Object *obj = NULL;
   
@@ -190,16 +190,16 @@ main_buttons_setup (struct screen_t *screen)
 }
 
 void
-screen_main_update_notifier (struct screen_t *screen,
+screen_main_update_notifier (screen_t *screen,
                              char *cover, char *infos)
 {
-  struct smain_t *smain = NULL;
-  struct notifier_t *notifier = NULL;
+  smain_t *smain = NULL;
+  notifier_t *notifier = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_MAIN)
     return;
 
-  smain = (struct smain_t *) screen->private;
+  smain = (smain_t *) screen->private;
   if (!smain)
     return;
 
@@ -211,16 +211,16 @@ screen_main_update_notifier (struct screen_t *screen,
 }
 
 static void
-main_notifier_setup (struct screen_t *screen)
+main_notifier_setup (screen_t *screen)
 {
-  struct smain_t *smain = NULL;
-  struct font_t *font = NULL;
+  smain_t *smain = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "infos");
   if (!font)
     return;
   
-  smain = (struct smain_t *) screen->private;
+  smain = (smain_t *) screen->private;
   if (!smain)
     return;
 
@@ -228,12 +228,12 @@ main_notifier_setup (struct screen_t *screen)
 }
 
 void
-screen_main_setup (struct screen_t *screen, char *data)
+screen_main_setup (screen_t *screen, char *data)
 {
   if (!screen || screen->type != SCREEN_TYPE_MAIN)
     return;
 
-  screen->private = (struct smain_t *) smain_new ();
+  screen->private = (smain_t *) smain_new ();
   
   widget_background_setup (screen);
   
@@ -244,12 +244,12 @@ screen_main_setup (struct screen_t *screen, char *data)
 }
 
 void
-screen_main_display (struct screen_t *screen)
+screen_main_display (screen_t *screen)
 {
-  struct smain_t *smain = NULL;
+  smain_t *smain = NULL;
   Evas_List *l;
   
-  smain = (struct smain_t *) screen->private;
+  smain = (smain_t *) screen->private;
   if (!smain)
     return;
   
@@ -266,14 +266,14 @@ screen_main_display (struct screen_t *screen)
 }
 
 void
-screen_main_free (struct screen_t *screen)
+screen_main_free (screen_t *screen)
 {
-  struct smain_t *smain = NULL;
+  smain_t *smain = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_MAIN)
     return;
 
-  smain = (struct smain_t *) screen->private;
+  smain = (smain_t *) screen->private;
   if (smain)
     smain_free (smain);
 }

@@ -22,14 +22,14 @@
 
 #define SCREEN_VIDEO_TITLE "video"
 
-void screen_video_setup (struct screen_t *screen, char *data);
+void screen_video_setup (struct screen_s *screen, char *data);
 void
-screen_video_update_infos (struct screen_t *screen, char *infos, int display);
+screen_video_update_infos (struct screen_s *screen, char *infos, int display);
 void
-screen_video_update_cover (struct screen_t *screen, char *img, int display);
-void screen_video_display (struct screen_t *screen);
-void screen_video_free (struct screen_t *screen);
-void screen_video_update_notifier (struct screen_t *screen,
+screen_video_update_cover (struct screen_s *screen, char *img, int display);
+void screen_video_display (struct screen_s *screen);
+void screen_video_free (struct screen_s *screen);
+void screen_video_update_notifier (struct screen_s *screen,
                                    char *cover, char *infos);
 
 #endif /* _SCREEN_VIDEO_H_ */

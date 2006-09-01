@@ -43,7 +43,7 @@
 #define MAX_TAG_SIZE 1024
 
 static void
-grab_file_title (struct item_t *item, xine_stream_t *stream)
+grab_file_title (item_t *item, xine_stream_t *stream)
 {
   const char *title = NULL;
   
@@ -60,7 +60,7 @@ grab_file_title (struct item_t *item, xine_stream_t *stream)
 }
 
 static void
-grab_file_size (struct item_t *item)
+grab_file_size (item_t *item)
 {
   struct stat st;
   char tag[MAX_TAG_SIZE];
@@ -76,7 +76,7 @@ grab_file_size (struct item_t *item)
 }
 
 static void
-grab_audio_file_info (struct item_t *item, xine_stream_t *stream)
+grab_audio_file_info (item_t *item, xine_stream_t *stream)
 {
   char tag[MAX_TAG_SIZE];
   
@@ -157,7 +157,7 @@ grab_audio_file_info (struct item_t *item, xine_stream_t *stream)
 }
 
 static void
-grab_video_file_info (struct item_t *item, xine_stream_t *stream)
+grab_video_file_info (item_t *item, xine_stream_t *stream)
 {
   char tag[MAX_TAG_SIZE];
   
@@ -203,10 +203,10 @@ grab_video_file_info (struct item_t *item, xine_stream_t *stream)
 static void *
 th_info_grabber (void *data)
 {
-  struct item_t *item = NULL;
+  item_t *item = NULL;
   xine_stream_t *stream = NULL;
   
-  item = (struct item_t *) data;
+  item = (item_t *) data;
   if (!item)
     return NULL;
 
@@ -242,7 +242,7 @@ th_info_grabber (void *data)
 }
 
 void
-grab_file_infos (struct item_t *item)
+grab_file_infos (item_t *item)
 {
   pthread_t th;
   
@@ -419,7 +419,7 @@ url_escape_string (char *outbuf, const char *inbuf)
 }
 
 static void
-amazon_get_cover (struct item_t *item, char *country, char *type)
+amazon_get_cover (item_t *item, char *country, char *type)
 {
   CURL *curl;
   char *info = NULL;
@@ -537,11 +537,11 @@ static void *
 th_cover_grabber (void *data)
 {
   struct dirent **namelist;
-  struct item_t *item = NULL;
+  item_t *item = NULL;
   char *x = NULL, *item_name = NULL;
   int n, i;
 
-  item = (struct item_t *) data;
+  item = (item_t *) data;
   if (!item)
     return NULL;
 
@@ -690,7 +690,7 @@ th_cover_grabber (void *data)
 }
 
 void
-grab_file_covers (struct item_t *item)
+grab_file_covers (item_t *item)
 {
   pthread_t th;
   

@@ -22,15 +22,22 @@
 
 #define SCREEN_AUDIO_TITLE "audio"
 
-void screen_audio_setup (struct screen_t *screen, char *data);
-void screen_audio_display (struct screen_t *screen);
-void screen_audio_free (struct screen_t *screen);
+typedef struct audio_s {
+  Evas_Object *infobox;
+  struct cover_s *cover;
+  struct browser_s *browser;
+  struct notifier_s *notifier;
+} audio_t;
 
-void screen_audio_update_infos (struct screen_t *screen,
+void screen_audio_setup (struct screen_s *screen, char *data);
+void screen_audio_display (struct screen_s *screen);
+void screen_audio_free (struct screen_s *screen);
+
+void screen_audio_update_infos (struct screen_s *screen,
                                 char *infos, int display);
-void screen_audio_update_cover (struct screen_t *screen,
+void screen_audio_update_cover (struct screen_s *screen,
                                 char *img, int display);
-void screen_audio_update_notifier (struct screen_t *screen,
+void screen_audio_update_notifier (struct screen_s *screen,
                                    char *cover, char *infos);
 
 #endif /* _SCREEN_AUDIO_H_ */

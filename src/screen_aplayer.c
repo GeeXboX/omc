@@ -33,17 +33,17 @@
 #include "screen_audio.h"
 #include "screen_aplayer.h"
 
-struct info_t {
+typedef struct info_s {
   Evas_Object *box;
   Evas_List *border;
-};
+} info_t;
 
-static struct info_t *
+static info_t *
 info_new (void)
 {
-  struct info_t *info = NULL;
+  info_t *info = NULL;
 
-  info = (struct info_t *) malloc (sizeof (struct info_t));
+  info = (info_t *) malloc (sizeof (info_t));
   info->box = NULL;
   info->border = NULL;
   
@@ -51,7 +51,7 @@ info_new (void)
 }
 
 static void
-info_free (struct info_t *info)
+info_free (info_t *info)
 {
   Evas_List *list;
   
@@ -76,7 +76,7 @@ info_free (struct info_t *info)
   free (info);
 }
 
-struct aplayer_t {
+typedef struct aplayer_s {
   Ecore_Timer *timer;
   Evas_Object *time_pos;
   Evas_Object *time_len;
@@ -84,17 +84,17 @@ struct aplayer_t {
   Evas_Object *time_bar;
   Evas_Object *volume_border;
   Evas_Object *volume_bar;
-  struct info_t *info;
-  struct cover_t *cover;
-  struct browser_t *browser;
-};
+  info_t *info;
+  cover_t *cover;
+  browser_t *browser;
+} aplayer_t;
 
-static struct aplayer_t *
+static aplayer_t *
 aplayer_new (void)
 {
-  struct aplayer_t *aplayer = NULL;
+  aplayer_t *aplayer = NULL;
 
-  aplayer = (struct aplayer_t *) malloc (sizeof (struct aplayer_t));
+  aplayer = (aplayer_t *) malloc (sizeof (aplayer_t));
   aplayer->timer = NULL;
   aplayer->time_pos = NULL;
   aplayer->time_len = NULL;
@@ -110,7 +110,7 @@ aplayer_new (void)
 }
 
 static void
-aplayer_free (struct aplayer_t *aplayer)
+aplayer_free (aplayer_t *aplayer)
 {
   if (!aplayer)
     return;
@@ -144,7 +144,7 @@ aplayer_free (struct aplayer_t *aplayer)
 #define SCREEN_IMG_BACKGROUND OMC_DATA_DIR"/back_brushed2.png"
 
 static void
-aplayer_background_setup (struct screen_t *screen)
+aplayer_background_setup (screen_t *screen)
 {
   Evas_Object *obj = NULL;
   
@@ -238,7 +238,7 @@ cb_play_button_focus_update (void *data, Evas *e,
 } 
 
 static void
-aplayer_toolbar_setup (struct screen_t *screen)
+aplayer_toolbar_setup (screen_t *screen)
 {
   Evas_Object *obj = NULL;
   
@@ -303,16 +303,16 @@ aplayer_toolbar_setup (struct screen_t *screen)
 #define NOW_PLAYING_TEXT "Now Playing ...\n\n"
 
 void
-screen_aplayer_update_browser (struct screen_t *screen, char *mrl)
+screen_aplayer_update_browser (screen_t *screen, char *mrl)
 {
-  struct aplayer_t *aplayer = NULL;
-  struct browser_t *browser = NULL;
+  aplayer_t *aplayer = NULL;
+  browser_t *browser = NULL;
   Evas_List *list;
   
   if (!screen || screen->type != SCREEN_TYPE_APLAYER)
     return;
 
-  aplayer = (struct aplayer_t *) screen->private;
+  aplayer = (aplayer_t *) screen->private;
   if (!aplayer)
     return;
 
@@ -328,9 +328,9 @@ screen_aplayer_update_browser (struct screen_t *screen, char *mrl)
 
   for (list = browser->entries; list; list = list->next)
   {
-    struct item_t *item = NULL;
+    item_t *item = NULL;
         
-    item = (struct item_t *) list->data;
+    item = (item_t *) list->data;
     if (!item)
       continue;
 
@@ -350,15 +350,15 @@ screen_aplayer_update_browser (struct screen_t *screen, char *mrl)
 }
 
 void
-screen_aplayer_update_infos (struct screen_t *screen, char *infos, int display)
+screen_aplayer_update_infos (screen_t *screen, char *infos, int display)
 {
-  struct aplayer_t *aplayer = NULL;
-  struct info_t *info = NULL;
+  aplayer_t *aplayer = NULL;
+  info_t *info = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_APLAYER)
     return;
 
-  aplayer = (struct aplayer_t *) screen->private;
+  aplayer = (aplayer_t *) screen->private;
   if (!aplayer)
     return;
 
@@ -411,17 +411,17 @@ screen_aplayer_update_infos (struct screen_t *screen, char *infos, int display)
 }
 
 static void
-aplayer_infos_setup (struct screen_t *screen)
+aplayer_infos_setup (screen_t *screen)
 {
-  struct aplayer_t *aplayer = NULL;
+  aplayer_t *aplayer = NULL;
   Evas_Object *dummy = NULL;
-  struct font_t *font = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "infos");
   if (!font)
     return;
   
-  aplayer = (struct aplayer_t *) screen->private;
+  aplayer = (aplayer_t *) screen->private;
   if (!aplayer)
     return;
 
@@ -441,15 +441,15 @@ aplayer_infos_setup (struct screen_t *screen)
 }
 
 void
-screen_aplayer_update_cover (struct screen_t *screen, char *img, int display)
+screen_aplayer_update_cover (screen_t *screen, char *img, int display)
 {
-  struct aplayer_t *aplayer = NULL;
-  struct cover_t *cover = NULL;
+  aplayer_t *aplayer = NULL;
+  cover_t *cover = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_APLAYER)
     return;
 
-  aplayer = (struct aplayer_t *) screen->private;
+  aplayer = (aplayer_t *) screen->private;
   if (!aplayer)
     return;
 
@@ -499,14 +499,14 @@ screen_aplayer_update_cover (struct screen_t *screen, char *img, int display)
 }
 
 static void
-aplayer_cover_setup (struct screen_t *screen)
+aplayer_cover_setup (screen_t *screen)
 {
-  struct aplayer_t *aplayer = NULL;
+  aplayer_t *aplayer = NULL;
   Evas_Object *dummy = NULL;
   char s[8];
   int size;
   
-  aplayer = (struct aplayer_t *) screen->private;
+  aplayer = (aplayer_t *) screen->private;
   if (!aplayer)
     return;
 
@@ -528,16 +528,16 @@ aplayer_cover_setup (struct screen_t *screen)
 }
 
 static void
-aplayer_browser_setup (struct screen_t *screen)
+aplayer_browser_setup (screen_t *screen)
 {
-  struct aplayer_t *aplayer = NULL;
-  struct font_t *font = NULL;
+  aplayer_t *aplayer = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "playlist");
   if (!font)
     return;
 
-  aplayer = (struct aplayer_t *) screen->private;
+  aplayer = (aplayer_t *) screen->private;
   if (!aplayer)
     return;
   
@@ -551,12 +551,12 @@ timer_position (void *data)
 {
   Evas_Object *opos = NULL, *olen = NULL;
   Evas_Object *border = NULL, *progress = NULL;
-  struct aplayer_t *aplayer = NULL;
+  aplayer_t *aplayer = NULL;
 
   if (omc->screen->type != SCREEN_TYPE_APLAYER)
     return 0;
   
-  aplayer = (struct aplayer_t *) omc->screen->private;
+  aplayer = (aplayer_t *) omc->screen->private;
   if (!aplayer)
     return 0;
 
@@ -630,7 +630,7 @@ static void
 cb_player_seek (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   Evas_Event_Mouse_Down *event = event_info;
-  struct aplayer_t *aplayer = (struct aplayer_t *) omc->screen->private;
+  aplayer_t *aplayer = (aplayer_t *) omc->screen->private;
   Evas_Object *border = aplayer->time_border;
   Evas_Coord x, w;
   int length = 0, seek = 0, percent = 0;
@@ -658,10 +658,10 @@ cb_player_seek (void *data, Evas *e, Evas_Object *obj, void *event_info)
 #define IMG_ICON_PROGRESS_BORDER OMC_DATA_DIR"/progress_border.png"
 
 static void
-aplayer_timer_setup (struct screen_t *screen)
+aplayer_timer_setup (screen_t *screen)
 {
-  struct aplayer_t *aplayer = (struct aplayer_t *) screen->private;
-  struct font_t *font = NULL;
+  aplayer_t *aplayer = (aplayer_t *) screen->private;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "infos");
   if (!font)
@@ -696,7 +696,7 @@ cb_player_volume_update (void *data, Evas *e,
 {
   Evas_Event_Mouse_Down *event = event_info;
   Evas_Object *border = NULL, *progress = NULL;
-  struct aplayer_t *aplayer = (struct aplayer_t *) omc->screen->private;
+  aplayer_t *aplayer = (aplayer_t *) omc->screen->private;
   Evas_Coord x, w, h;
   int len = 0, percent = 0;
   double mx;
@@ -725,10 +725,10 @@ cb_player_volume_update (void *data, Evas *e,
 }
 
 static void
-aplayer_volume_setup (struct screen_t *screen)
+aplayer_volume_setup (screen_t *screen)
 {
   Evas_Object *volume = NULL;
-  struct aplayer_t *aplayer = (struct aplayer_t *) screen->private;
+  aplayer_t *aplayer = (aplayer_t *) screen->private;
   
   volume = image_new (omc, 0, IMG_ICON_VOLUME, NULL,
                       0, "1%", "1%", "5%", "5%");
@@ -762,12 +762,12 @@ aplayer_volume_setup (struct screen_t *screen)
 }
 
 void
-screen_aplayer_setup (struct screen_t *screen, char *data)
+screen_aplayer_setup (screen_t *screen, char *data)
 {
   if (!screen || screen->type != SCREEN_TYPE_APLAYER)
     return;
 
-  screen->private = (struct aplayer_t *) aplayer_new ();
+  screen->private = (aplayer_t *) aplayer_new ();
   
   aplayer_background_setup (screen);
   aplayer_toolbar_setup (screen);
@@ -780,12 +780,12 @@ screen_aplayer_setup (struct screen_t *screen, char *data)
 }
 
 void
-screen_aplayer_display (struct screen_t *screen)
+screen_aplayer_display (screen_t *screen)
 {
-  struct aplayer_t *aplayer = NULL;
-  struct player_t *player = NULL;
+  aplayer_t *aplayer = NULL;
+  player_t *player = NULL;
 
-  aplayer = (struct aplayer_t *) screen->private;
+  aplayer = (aplayer_t *) screen->private;
   if (!aplayer)
     return;
   
@@ -807,14 +807,14 @@ screen_aplayer_display (struct screen_t *screen)
 }
 
 void
-screen_aplayer_free (struct screen_t *screen)
+screen_aplayer_free (screen_t *screen)
 {
-  struct aplayer_t *aplayer = NULL;
+  aplayer_t *aplayer = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_APLAYER)
     return;
 
-  aplayer = (struct aplayer_t *) screen->private;
+  aplayer = (aplayer_t *) screen->private;
   if (aplayer)
     aplayer_free (aplayer);
 }

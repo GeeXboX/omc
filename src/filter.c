@@ -27,7 +27,7 @@
 // Xine Supported Extensions : anx axa axv spx wvx wax mng wve cin mve mv8 vqa roq str iki ik2 dps xas xap cpk cak 4xm vmd nsf voc trp pes pva nsv iff svx 8svx 16sv ilbm ham ham6 ham8 anim anim3 anim5 anim7 anim8 dif mp+ shn mpv asc txt sub srt smi ssa
 
 static void
-filter_add_extension (struct filter_t *filter, char *extension)
+filter_add_extension (filter_t *filter, char *extension)
 {
   if (!filter || !extension)
     return;
@@ -36,7 +36,7 @@ filter_add_extension (struct filter_t *filter, char *extension)
 }
 
 static void
-filter_audio_create (struct filter_t *filter)
+filter_audio_create (filter_t *filter)
 {
   if (!filter)
     return;
@@ -69,7 +69,7 @@ filter_audio_create (struct filter_t *filter)
 }
 
 static void
-filter_video_create (struct filter_t *filter)
+filter_video_create (filter_t *filter)
 {
   if (!filter)
     return;
@@ -100,7 +100,7 @@ filter_video_create (struct filter_t *filter)
 }
 
 static void
-filter_image_create (struct filter_t *filter)
+filter_image_create (filter_t *filter)
 {
   if (!filter)
     return;
@@ -112,15 +112,15 @@ filter_image_create (struct filter_t *filter)
   filter_add_extension (filter, "png");
 }
 
-struct filter_t *
+filter_t *
 filter_new (int type)
 {
-  struct filter_t *filter = NULL;
+  filter_t *filter = NULL;
 
   if (type == FILTER_TYPE_NONE)
     return NULL;
   
-  filter = (struct filter_t *) malloc (sizeof (struct filter_t));
+  filter = (filter_t *) malloc (sizeof (filter_t));
   filter->type = type;
 
   switch (filter->type)
@@ -140,7 +140,7 @@ filter_new (int type)
 }
 
 void
-filter_free (struct filter_t *filter)
+filter_free (filter_t *filter)
 {
   Evas_List *list = NULL;
 
@@ -161,7 +161,7 @@ filter_free (struct filter_t *filter)
 }
 
 int
-filter_supports_extension (struct filter_t *filter, char *extension)
+filter_supports_extension (filter_t *filter, char *extension)
 {
   Evas_List *list = NULL;
 
@@ -180,16 +180,16 @@ filter_supports_extension (struct filter_t *filter, char *extension)
   return 0;
 }
 
-struct filter_t *
+filter_t *
 filter_get (Evas_List *filter_list, int type)
 {
   Evas_List *list = NULL;
  
   for (list = filter_list; list; list = list->next)
   {
-    struct filter_t *filter = NULL;
+    filter_t *filter = NULL;
 
-    filter = (struct filter_t *) list->data;
+    filter = (filter_t *) list->data;
     if (filter && filter->type == type)
       return filter;
   }

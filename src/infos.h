@@ -20,7 +20,7 @@
 #ifndef _INFO_GRABBER_H_
 #define _INFO_GRABBER_H_
 
-void grab_file_infos (struct item_t *item);
-void grab_file_covers (struct item_t *item);
+void grab_file_infos (struct item_s *item);
+void grab_file_covers (struct item_s *item);
 
 #endif /* _INFO_GRABBER_H_ */

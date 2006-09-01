@@ -32,19 +32,19 @@
 #include "screen_video.h"
 #include "screen_image.h"
 
-struct video_t {
+typedef struct video_s {
   Evas_Object *infobox;
-  struct cover_t *cover;
-  struct browser_t *browser;
-  struct notifier_t *notifier;
-};
+  cover_t *cover;
+  browser_t *browser;
+  notifier_t *notifier;
+} video_t;
 
-static struct video_t *
+static video_t *
 video_new (void)
 {
-  struct video_t *video = NULL;
+  video_t *video = NULL;
 
-  video = (struct video_t *) malloc (sizeof (struct video_t));
+  video = (video_t *) malloc (sizeof (video_t));
   video->infobox = NULL;
   video->cover = NULL;
   video->browser = NULL;
@@ -54,7 +54,7 @@ video_new (void)
 }
 
 static void
-video_free (struct video_t *video)
+video_free (video_t *video)
 {
   if (!video)
     return;
@@ -71,14 +71,14 @@ video_free (struct video_t *video)
 }
 
 void
-screen_video_update_infos (struct screen_t *screen, char *infos, int display)
+screen_video_update_infos (screen_t *screen, char *infos, int display)
 {
-  struct video_t *video = NULL;
+  video_t *video = NULL;
 
   if (!screen || screen->type != SCREEN_TYPE_VIDEO)
     return;
 
-  video = (struct video_t *) screen->private;
+  video = (video_t *) screen->private;
   if (!video)
     return;
 
@@ -92,16 +92,16 @@ screen_video_update_infos (struct screen_t *screen, char *infos, int display)
 }
 
 static void
-video_infos_setup (struct screen_t *screen)
+video_infos_setup (screen_t *screen)
 {
-  struct video_t *video = NULL;
-  struct font_t *font = NULL;
+  video_t *video = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "infos");
   if (!font)
     return;
 
-  video = (struct video_t *) screen->private;
+  video = (video_t *) screen->private;
   if (!video)
     return;
   
@@ -111,15 +111,15 @@ video_infos_setup (struct screen_t *screen)
 }
 
 void
-screen_video_update_cover (struct screen_t *screen, char *img, int display)
+screen_video_update_cover (screen_t *screen, char *img, int display)
 {
-  struct video_t *video = NULL;
-  struct cover_t *cover = NULL;
+  video_t *video = NULL;
+  cover_t *cover = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_VIDEO)
     return;
 
-  video = (struct video_t *) screen->private;
+  video = (video_t *) screen->private;
   if (!video)
     return;
 
@@ -169,12 +169,12 @@ screen_video_update_cover (struct screen_t *screen, char *img, int display)
 }
 
 static void
-video_cover_setup (struct screen_t *screen)
+video_cover_setup (screen_t *screen)
 {
-  struct video_t *video = NULL;
+  video_t *video = NULL;
   Evas_Object *dummy = NULL;
   
-  video = (struct video_t *) screen->private;
+  video = (video_t *) screen->private;
   if (!video)
     return;
 
@@ -193,16 +193,16 @@ video_cover_setup (struct screen_t *screen)
 }
 
 static void
-video_browser_setup (struct screen_t *screen)
+video_browser_setup (screen_t *screen)
 {
-  struct video_t *video = NULL;
-  struct font_t *font = NULL;
+  video_t *video = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "browser");
   if (!font)
     return;
 
-  video = (struct video_t *) screen->private;
+  video = (video_t *) screen->private;
   if (!video)
     return;
   
@@ -212,16 +212,16 @@ video_browser_setup (struct screen_t *screen)
 }
 
 void
-screen_video_update_notifier (struct screen_t *screen,
+screen_video_update_notifier (screen_t *screen,
                               char *cover, char *infos)
 {
-  struct video_t *video = NULL;
-  struct notifier_t *notifier = NULL;
+  video_t *video = NULL;
+  notifier_t *notifier = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_VIDEO)
     return;
 
-  video = (struct video_t *) screen->private;
+  video = (video_t *) screen->private;
   if (!video)
     return;
 
@@ -233,16 +233,16 @@ screen_video_update_notifier (struct screen_t *screen,
 }
 
 static void
-video_notifier_setup (struct screen_t *screen)
+video_notifier_setup (screen_t *screen)
 {
-  struct video_t *video = NULL;
-  struct font_t *font = NULL;
+  video_t *video = NULL;
+  font_t *font = NULL;
 
   font = get_font (omc->cfg->fonts, "infos");
   if (!font)
     return;
   
-  video = (struct video_t *) screen->private;
+  video = (video_t *) screen->private;
   if (!video)
     return;
 
@@ -250,12 +250,12 @@ video_notifier_setup (struct screen_t *screen)
 }
 
 void
-screen_video_setup (struct screen_t *screen, char *data)
+screen_video_setup (screen_t *screen, char *data)
 {
   if (!screen || screen->type != SCREEN_TYPE_VIDEO)
     return;
 
-  screen->private = (struct video_t *) video_new ();
+  screen->private = (video_t *) video_new ();
   
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);
@@ -268,9 +268,9 @@ screen_video_setup (struct screen_t *screen, char *data)
 }
 
 void
-screen_video_display (struct screen_t *screen)
+screen_video_display (screen_t *screen)
 {
-  struct video_t *video = (struct video_t *) screen->private;
+  video_t *video = (video_t *) screen->private;
 
   if (!video)
     return;
@@ -280,14 +280,14 @@ screen_video_display (struct screen_t *screen)
 }
 
 void
-screen_video_free (struct screen_t *screen)
+screen_video_free (screen_t *screen)
 {
-  struct video_t *video = NULL;
+  video_t *video = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_VIDEO)
     return;
 
-  video = (struct video_t *) screen->private;
+  video = (video_t *) screen->private;
   if (video)
     video_free (video);
 }

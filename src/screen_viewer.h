@@ -22,8 +22,8 @@
 
 #define SCREEN_VIEWER_TITLE "viewer"
 
-void screen_viewer_setup (struct screen_t *screen, char *mrl);
-void screen_viewer_display (struct screen_t *screen);
-void screen_viewer_free (struct screen_t *screen);
+void screen_viewer_setup (struct screen_s *screen, char *mrl);
+void screen_viewer_display (struct screen_s *screen);
+void screen_viewer_free (struct screen_s *screen);
 
 #endif /* _SCREEN_VIEWER_H_ */

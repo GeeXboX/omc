@@ -76,17 +76,17 @@
 #define IMG_ICON_SHARPEN OMC_DATA_DIR"/viewer_sharpen.png"
 #define IMG_ICON_SHARPEN_FOCUS OMC_DATA_DIR"/viewer_sharpen_focus.png"
 
-struct img_toolbar_t {
+typedef struct img_toolbar_s {
   Evas_List *border;
   Evas_List *items;
-};
+} img_toolbar_t;
 
-static struct img_toolbar_t *
+static img_toolbar_t *
 img_toolbar_new (void)
 {
-  struct img_toolbar_t *tb = NULL;
+  img_toolbar_t *tb = NULL;
 
-  tb = (struct img_toolbar_t *) malloc (sizeof (struct img_toolbar_t));
+  tb = (img_toolbar_t *) malloc (sizeof (img_toolbar_t));
   tb->border = NULL;
   tb->items = NULL;
   
@@ -94,7 +94,7 @@ img_toolbar_new (void)
 }
 
 static void
-img_toolbar_free (struct img_toolbar_t *tb)
+img_toolbar_free (img_toolbar_t *tb)
 {
   Evas_List *list;
   
@@ -131,8 +131,8 @@ img_toolbar_free (struct img_toolbar_t *tb)
 }
 
 static void
-img_toolbar_update (struct screen_t *screen,
-                    struct img_toolbar_t *tb, int display)
+img_toolbar_update (screen_t *screen,
+                    img_toolbar_t *tb, int display)
 {
   if (!screen || screen->type != SCREEN_TYPE_VIEWER || !tb)
     return;
@@ -191,20 +191,20 @@ img_toolbar_update (struct screen_t *screen,
   }
 }
 
-struct viewer_t {
+typedef struct viewer_s {
   Evas_Object *img;
   Evas_List *dirlist;
   Evas_List *pos; /* current position of file in dirlist */
-  struct img_toolbar_t *toolbar;
+  img_toolbar_t *toolbar;
   int slideshow;
-};
+} viewer_t;
 
-static struct viewer_t *
+static viewer_t *
 viewer_new (void)
 {
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) malloc (sizeof (struct viewer_t));
+  viewer = (viewer_t *) malloc (sizeof (viewer_t));
   viewer->img = NULL;
   viewer->dirlist = NULL;
   viewer->pos = NULL;
@@ -215,7 +215,7 @@ viewer_new (void)
 }
 
 static void
-viewer_free (struct viewer_t *viewer)
+viewer_free (viewer_t *viewer)
 { 
   if (!viewer)
     return;
@@ -245,7 +245,7 @@ viewer_free (struct viewer_t *viewer)
 }
 
 static void
-viewer_background_setup (struct screen_t *screen)
+viewer_background_setup (screen_t *screen)
 {
   Evas_Object *obj = NULL;
   
@@ -282,9 +282,9 @@ static void
 cb_viewer_rotate (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   Evas_Object *img = NULL;
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
   
@@ -298,10 +298,10 @@ cb_viewer_rotate (void *data, Evas *e, Evas_Object *obj, void *event_info)
 static void
 cb_viewer_prev (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
   Evas_List *pos;
   
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
 
@@ -325,10 +325,10 @@ cb_viewer_prev (void *data, Evas *e, Evas_Object *obj, void *event_info)
 static void
 cb_viewer_next (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
   Evas_List *pos;
   
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
 
@@ -352,9 +352,9 @@ cb_viewer_next (void *data, Evas *e, Evas_Object *obj, void *event_info)
 static void
 cb_viewer_slideshow (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
 
@@ -365,9 +365,9 @@ static void
 cb_viewer_move_down (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   Evas_Object *img = NULL;
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
   
@@ -382,9 +382,9 @@ static void
 cb_viewer_move_up (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   Evas_Object *img = NULL;
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
   
@@ -399,9 +399,9 @@ static void
 cb_viewer_move_left (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   Evas_Object *img = NULL;
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
   
@@ -416,9 +416,9 @@ static void
 cb_viewer_move_right (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   Evas_Object *img = NULL;
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
   
@@ -433,9 +433,9 @@ static void
 cb_viewer_zoom_fs (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   Evas_Object *img = NULL;
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
   
@@ -450,9 +450,9 @@ static void
 cb_viewer_zoom_1_1 (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   Evas_Object *img = NULL;
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
   
@@ -467,9 +467,9 @@ static void
 cb_viewer_zoom_in (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   Evas_Object *img = NULL;
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
   
@@ -484,9 +484,9 @@ static void
 cb_viewer_zoom_out (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   Evas_Object *img = NULL;
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
   
@@ -501,9 +501,9 @@ static void
 cb_viewer_blur (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   Evas_Object *img = NULL;
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
   
@@ -518,9 +518,9 @@ static void
 cb_viewer_sharpen (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   Evas_Object *img = NULL;
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) data;
+  viewer = (viewer_t *) data;
   if (!viewer)
     return;
   
@@ -532,17 +532,17 @@ cb_viewer_sharpen (void *data, Evas *e, Evas_Object *obj, void *event_info)
 }
 
 static void
-viewer_toolbar_setup (struct screen_t *screen)
+viewer_toolbar_setup (screen_t *screen)
 {
-  struct viewer_t *viewer = NULL;
-  struct img_toolbar_t *tb = NULL;
+  viewer_t *viewer = NULL;
+  img_toolbar_t *tb = NULL;
   Evas_Object *dummy = NULL;
   Evas_Object *obj = NULL;
   
   if (!screen)
     return;
   
-  viewer = (struct viewer_t *) screen->private;
+  viewer = (viewer_t *) screen->private;
   if (!viewer)
     return;
   
@@ -671,7 +671,7 @@ setup_dirlist (void)
 {
   Evas_List *dirlist = NULL;
   struct dirent **namelist;
-  struct filter_t *filter = NULL;
+  filter_t *filter = NULL;
   int i, n;
 
   /* create the directory image list */
@@ -766,15 +766,15 @@ get_pos_in_list (Evas_List *dirlist, char *mrl)
 }
 
 void
-screen_viewer_setup (struct screen_t *screen, char *mrl)
+screen_viewer_setup (screen_t *screen, char *mrl)
 {
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_VIEWER || !mrl)
     return;
 
-  screen->private = (struct viewer_t *) viewer_new ();
-  viewer = (struct viewer_t *) screen->private;
+  screen->private = (viewer_t *) viewer_new ();
+  viewer = (viewer_t *) screen->private;
   if (!viewer)
     return;
 
@@ -789,11 +789,11 @@ screen_viewer_setup (struct screen_t *screen, char *mrl)
 }
 
 void
-screen_viewer_display (struct screen_t *screen)
+screen_viewer_display (screen_t *screen)
 {
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
 
-  viewer = (struct viewer_t *) screen->private;
+  viewer = (viewer_t *) screen->private;
   if (!viewer)
     return;
 
@@ -807,14 +807,14 @@ screen_viewer_display (struct screen_t *screen)
 }
 
 void
-screen_viewer_free (struct screen_t *screen)
+screen_viewer_free (screen_t *screen)
 {
-  struct viewer_t *viewer = NULL;
+  viewer_t *viewer = NULL;
   
   if (!screen || screen->type != SCREEN_TYPE_VIEWER)
     return;
 
-  viewer = (struct viewer_t *) screen->private;
+  viewer = (viewer_t *) screen->private;
   if (viewer)
     viewer_free (viewer);
 }

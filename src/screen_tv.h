@@ -22,6 +22,6 @@
 
 #define SCREEN_TV_TITLE "tv"
 
-void screen_tv_setup (struct screen_t *screen, char *data);
+void screen_tv_setup (struct screen_s *screen, char *data);
 
 #endif /* _SCREEN_TV_H_ */

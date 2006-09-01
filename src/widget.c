@@ -40,19 +40,19 @@
 #include "screen_viewer.h"
 
 /* Colors */
-struct color_t {
+typedef struct color_s {
   int r;
   int g;
   int b;
   int a;
-};
+} color_t;
 
-static struct color_t *
+static color_t *
 color_new (char *color, int alpha)
 {
-  struct color_t *cl = NULL;
+  color_t *cl = NULL;
 
-  cl = (struct color_t *) malloc (sizeof (struct color_t));
+  cl = (color_t *) malloc (sizeof (color_t));
   cl->r = cl->g = cl->b = 0;
   cl->a = alpha;
 
@@ -77,7 +77,7 @@ color_new (char *color, int alpha)
 }
 
 static void
-color_free (struct color_t *color)
+color_free (color_t *color)
 {
   if (!color)
     return;
@@ -113,7 +113,7 @@ cb_img_focus_update (void *data, Evas *e, Evas_Object *obj, void *event_info)
 static void
 cb_text_focus_update (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
-  struct color_t *color = (struct color_t *) data;
+  color_t *color = (color_t *) data;
   if (obj)
     evas_object_color_set (obj, color->r, color->g, color->b, color->a);
 }
@@ -191,7 +191,7 @@ cb_mouse_menu_hide_selector (void *data, Evas *e,
 
 /* Image Object */
 static Evas_Object *
-evas_image_new (struct omc_t *omc, int focusable, char *name, char *fname,
+evas_image_new (omc_t *omc, int focusable, char *name, char *fname,
                 int layer, int x, int y, int w, int h)
 {
   Evas_Object *img = NULL;
@@ -216,7 +216,7 @@ evas_image_new (struct omc_t *omc, int focusable, char *name, char *fname,
 }
 
 Evas_Object *
-image_new (struct omc_t *omc, int focusable, char *name, char *fname,
+image_new (omc_t *omc, int focusable, char *name, char *fname,
            int layer, char *x, char *y, char *w, char *h)
 {
   int x2, y2, w2, h2;
@@ -231,9 +231,9 @@ image_new (struct omc_t *omc, int focusable, char *name, char *fname,
 
 /* Text Object */
 static Evas_Object *
-evas_text_new (struct omc_t *omc, int focusable, char *font, char *str,
+evas_text_new (omc_t *omc, int focusable, char *font, char *str,
                int x, int y, int layer, int size, int style,
-               struct color_t *color, struct color_t *fcolor)
+               color_t *color, color_t *fcolor)
 {
   Evas_Object *txt = NULL;
   
@@ -257,10 +257,10 @@ evas_text_new (struct omc_t *omc, int focusable, char *font, char *str,
 }
 
 Evas_Object *
-text_new (struct omc_t *omc, int focusable, struct font_t *font, char *str,
+text_new (omc_t *omc, int focusable, font_t *font, char *str,
           int alpha, int layer, char *x, char *y)
 {
-  struct color_t *cl = NULL, *fcl = NULL;
+  color_t *cl = NULL, *fcl = NULL;
   int x2, y2;
 
   x2 = omc_compute_coord (x, omc->w);
@@ -311,7 +311,7 @@ text_new (struct omc_t *omc, int focusable, struct font_t *font, char *str,
 #define IMG_COVER_BOTTOM_RIGHT OMC_DATA_DIR"/cover-br.png"
 
 Evas_Object *
-border_new (struct omc_t *omc, Evas_List *list,
+border_new (omc_t *omc, Evas_List *list,
             int type, char *cx, char *cy, char *cw, char *ch)
 {
   Evas_Object *obj = NULL, *obj2 = NULL;
@@ -445,14 +445,14 @@ border_new (struct omc_t *omc, Evas_List *list,
 }
 
 /* Menu Object */
-struct menu_t *
-menu_new (struct omc_t *omc, struct font_t *font, int align,
+menu_t *
+menu_new (omc_t *omc, font_t *font, int align,
           char *select, char *select_w, char *select_h,
           char *x, char *y, char *w, char *h)
 {
-  struct menu_t *menu = NULL;
+  menu_t *menu = NULL;
   
-  menu = (struct menu_t *) malloc (sizeof (struct menu_t));
+  menu = (menu_t *) malloc (sizeof (menu_t));
   menu->align = align;
   menu->x = omc_compute_coord (x, omc->w);
   menu->y = omc_compute_coord (y, omc->h);
@@ -473,7 +473,7 @@ menu_new (struct omc_t *omc, struct font_t *font, int align,
 }
 
 Evas_Object *
-menu_add_menuitem (struct omc_t *omc, struct menu_t *menu,
+menu_add_menuitem (omc_t *omc, menu_t *menu,
                    char *str, char *logo,
                    char *logo_x, char *logo_y,
                    char *logo_w, char *logo_h)
@@ -509,7 +509,7 @@ menu_add_menuitem (struct omc_t *omc, struct menu_t *menu,
 }
 
 void
-menu_compute_items (struct menu_t *menu)
+menu_compute_items (menu_t *menu)
 {
   Evas_List *list;
   int items, i, x, y, h;
@@ -548,7 +548,7 @@ menu_compute_items (struct menu_t *menu)
 }
 
 void
-menu_free (struct menu_t *menu)
+menu_free (menu_t *menu)
 {
   if (!menu)
     return;
@@ -588,13 +588,13 @@ menu_free (struct menu_t *menu)
 }
 
 /* Browser */
-static struct item_t *
-item_new (struct browser_t *browser, Evas_Object *icon, Evas_Object *text,
+static item_t *
+item_new (browser_t *browser, Evas_Object *icon, Evas_Object *text,
           int type, char *mrl, int mrl_type)
 {
-  struct item_t *item = NULL;
+  item_t *item = NULL;
 
-  item = (struct item_t *) malloc (sizeof (struct item_t));
+  item = (item_t *) malloc (sizeof (item_t));
   item->browser = browser; /* browser the item belongs to */
   item->icon = icon;
   item->text = text;
@@ -612,7 +612,7 @@ item_new (struct browser_t *browser, Evas_Object *icon, Evas_Object *text,
 }
 
 static void
-item_free (struct item_t *item)
+item_free (item_t *item)
 {
   if (!item)
     return;
@@ -644,7 +644,7 @@ item_free (struct item_t *item)
 #define BROWSER_TEXT_PADDING_H 10
 
 static void
-browser_compute (struct browser_t *browser)
+browser_compute (browser_t *browser)
 {
   Evas_Coord x, y, w, h;
   Evas_Object *obj;
@@ -657,7 +657,7 @@ browser_compute (struct browser_t *browser)
   {
     evas_object_geometry_get (browser->clip, &x, &y, &w, &h);
 
-    obj = ((struct item_t *) browser->entries[0].data)->text;
+    obj = ((item_t *) browser->entries[0].data)->text;
     if (obj)
       evas_object_geometry_get (obj, NULL, NULL, NULL, &txt_size);
 
@@ -672,11 +672,11 @@ browser_compute (struct browser_t *browser)
     return;
   }
   
-  obj = ((struct item_t *) browser->entries[0].data)->text;
+  obj = ((item_t *) browser->entries[0].data)->text;
   if (obj)
     evas_object_geometry_get (obj, NULL, NULL, NULL, &txt_size);
   
-  obj = ((struct item_t *) browser->entries[0].data)->icon;
+  obj = ((item_t *) browser->entries[0].data)->icon;
   if (obj)
     evas_object_geometry_get (obj, NULL, NULL, NULL, &icon_size);
   
@@ -687,27 +687,27 @@ browser_compute (struct browser_t *browser)
 }
 
 static void
-browser_hide (struct browser_t *browser)
+browser_hide (browser_t *browser)
 {
   Evas_List *l;
   for (l = browser->entries; l; l = l->next)
   {
     Evas_Object *obj = NULL;
 
-    obj = ((struct item_t *) l->data)->text;
+    obj = ((item_t *) l->data)->text;
     if (obj)
       evas_object_hide (obj);
-    obj = ((struct item_t *) l->data)->clip;
+    obj = ((item_t *) l->data)->clip;
     if (obj)
       evas_object_hide (obj);
-    obj = ((struct item_t *) l->data)->icon;
+    obj = ((item_t *) l->data)->icon;
     if (obj)
       evas_object_hide (obj);
   }
 }
 
 static void
-browser_display_update (struct browser_t *browser)
+browser_display_update (browser_t *browser)
 {
   Evas_List *l;
   Evas_Coord x, y;
@@ -742,11 +742,11 @@ browser_display_update (struct browser_t *browser)
          l && count++ <= (int)(browser->capacity_w * browser->capacity_h) - 1;
          l = l->next)
     {
-      struct item_t *item = NULL;
+      item_t *item = NULL;
       Evas_Object *icon, *text;
       int txt_size = 0;
       
-      item = (struct item_t *) l->data;
+      item = (item_t *) l->data;
       if (!item)
         continue;
 
@@ -885,11 +885,11 @@ browser_display_update (struct browser_t *browser)
   for (l = evas_list_nth_list (browser->entries, browser->pos);
        l && count++ <= browser->capacity_h; l = l->next)
   {
-    struct item_t *item = NULL;
+    item_t *item = NULL;
     Evas_Object *icon, *text;
     Evas_Coord ih = 0, th = 0, shift = 0, size = 0;
 
-    item = (struct item_t *) l->data;
+    item = (item_t *) l->data;
     if (!item)
       continue;
     
@@ -935,7 +935,7 @@ compute_directory (const char *dir, char *mrl)
   omc_update_cwd (omc, newdir);
 }
 
-static void browser_update (struct omc_t *omc, struct browser_t *browser);
+static void browser_update (omc_t *omc, browser_t *browser);
 
 enum {
   MOUSE_BUTTON_LEFT = 1,
@@ -947,11 +947,11 @@ static void
 cb_browser_entry_execute (void *data, Evas *e,
                           Evas_Object *obj, void *event_info)
 {
-  struct item_t *item = NULL;
+  item_t *item = NULL;
   const char *dir = NULL;
   Evas_Event_Mouse_Down *event = (Evas_Event_Mouse_Down *) event_info;
 
-  item = (struct item_t *) data;
+  item = (item_t *) data;
   if (!item)
     return;
 
@@ -996,10 +996,10 @@ static void
 cb_browser_mrl_execute (void *data, Evas *e,
                         Evas_Object *obj, void *event_info)
 {
-  struct item_t *item = NULL;
+  item_t *item = NULL;
   Evas_Event_Mouse_Down *event = (Evas_Event_Mouse_Down *) event_info;
 
-  item = (struct item_t *) data;
+  item = (item_t *) data;
   if (!item)
     return;
   
@@ -1007,7 +1007,7 @@ cb_browser_mrl_execute (void *data, Evas *e,
   {
   case MOUSE_BUTTON_LEFT:
   {
-    struct mrl_t *mrl = NULL;
+    mrl_t *mrl = NULL;
     Evas_List *list;
     
     printf ("Need to find MRL for %s\n", item->mrl);
@@ -1016,9 +1016,9 @@ cb_browser_mrl_execute (void *data, Evas *e,
 
     for (list = omc->player->playlist; list; list = list->next)
     {
-      struct mrl_t *tmp = NULL;
+      mrl_t *tmp = NULL;
 
-      tmp = (struct mrl_t *) list->data;
+      tmp = (mrl_t *) list->data;
       if (!tmp)
         continue;
       
@@ -1047,9 +1047,9 @@ static void
 cb_browser_get_file_info (void *data, Evas *e,
                           Evas_Object *obj, void *event_info)
 {
-  struct item_t *item = NULL;
+  item_t *item = NULL;
 
-  item = (struct item_t *) data;
+  item = (item_t *) data;
   if (!item)
     return;
 
@@ -1092,7 +1092,7 @@ cb_browser_hide_file_info (void *data, Evas *e,
 }
 
 static void
-browser_prev_item (struct browser_t *browser)
+browser_prev_item (browser_t *browser)
 {
   Evas_List *l;
 
@@ -1105,7 +1105,7 @@ browser_prev_item (struct browser_t *browser)
 }
 
 static void
-browser_next_item (struct browser_t *browser)
+browser_next_item (browser_t *browser)
 {
   Evas_List *l;
 
@@ -1124,10 +1124,10 @@ cb_browser_mouse_wheel (void *data, Evas *e,
                         Evas_Object *obj, void *event_info)
 {
   Evas_Event_Mouse_Wheel *event = event_info;
-  struct browser_t *browser = NULL;
+  browser_t *browser = NULL;
   int i;
   
-  browser = (struct browser_t *) data;
+  browser = (browser_t *) data;
   if (!browser)
     return;
   
@@ -1174,10 +1174,10 @@ getExtension (char *filename)
 }
 
 static void
-browser_update (struct omc_t *omc, struct browser_t *browser)
+browser_update (omc_t *omc, browser_t *browser)
 {
   struct dirent **namelist;
-  struct filter_t *filter = NULL;
+  filter_t *filter = NULL;
   char *cwd_cover = NULL;
   int n, i;
 
@@ -1190,9 +1190,9 @@ browser_update (struct omc_t *omc, struct browser_t *browser)
     Evas_List *list;
     for (list = browser->entries; list; list = list->next)
     {
-      struct item_t *item = NULL;
+      item_t *item = NULL;
     
-      item = (struct item_t *) list->data;
+      item = (item_t *) list->data;
       if (!item)
         continue;
       
@@ -1211,11 +1211,11 @@ browser_update (struct omc_t *omc, struct browser_t *browser)
 
       for (list = omc->player->playlist; list; list = list->next)
       {
-        struct mrl_t *mrl;
-        struct item_t *item = NULL;
+        mrl_t *mrl;
+        item_t *item = NULL;
         Evas_Object *txt = NULL;
 
-        mrl = (struct mrl_t *) list->data;
+        mrl = (mrl_t *) list->data;
         if (!mrl)
           continue;
         
@@ -1244,7 +1244,7 @@ browser_update (struct omc_t *omc, struct browser_t *browser)
       if (!browser->entries || evas_list_count (browser->entries) == 0)
       {
         /* no playlist right now */
-        struct item_t *item = NULL;
+        item_t *item = NULL;
         Evas_Object *txt = NULL;
 
         txt = text_new (omc, 0, browser->font,
@@ -1274,7 +1274,7 @@ browser_update (struct omc_t *omc, struct browser_t *browser)
   
     for (i = 0; i < n; i++)
     {
-      struct item_t *item = NULL;
+      item_t *item = NULL;
       Evas_Object *txt = NULL;
       Evas_Object *icon = NULL;
       struct stat st;
@@ -1406,7 +1406,7 @@ browser_update (struct omc_t *omc, struct browser_t *browser)
 }
 
 Evas_Object *
-object_clipper (struct omc_t *omc, char *x, char *y, char *w, char *h)
+object_clipper (omc_t *omc, char *x, char *y, char *w, char *h)
 {
   Evas_Object *clip = NULL;
   Evas_Coord x2, y2, w2, h2;
@@ -1425,14 +1425,14 @@ object_clipper (struct omc_t *omc, char *x, char *y, char *w, char *h)
   return clip;
 }
 
-struct browser_t *
-browser_new (struct screen_t *screen, struct font_t *font, int filter_type,
+browser_t *
+browser_new (screen_t *screen, font_t *font, int filter_type,
              char *x, char *y, char *w, char *h)
 {
-  struct browser_t *browser = NULL;
+  browser_t *browser = NULL;
   Evas_Object *b = NULL;
   
-  browser = (struct browser_t *) malloc (sizeof (struct browser_t));
+  browser = (browser_t *) malloc (sizeof (browser_t));
 
   browser->x = omc_compute_coord (x, omc->w);
   browser->y = omc_compute_coord (y, omc->h);
@@ -1459,7 +1459,7 @@ browser_new (struct screen_t *screen, struct font_t *font, int filter_type,
 }
 
 void
-browser_free (struct browser_t *browser)
+browser_free (browser_t *browser)
 {
   Evas_List *list;
   
@@ -1470,9 +1470,9 @@ browser_free (struct browser_t *browser)
   {
     for (list = browser->entries; list; list = list->next)
     {
-      struct item_t *item = NULL;
+      item_t *item = NULL;
       
-      item = (struct item_t *) list->data;
+      item = (item_t *) list->data;
       if (!item)
         continue;
       
@@ -1602,14 +1602,14 @@ cb_textblock_mouse_wheel (void *data, Evas *e,
 }
 
 Evas_Object *
-text_block_new (struct omc_t *omc, int editable, char *x, char *y,
-                char *w, char *h, int layer, struct font_t *font,
+text_block_new (omc_t *omc, int editable, char *x, char *y,
+                char *w, char *h, int layer, font_t *font,
                 char *align_h, char *align_v)
 {
   char style[1024];
   Evas_Object *blk = NULL;
   Evas_Textblock_Style *st;
-  struct color_t *cl = NULL;
+  color_t *cl = NULL;
   Evas_Coord x2, y2, w2, h2;
 
   x2 = omc_compute_coord (x, omc->w);
@@ -1662,12 +1662,12 @@ text_block_new (struct omc_t *omc, int editable, char *x, char *y,
 }
 
 /* Cover items */
-struct cover_t *
+cover_t *
 cover_new (void)
 {
-  struct cover_t *cover = NULL;
+  cover_t *cover = NULL;
 
-  cover = (struct cover_t *) malloc (sizeof (struct cover_t));
+  cover = (cover_t *) malloc (sizeof (cover_t));
   cover->border = NULL;
   cover->cover = NULL;
 
@@ -1675,7 +1675,7 @@ cover_new (void)
 }
 
 void
-cover_free (struct cover_t *cover)
+cover_free (cover_t *cover)
 {
   Evas_List *list;
   
@@ -1703,12 +1703,12 @@ cover_free (struct cover_t *cover)
 }
 
 /* Current Working Directory (CWD) items */
-struct cwd_t *
+cwd_t *
 cwd_new (void)
 {
-  struct cwd_t *cwd = NULL;
+  cwd_t *cwd = NULL;
 
-  cwd = (struct cwd_t *) malloc (sizeof (struct cwd_t));
+  cwd = (cwd_t *) malloc (sizeof (cwd_t));
   cwd->border = NULL;
   cwd->path = NULL;
 
@@ -1716,7 +1716,7 @@ cwd_new (void)
 }
 
 void
-cwd_free (struct cwd_t *cwd)
+cwd_free (cwd_t *cwd)
 {
   Evas_List *list;
   
@@ -1744,16 +1744,16 @@ cwd_free (struct cwd_t *cwd)
 }
 
 /* Notifier Widget */
-struct notifier_t *
-notifier_new (struct omc_t *omc, struct font_t *font,
+notifier_t *
+notifier_new (omc_t *omc, font_t *font,
               char *x, char *y, char *w, char *h)
 {
-  struct notifier_t *notifier = NULL;
+  notifier_t *notifier = NULL;
   Evas_Object *dummy = NULL;
   int cx, cw, ch;
   char x2[8], w2[8];
   
-  notifier = (struct notifier_t *) malloc (sizeof (struct notifier_t));
+  notifier = (notifier_t *) malloc (sizeof (notifier_t));
   notifier->timer = NULL;
   notifier->border = NULL;
   notifier->cover = NULL;
@@ -1782,7 +1782,7 @@ notifier_new (struct omc_t *omc, struct font_t *font,
 }
 
 void
-notifier_free (struct notifier_t *notifier)
+notifier_free (notifier_t *notifier)
 {
   Evas_List *list;
   
@@ -1822,7 +1822,7 @@ notifier_free (struct notifier_t *notifier)
 #define NOW_PLAYING_TEXT "Now Playing ...\n\n"
 
 void
-notifier_update (struct notifier_t *notifier, char *cover, char *infos)
+notifier_update (notifier_t *notifier, char *cover, char *infos)
 {
   Evas_Coord x, y, w, cw, ch;
 
@@ -1859,9 +1859,9 @@ static int notifier_update_alpha (void *data);
 static int
 notifier_timer_expired (void *data)
 {
-  struct notifier_t *notifier = NULL;
+  notifier_t *notifier = NULL;
 
-  notifier = (struct notifier_t *) data;
+  notifier = (notifier_t *) data;
   if (!notifier)
     return 0;
 
@@ -1880,11 +1880,11 @@ notifier_timer_expired (void *data)
 static int
 notifier_update_alpha (void *data)
 {
-  struct notifier_t *notifier = NULL;
+  notifier_t *notifier = NULL;
   Evas_Coord alpha = 0;
   Evas_List *list;
 
-  notifier = (struct notifier_t *) data;
+  notifier = (notifier_t *) data;
   if (!notifier)
     return 0;
 
@@ -1944,7 +1944,7 @@ notifier_update_alpha (void *data)
 }
 
 void
-notifier_show (struct notifier_t *notifier)
+notifier_show (notifier_t *notifier)
 {
   Evas_List *list;
 
@@ -1983,7 +1983,7 @@ notifier_show (struct notifier_t *notifier)
 }
 
 void
-notifier_hide (struct notifier_t *notifier)
+notifier_hide (notifier_t *notifier)
 {
   Evas_List *list;
 
