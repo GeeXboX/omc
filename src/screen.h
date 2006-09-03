@@ -42,7 +42,7 @@ typedef struct screen_s {
 typedef struct screen_def_s {
   char *id;
   screen_type_t type;
-  void (*setup) (struct screen_s *screen, char *data);
+  void (*setup) (screen_t *screen, char *data);
 } screen_def_t;
 
 #define SCREEN_CB_KEY_ESCAPE "Escape"
@@ -54,19 +54,19 @@ void signal_quit_cb (void *data, Evas_Object *o,
 
 void screen_object_set_cb (Evas_Object *obj);
 
-void browser_filter_toolbar_setup (struct screen_s *screen);
-void widget_background_setup (struct screen_s *screen);
-void widget_common_toolbar_setup (struct screen_s *screen);
+void browser_filter_toolbar_setup (screen_t *screen);
+void widget_background_setup (screen_t *screen);
+void widget_common_toolbar_setup (screen_t *screen);
 
 void screen_init (char *id, void *data);
-void screen_uninit (struct screen_s *screen);
+void screen_uninit (screen_t *screen);
 
 void switch_screen (char *id, void *data);
 void cb_switch_screen (void *data, Evas *e,
                        Evas_Object *obj, void *event_info);
 
-void screen_update_notifier (struct screen_s *screen,
+void screen_update_notifier (screen_t *screen,
                              char *cover, char *infos);
-void screen_update_cwd (struct screen_s *screen);
+void screen_update_cwd (screen_t *screen);
 
 #endif /* _SCREEN_H_ */

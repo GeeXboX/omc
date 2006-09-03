@@ -33,10 +33,10 @@ typedef struct filter_s {
   Evas_List *exts;
 } filter_t;
 
-struct filter_s *filter_new (int type);
-void filter_free (struct filter_s *filter);
+filter_t *filter_new (int type);
+void filter_free (filter_t *filter);
 
-int filter_supports_extension (struct filter_s *filter, char *extension);
-struct filter_s *filter_get (Evas_List *filter_list, int type);
+int filter_supports_extension (filter_t *filter, char *extension);
+filter_t *filter_get (Evas_List *filter_list, int type);
 
 #endif /* _FILE_FILTERS_H_ */

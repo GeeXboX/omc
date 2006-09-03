@@ -21,23 +21,25 @@
 #define _SCREEN_AUDIO_H_
 
 #define SCREEN_AUDIO_TITLE "audio"
+#include "screen.h"
+#include "widget.h"
 
 typedef struct audio_s {
   Evas_Object *infobox;
-  struct cover_s *cover;
-  struct browser_s *browser;
-  struct notifier_s *notifier;
+  cover_t *cover;
+  browser_t *browser;
+  notifier_t *notifier;
 } audio_t;
 
-void screen_audio_setup (struct screen_s *screen, char *data);
-void screen_audio_display (struct screen_s *screen);
-void screen_audio_free (struct screen_s *screen);
+void screen_audio_setup (screen_t *screen, char *data);
+void screen_audio_display (screen_t *screen);
+void screen_audio_free (screen_t *screen);
 
-void screen_audio_update_infos (struct screen_s *screen,
+void screen_audio_update_infos (screen_t *screen,
                                 char *infos, int display);
-void screen_audio_update_cover (struct screen_s *screen,
+void screen_audio_update_cover (screen_t *screen,
                                 char *img, int display);
-void screen_audio_update_notifier (struct screen_s *screen,
+void screen_audio_update_notifier (screen_t *screen,
                                    char *cover, char *infos);
 
 #endif /* _SCREEN_AUDIO_H_ */

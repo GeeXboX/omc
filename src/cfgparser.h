@@ -39,9 +39,9 @@ typedef struct config_s {
   int save_cover;
 } config_t;
 
-struct config_s *parse_config (void);
-void config_free (struct config_s *cfg);
+config_t *parse_config (void);
+void config_free (config_t *cfg);
 
-struct font_s *get_font (Evas_List *list, char *id);
+font_t *get_font (Evas_List *list, char *id);
 
 #endif /* _CONFIG_PARSER_H_ */

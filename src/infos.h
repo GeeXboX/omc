@@ -19,8 +19,9 @@
 
 #ifndef _INFO_GRABBER_H_
 #define _INFO_GRABBER_H_
+#include "widget.h"
 
-void grab_file_infos (struct item_s *item);
-void grab_file_covers (struct item_s *item);
+void grab_file_infos (item_t *item);
+void grab_file_covers (item_t *item);
 
 #endif /* _INFO_GRABBER_H_ */

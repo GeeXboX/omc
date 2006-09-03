@@ -28,22 +28,24 @@
 
 #include <Evas.h>
 #include <Ecore_Evas.h>
+#include "cfgparser.h"
+#include "screen.h"
 
 typedef struct omc_s {
   Evas *evas;  
   Ecore_Evas *ee;
   Evas_List *filters;
-  struct config_s *cfg;
+  config_t *cfg;
   char *cwd;
-  struct screen_s *screen;
+  screen_t *screen;
   struct player_s *player;
   int w;
   int h;
 } omc_t;
 
-void omc_update_cwd (struct omc_s *omc, char *dir);
+void omc_update_cwd (omc_t *omc, char *dir);
 
-struct omc_s *omc;
+omc_t *omc;
 
 #define OMC_DEFAULT_WIDTH  800
 #define OMC_DEFAULT_HEIGHT 600

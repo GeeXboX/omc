@@ -22,12 +22,14 @@
 
 #include <Ecore.h>
 #include "cfgparser.h"
+#include "screen.h"
+#include "omc.h"
 
 typedef struct menu_s {
   int x, y;
   int w, h;
   int align;
-  struct font_s *font;
+  font_t *font;
   Evas_Object *select;
   Evas_List *items;
   Evas_List *hidden;
@@ -48,28 +50,28 @@ enum {
 int omc_compute_coord (char *coord, int max);
 
 Evas_Object *
-border_new (struct omc_s *omc, Evas_List *list,
+border_new (omc_t *omc, Evas_List *list,
             int type, char *cx, char *cy, char *cw, char *ch);
 
-struct menu_s *menu_new (struct omc_s *omc, struct font_s *font, int align,
+menu_t *menu_new (omc_t *omc, font_t *font, int align,
                          char *select, char *select_w, char *select_h,
                          char *x, char *y, char *w, char *h);
 
 Evas_Object *
-menu_add_menuitem (struct omc_s *omc, struct menu_s *menu,
+menu_add_menuitem (omc_t *omc, menu_t *menu,
                    char *str, char *logo,
                    char *logo_x, char *logo_y,
                    char *logo_w, char *logo_h);
 
-void menu_compute_items (struct menu_s *menu);
-void menu_free (struct menu_s *menu);
+void menu_compute_items (menu_t *menu);
+void menu_free (menu_t *menu);
 
 Evas_Object *
-image_new (struct omc_s *omc, int focusable, char *name, char *fname,
+image_new (omc_t *omc, int focusable, char *name, char *fname,
            int layer, char *x, char *y, char *w, char *h);
 
 Evas_Object *
-text_new (struct omc_s *omc, int focusable, struct font_s *font, char *str,
+text_new (omc_t *omc, int focusable, font_t *font, char *str,
           int alpha, int layer, char *x, char *y);
 
 void object_add_default_cb (Evas_Object *obj);
@@ -86,11 +88,11 @@ typedef struct browser_s {
   int filter_type;
   Evas_List *entries;
   Evas_Object *clip;
-  struct font_s *font;
+  font_t *font;
 } browser_t;
 
 typedef struct item_s {
-  struct browser_s *browser;
+  browser_t *browser;
   Evas_Object *icon;
   Evas_Object *text;
   Evas_Object *clip;
@@ -104,10 +106,10 @@ typedef struct item_s {
   int updated;
 } item_t;
 
-struct browser_s *
-browser_new (struct screen_s *screen, struct font_s *font, int filter_type,
+browser_t *
+browser_new (screen_t *screen, font_t *font, int filter_type,
              char *x, char *y, char *w, char *h);
-void browser_free (struct browser_s *browser);
+void browser_free (browser_t *browser);
 
 enum {
   BLK_NEW_LINE,
@@ -123,28 +125,28 @@ enum {
 void text_block_format (Evas_Object *blk, int format);
 void text_block_add_text (Evas_Object *blk, char *text);
 Evas_Object *
-text_block_new (struct omc_s *omc, int editable, char *x, char *y,
-                char *w, char *h, int layer, struct font_s *font,
+text_block_new (omc_t *omc, int editable, char *x, char *y,
+                char *w, char *h, int layer, font_t *font,
                 char *align_h, char *align_v);
 
 Evas_Object *
-object_clipper (struct omc_s *omc, char *x, char *y, char *w, char *h);
+object_clipper (omc_t *omc, char *x, char *y, char *w, char *h);
 
 typedef struct cover_s {
   Evas_List *border;
   Evas_Object *cover;
 } cover_t;
 
-struct cover_s *cover_new (void);
-void cover_free (struct cover_s *cover);
+cover_t *cover_new (void);
+void cover_free (cover_t *cover);
 
 typedef struct cwd_s {
   Evas_List *border;
   Evas_Object *path;
 } cwd_t;
 
-struct cwd_s *cwd_new (void);
-void cwd_free (struct cwd_s *cwd);
+cwd_t *cwd_new (void);
+void cwd_free (cwd_t *cwd);
 
 typedef struct notifier_s {
   Ecore_Timer *timer;
@@ -155,13 +157,13 @@ typedef struct notifier_s {
   int padding;
 } notifier_t;
 
-struct notifier_s *
-notifier_new (struct omc_s *omc, struct font_s *font,
+notifier_t *
+notifier_new (omc_t *omc, font_t *font,
               char *x, char *y, char *w, char *h);
-void notifier_free (struct notifier_s *notifier);
-void notifier_update (struct notifier_s *notifier, char *cover, char *infos);
-void notifier_show (struct notifier_s *notifier);
-void notifier_hide (struct notifier_s *notifier);
+void notifier_free (notifier_t *notifier);
+void notifier_update (notifier_t *notifier, char *cover, char *infos);
+void notifier_show (notifier_t *notifier);
+void notifier_hide (notifier_t *notifier);
 
 char *getExtension (char *filename);
 

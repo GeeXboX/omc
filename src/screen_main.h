@@ -24,12 +24,13 @@
 #define SCREEN_MAIN_OBJ_HEADERS "headers_main"
 #define SCREEN_MAIN_OBJ_MENU "menu"
 #define SCREEN_MAIN_OBJ_BUTTONS "bottom_buttons"
+#include "screen.h"
 
-void screen_main_setup (struct screen_s *screen, char *data);
-void screen_main_display (struct screen_s *screen);
-void screen_main_free (struct screen_s *screen);
+void screen_main_setup (screen_t *screen, char *data);
+void screen_main_display (screen_t *screen);
+void screen_main_free (screen_t *screen);
 
-void screen_main_update_notifier (struct screen_s *screen,
+void screen_main_update_notifier (screen_t *screen,
                                   char *cover, char *infos);
 
 #endif /* _SCREEN_MAIN_H_ */

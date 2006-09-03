@@ -59,25 +59,25 @@ typedef struct player_s {
   int w, h;
 } player_t;
 
-struct player_s *player_init (void);
-void player_uninit (struct player_s *player);
+player_t *player_init (void);
+void player_uninit (player_t *player);
 
-void player_start (struct player_s *player);
-void player_prev_mrl (struct player_s *player);
-void player_next_mrl (struct player_s *player);
-void player_pause_playback (struct player_s *player);
-void player_stop (struct player_s *player);
+void player_start (player_t *player);
+void player_prev_mrl (player_t *player);
+void player_next_mrl (player_t *player);
+void player_pause_playback (player_t *player);
+void player_stop (player_t *player);
 
-void player_fast_forward (struct player_s *player, int value);
-void player_fast_rewind (struct player_s *player, int value);
-void player_volume_up (struct player_s *player, int value);
-void player_volume_down (struct player_s *player, int value);
+void player_fast_forward (player_t *player, int value);
+void player_fast_rewind (player_t *player, int value);
+void player_volume_up (player_t *player, int value);
+void player_volume_down (player_t *player, int value);
 
 enum {
   PLAYER_ADD_MRL_NOW,
   PLAYER_ADD_MRL_QUEUE
 };
 
-void player_add_mrl (struct player_s *player, struct item_s *item, int when);
+void player_add_mrl (player_t *player, item_t *item, int when);
 
 #endif /* _PLAYER_H_ */

@@ -22,10 +22,11 @@
 
 #define SCREEN_IMAGE_TITLE "image"
 #define SCREEN_IMAGE_OBJ_HEADERS "headers_image"
+#include "screen.h"
 
-void screen_image_setup (struct screen_s *screen, char *data);
-void screen_image_display (struct screen_s *screen);
-void screen_image_free (struct screen_s *screen);
-void screen_image_update_cwd (struct screen_s *screen);
+void screen_image_setup (screen_t *screen, char *data);
+void screen_image_display (screen_t *screen);
+void screen_image_free (screen_t *screen);
+void screen_image_update_cwd (screen_t *screen);
 
 #endif /* _SCREEN_IMAGE_H_ */

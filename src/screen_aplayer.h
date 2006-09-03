@@ -21,15 +21,16 @@
 #define _SCREEN_AUDIO_PLAYER_H_
 
 #define SCREEN_APLAYER_TITLE "aplayer"
+#include "screen.h"
 
-void screen_aplayer_setup (struct screen_s *screen, char *data);
-void screen_aplayer_display (struct screen_s *screen);
-void screen_aplayer_free (struct screen_s *screen);
+void screen_aplayer_setup (screen_t *screen, char *data);
+void screen_aplayer_display (screen_t *screen);
+void screen_aplayer_free (screen_t *screen);
 
-void screen_aplayer_update_infos (struct screen_s *screen,
+void screen_aplayer_update_infos (screen_t *screen,
                                   char *infos, int display);
-void screen_aplayer_update_cover (struct screen_s *screen,
+void screen_aplayer_update_cover (screen_t *screen,
                                   char *img, int display);
-void screen_aplayer_update_browser (struct screen_s *screen, char *mrl);
+void screen_aplayer_update_browser (screen_t *screen, char *mrl);
 
 #endif /* _SCREEN_AUDIO_PLAYER_H_ */
