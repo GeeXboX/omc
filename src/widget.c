@@ -29,10 +29,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include "screen.h"
 #include "omc.h"
 #include "widget.h"
 #include "filter.h"
-#include "screen.h"
 #include "player.h"
 #include "infos.h"
 #include "screen_audio.h"

@@ -22,7 +22,6 @@
 
 #include <Ecore.h>
 #include "cfgparser.h"
-#include "screen.h"
 #include "omc.h"
 
 typedef struct menu_s {

@@ -21,7 +21,6 @@
 #define _SCREEN_VIEWER_H_
 
 #define SCREEN_VIEWER_TITLE "viewer"
-#include "screen.h"
 
 void screen_viewer_setup (screen_t *screen, char *mrl);
 void screen_viewer_display (screen_t *screen);

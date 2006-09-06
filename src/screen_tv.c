@@ -24,9 +24,9 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "screen.h"
 #include "omc.h"
 #include "widget.h"
-#include "screen.h"
 #include "screen_tv.h"
 
 #define IMG_ICON_LOGO_TV OMC_DATA_DIR"/logo_tv_small.png"

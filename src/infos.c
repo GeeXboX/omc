@@ -35,8 +35,8 @@
 #include <curl/easy.h>
 #include <pthread.h>
 
-#include "omc.h"
 #include "screen.h"
+#include "omc.h"
 #include "widget.h"
 #include "player.h"
 

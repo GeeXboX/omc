@@ -25,10 +25,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "screen.h"
 #include "omc.h"
 #include "cfgparser.h"
 #include "widget.h"
-#include "screen.h"
 #include "screen_main.h"
 #include "screen_video.h"
 #include "screen_audio.h"

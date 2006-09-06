@@ -25,8 +25,8 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "omc.h"
 #include "screen.h"
+#include "omc.h"
 #include "screen_main.h"
 #include "player.h"
 #include "filter.h"

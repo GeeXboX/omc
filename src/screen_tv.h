@@ -21,7 +21,6 @@
 #define _SCREEN_TV_H_
 
 #define SCREEN_TV_TITLE "tv"
-#include "screen.h"
 
 void screen_tv_setup (screen_t *screen, char *data);
 

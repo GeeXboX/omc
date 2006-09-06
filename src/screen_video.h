@@ -21,7 +21,6 @@
 #define _SCREEN_VIDEO_H_
 
 #define SCREEN_VIDEO_TITLE "video"
-#include "screen.h"
 
 void screen_video_setup (screen_t *screen, char *data);
 void

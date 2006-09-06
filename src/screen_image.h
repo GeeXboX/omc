@@ -22,7 +22,6 @@
 
 #define SCREEN_IMAGE_TITLE "image"
 #define SCREEN_IMAGE_OBJ_HEADERS "headers_image"
-#include "screen.h"
 
 void screen_image_setup (screen_t *screen, char *data);
 void screen_image_display (screen_t *screen);

@@ -25,11 +25,11 @@
 #include <Ecore_Evas.h>
 #include <xine.h>
 
+#include "screen.h"
 #include "omc.h"
 #include "filter.h"
 #include "widget.h"
 #include "player.h"
-#include "screen.h"
 #include "screen_audio.h"
 #include "screen_aplayer.h"
 

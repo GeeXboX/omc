@@ -29,7 +29,6 @@
 #include <Evas.h>
 #include <Ecore_Evas.h>
 #include "cfgparser.h"
-#include "screen.h"
 
 typedef struct omc_s {
   Evas *evas;  

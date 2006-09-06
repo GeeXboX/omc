@@ -23,10 +23,10 @@
 #include <libgen.h>
 #include <xine.h>
 
+#include "screen.h"
 #include "omc.h"
 #include "widget.h"
 #include "player.h"
-#include "screen.h"
 #include "screen_aplayer.h"
 
 mrl_t *

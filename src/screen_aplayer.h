@@ -21,7 +21,6 @@
 #define _SCREEN_AUDIO_PLAYER_H_
 
 #define SCREEN_APLAYER_TITLE "aplayer"
-#include "screen.h"
 
 void screen_aplayer_setup (screen_t *screen, char *data);
 void screen_aplayer_display (screen_t *screen);
