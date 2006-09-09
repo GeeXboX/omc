@@ -29,12 +29,12 @@
 #include <ctype.h>
 #include <fcntl.h>
 #include <xine.h>
-#include <xine/xmlparser.h>
 #include <curl/curl.h>
 #include <curl/types.h>
 #include <curl/easy.h>
 #include <pthread.h>
 
+#include "exmlparser.h"
 #include "screen.h"
 #include "omc.h"
 #include "widget.h"
@@ -296,7 +296,7 @@ curl_http_file_get (void *buffer, size_t size, size_t nmemb, void *stream)
 }
 
 static xml_node_t *
-xml_find_node (xml_node_t *root, char *name)
+exml_find_node (xml_node_t *root, char *name)
 {
   xml_node_t *n = NULL;
 
@@ -306,11 +306,11 @@ xml_find_node (xml_node_t *root, char *name)
   if (!strcmp (root->name, name))
     return root;
 
-  n = xml_find_node (root->child, name);
+  n = exml_find_node (root->child, name);
   if (n)
     return n;
 
-  n = xml_find_node (root->next, name);
+  n = exml_find_node (root->next, name);
   if (n)
     return n;
   
@@ -475,10 +475,10 @@ amazon_get_cover (item_t *item, char *country, char *type)
   }
 
   /* parse XML answer */
-  xml_parser_init (info, (int) strlen (info), XML_PARSER_CASE_SENSITIVE);
-  xml_parser_build_tree (&root_node);
+  exml_parser_init (info, (int) strlen (info), XML_PARSER_CASE_SENSITIVE);
+  exml_parser_build_tree (&root_node);
 
-  node = xml_find_node (root_node, URL_THUMB_LARGE);
+  node = exml_find_node (root_node, URL_THUMB_LARGE);
   if (node)
   {
     char file[1024];
@@ -489,7 +489,7 @@ amazon_get_cover (item_t *item, char *country, char *type)
     }
   }
 
-  xml_parser_free_tree (root_node);
+  exml_parser_free_tree (root_node);
 
   /* try to prevent searching again on amazon next time : save cover */
   if (item->cover && omc->cfg->save_cover)

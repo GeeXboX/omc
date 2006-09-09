@@ -24,8 +24,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <xine/xmlparser.h>
 
+#include "exmlparser.h"
 #include "config.h"
 #include "langinfo.h"
 
@@ -612,13 +612,13 @@ lang_info_parse (char *lang)
   close (fd);
   free (file);
   
-  xml_parser_init (buffer, (int) strlen (buffer), XML_PARSER_CASE_SENSITIVE);
-  xml_parser_build_tree (&root);
+  exml_parser_init (buffer, (int) strlen (buffer), XML_PARSER_CASE_SENSITIVE);
+  exml_parser_build_tree (&root);
   free (buffer);
   
   if (strcmp (root->name, ROOT_NODE_NAME) != 0)
   {
-    xml_parser_free_tree (root);
+    exml_parser_free_tree (root);
     return NULL;
   }
 
@@ -644,7 +644,7 @@ lang_info_parse (char *lang)
     node = node->next;
   }
 
-  xml_parser_free_tree (root);
+  exml_parser_free_tree (root);
 
   return info;
 }
@@ -679,13 +679,13 @@ lang_strings_parse (lang_info_t *lang)
   close (fd);
   free (file);
   
-  xml_parser_init (buffer, (int) strlen (buffer), XML_PARSER_CASE_SENSITIVE);
-  xml_parser_build_tree (&root);
+  exml_parser_init (buffer, (int) strlen (buffer), XML_PARSER_CASE_SENSITIVE);
+  exml_parser_build_tree (&root);
   free (buffer);
   
   if (strcmp (root->name, ROOT_NODE_STRINGS_NAME) != 0)
   {
-    xml_parser_free_tree (root);
+    exml_parser_free_tree (root);
     return;
   }
 
@@ -740,7 +740,7 @@ lang_strings_parse (lang_info_t *lang)
     node = node->next;
   }
 
-  xml_parser_free_tree (root);
+  exml_parser_free_tree (root);
   lang->strings = strings;
 }
 
