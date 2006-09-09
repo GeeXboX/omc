@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+
+  <country>
+    <code>fr</code>
+    <description>Français</description>
+  </country>
+
+  <charset>
+    <gui>ISO-8859-1</gui>
+    <subtitle>ISO-8859-1</subtitle>
+  </charset>
+
+  <dvd>
+    <menu>fr</menu>
+    <audio>fr</audio>
+    <subtitle>fr</subtitle>
+  </dvd>
+
+  <regions>
+    <region name="France">
+      <dateshort>DD/MM/YYYYY</dateshort>
+      <datelong>DAY DD MONTH YYYY</datelong>
+      <timeunit>24</timeunit>
+      <tempunit>C</tempunit>
+      <speedunit>kmh</speedunit>
+    </region>
+  </regions>
+</language>

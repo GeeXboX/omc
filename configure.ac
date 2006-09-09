@@ -77,5 +77,8 @@ AC_CONFIG_FILES([
         src/Makefile
         data/Makefile
         etc/Makefile
+        etc/langs/Makefile
+        etc/langs/en/Makefile
+        etc/langs/fr/Makefile
         ])
 AC_OUTPUT

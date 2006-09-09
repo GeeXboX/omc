@@ -29,6 +29,7 @@
 #include "screen.h"
 #include "omc.h"
 #include "cfgparser.h"
+#include "langinfo.h"
 
 #define CONFIG_FILE_NAME "omc.conf"
 
@@ -103,6 +104,7 @@ config_new (void)
   cfg->show_infos = 1;
   cfg->show_cover = 1;
   cfg->save_cover = 1;
+  cfg->lang_info = NULL;
 
   return cfg;
 }
@@ -129,6 +131,9 @@ config_free (config_t *cfg)
     font_free (font);
   }
 
+  if (cfg->lang_info)
+    lang_info_free (cfg->lang_info);
+  
   free (cfg);
 }
 
@@ -226,6 +231,7 @@ parse_font (config_t *cfg, char *line)
 #define TAG_SHOW_COVER "show_cover"
 #define TAG_SAVE_COVER "save_cover"
 #define TAG_FONT "font"
+#define TAG_LANG "lang"
 
 #define VAL_YES "yes"
 #define VAL_NO "no"
@@ -278,6 +284,8 @@ parse_line (config_t *cfg, char *line)
   }
   else if (!strcmp (tag, TAG_FONT))
     parse_font (cfg, val);
+  else if (!strcmp (tag, TAG_LANG))
+    cfg->lang_info = lang_info_parse (val);
 
   free (tag);
   free (val);
@@ -325,6 +333,12 @@ parse_config (void)
   read (fd, buffer, (size_t) st.st_size);
   parse_buffer (cfg, buffer);
   close (fd);
- 
+
+  if (!cfg->lang_info) /* no specified lang: use english as a default one */
+  {
+    printf ("No language specified or found. Using english as default.\n");
+    cfg->lang_info = lang_info_parse ("en");
+  }
+  
   return cfg;
 }

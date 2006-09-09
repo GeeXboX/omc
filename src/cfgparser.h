@@ -20,6 +20,8 @@
 #ifndef _CONFIG_PARSER_H_
 #define _CONFIG_PARSER_H_
 
+#include "langinfo.h"
+
 typedef struct font_s {
   char *id;
   char *ft;
@@ -37,6 +39,7 @@ typedef struct config_s {
   int show_infos;
   int show_cover;
   int save_cover;
+  lang_info_t *lang_info;
 } config_t;
 
 config_t *parse_config (void);

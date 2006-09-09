@@ -1,3 +1,5 @@
+SUBDIRS = langs
+
 cfg = \
 	omc.conf
 

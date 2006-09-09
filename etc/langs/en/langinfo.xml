@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+
+  <country>
+    <code>en</code>
+    <description>English</description>
+  </country>
+
+  <charset>
+    <gui>ISO-8859-1</gui>
+    <subtitle>ISO-8859-1</subtitle>
+  </charset>
+
+  <dvd>
+    <menu>en</menu>
+    <audio>en</audio>
+    <subtitle>en</subtitle>
+  </dvd>
+
+  <regions>
+    <region name="USA">
+      <dateshort>MM/DD/YYYYY</dateshort>
+      <datelong>DAY, MONTH DD, YYYY</datelong>
+      <timeunit>12</timeunit>
+      <tempunit>F</tempunit>
+      <speedunit>mph</speedunit>
+    </region>
+
+    <region name="UK">
+      <dateshort>DD/MM/YYYY</dateshort>
+      <datelong>DAY, DD MONTH YYYY</datelong>
+      <timeunit>24</timeunit>
+      <tempunit>C</tempunit>
+      <speedunit>kmh</speedunit>
+    </region>
+
+    <region name="Canada">
+      <dateshort>MM/DD/YYYYY</dateshort>
+      <datelong>DAY, MONTH DD, YYYY</datelong>
+      <timeunit>12</timeunit>
+      <tempunit>C</tempunit>
+      <speedunit>kmh</speedunit>
+    </region>
+  </regions>
+</language>
