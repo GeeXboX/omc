@@ -381,7 +381,10 @@ parse_node_country (lang_info_t *info, xml_node_t *node)
   while (n)
   {
     if (!n->name || !n->data)
+    {
       n = n->next;
+      continue;
+    }
     
     if (!strcmp (n->name, NODE_COUNTRY_CODE))
       country->code = strdup (n->data);
@@ -411,7 +414,10 @@ parse_node_charset (lang_info_t *info, xml_node_t *node)
   while (n)
   {
     if (!n->name || !n->data)
+    {
       n = n->next;
+      continue;
+    }
     
     if (!strcmp (n->name, NODE_CHARSET_GUI))
       set->gui = strdup (n->data);
@@ -442,7 +448,10 @@ parse_node_dvd (lang_info_t *info, xml_node_t *node)
   while (n)
   {
     if (!n->name || !n->data)
+    {
       n = n->next;
+      continue;
+    }
     
     if (!strcmp (n->name, NODE_DVD_MENU))
       dvd->menu = strdup (n->data);
@@ -501,7 +510,10 @@ parse_node_region (lang_regions_t *regions, xml_node_t *node)
   while (n)
   {
     if (!n->name || !n->data)
+    {
       n = n->next;
+      continue;
+    }
     
     if (!strcmp (n->name, NODE_REGION_DATE_SHORT))
     {
@@ -561,7 +573,10 @@ parse_node_regions (lang_info_t *info, xml_node_t *node)
   while (n)
   {
     if (!n->name || !n->data)
+    {
       n = n->next;
+      continue;
+    }
     
     if (!strcmp (n->name, NODE_REGION_NAME))
       parse_node_region (regions, n);
@@ -612,7 +627,10 @@ lang_info_parse (char *lang)
   while (node)
   {
     if (!node->name)
+    {
       node = node->next;
+      continue;
+    }
     
     if (!strcmp (node->name, NODE_COUNTRY_NAME))
       parse_node_country (info, node);
