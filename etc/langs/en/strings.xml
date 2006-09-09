@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<strings>
+  <string id="AppName">GeeXboX Open Media Center</string>
+
+  <string id="DateMonday">Monday</string>
+  <string id="DateTuesday">Tuesday</string>
+  <string id="DateWednesday">Wednesday</string>
+  <string id="DateThursday">Thursday</string>
+  <string id="DateFriday">Friday</string>
+  <string id="DateSaturday">Saturday</string>
+  <string id="DateSunday">Sunday</string>
+
+  <string id="DateJanuary">January</string>
+  <string id="DateFebruary">February</string>
+  <string id="DateMarch">March</string>
+  <string id="DateApril">April</string>
+  <string id="DateMay">May</string>
+  <string id="DateJune">June</string>
+  <string id="DateJuly">July</string>
+  <string id="DateAugust">August</string>
+  <string id="DateSeptember">September</string>
+  <string id="DateOctober">October</string>
+  <string id="DateNovember">November</string>
+  <string id="DateDecember">December</string>
+</strings>

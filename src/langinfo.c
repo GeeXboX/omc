@@ -48,6 +48,25 @@ get_lang_file (char *lang)
   return NULL;
 }
 
+static char *
+get_strings_file (char *lang)
+{
+  char path[1024];
+  struct stat st;
+
+  if (!lang)
+    return NULL;
+  
+  memset (path, '\0', 1024);
+  sprintf (path, "%s/langs/%s/strings.xml", CFG_DIR, lang);
+  printf ("Looking for language strings definitions in %s\n", path);
+  if ((stat (path, &st) == 0) && S_ISREG (st.st_mode))
+    return strdup (path);
+
+  /* no lang file can be found : drop it */
+  return NULL;
+}
+
 static lang_country_t *
 lang_country_new (void)
 {
@@ -238,6 +257,78 @@ lang_regions_add (lang_regions_t *regions, lang_region_t *child)
   regions->list[n - 1] = child;
 }
 
+static lang_string_t *
+lang_string_new (void)
+{
+  lang_string_t *string = NULL;
+
+  string = (lang_string_t *) malloc (sizeof (lang_string_t));
+  string->id = NULL;
+  string->str = NULL;
+  
+  return string;
+}
+
+static void
+lang_string_free (lang_string_t *string)
+{
+  if (!string)
+    return;
+
+  if (string->id)
+    free (string->id);
+  if (string->str)
+    free (string->str);
+  
+  free (string);
+}
+
+static lang_strings_t *
+lang_strings_new (void)
+{
+  lang_strings_t *strings = NULL;
+
+  strings = (lang_strings_t *) malloc (sizeof (lang_strings_t));
+  strings->list = (lang_string_t **) malloc (sizeof (lang_string_t *));
+  *(strings->list) = NULL;
+
+  return strings;
+}
+
+static void
+lang_strings_free (lang_strings_t *strings)
+{
+  lang_string_t **list;
+
+  if (!strings)
+    return;
+
+  for (list = strings->list; *list; *list++)
+    lang_string_free (*list);
+
+  free (strings->list);
+}
+
+static void
+lang_strings_add (lang_strings_t *strings, lang_string_t *child)
+{
+  lang_string_t **list;
+  int n;
+
+  if (!strings || !child)
+    return;
+
+  for (list = strings->list; *list; *list++)
+    if (*list == child)
+      return;
+
+  n = get_list_length ((void *) strings->list) + 1;
+  strings->list = (lang_string_t **)
+    realloc (strings->list, (n + 1) * sizeof (*(strings->list)));
+  strings->list[n] = NULL;
+  strings->list[n - 1] = child;
+}
+
 static lang_info_t *
 lang_info_new (void)
 {
@@ -248,6 +339,7 @@ lang_info_new (void)
   info->charset = NULL;
   info->dvd = NULL;
   info->regions = NULL;
+  info->strings = NULL;
   
   return info;
 }
@@ -266,6 +358,8 @@ lang_info_free (lang_info_t *info)
     lang_dvd_free (info->dvd);
   if (info->regions)
     lang_regions_free (info->regions);
+  if (info->strings)
+    lang_strings_free (info->strings);
   free (info);
 }
 
@@ -535,4 +629,115 @@ lang_info_parse (char *lang)
   xml_parser_free_tree (root);
 
   return info;
+}
+
+#define ROOT_NODE_STRINGS_NAME "strings"
+#define NODE_STRING_NAME "string"
+#define NODE_STRING_ID "id"
+
+void
+lang_strings_parse (lang_info_t *lang)
+{
+  xml_node_t *root, *node;
+  lang_strings_t *strings;
+  char *file, *buffer;
+  struct stat st;
+  int fd;
+  
+  file = get_strings_file (lang->country->code);
+  if (!file)
+    return;
+
+  stat (file, &st);
+  fd = open (file, O_RDONLY);
+  if (fd < 0)
+    return;
+
+  buffer = (char *) malloc (st.st_size + 1);
+  memset (buffer, '\0', (size_t) (st.st_size + 1));
+  read (fd, buffer, (size_t) st.st_size);
+  close (fd);
+  free (file);
+  
+  xml_parser_init (buffer, (int) strlen (buffer), XML_PARSER_CASE_SENSITIVE);
+  xml_parser_build_tree (&root);
+  free (buffer);
+  
+  if (strcmp (root->name, ROOT_NODE_STRINGS_NAME) != 0)
+  {
+    xml_parser_free_tree (root);
+    return;
+  }
+
+  strings = lang_strings_new ();
+  node = root->child;
+  while (node)
+  {
+    struct xml_property_s *props;
+    lang_string_t *string;
+    
+    if (!node->name || !node->data)
+    {
+      node = node->next;
+      continue;
+    }
+
+    if (strcmp (node->name, NODE_STRING_NAME) != 0)
+    {
+      node = node->next;
+      continue;
+    }
+
+    string = lang_string_new ();
+    string->str = strdup (node->data);
+    
+    props = node->props;
+    while (props)
+    {
+      if (!props->name || !props->value)
+      {
+        props = props->next;
+        continue;
+      }
+
+      if (!strcmp (props->name, NODE_STRING_ID))
+      {
+        string->id = strdup (props->value);
+        break;
+      }
+    
+      props = props->next;
+    }
+
+    if (!string->id)
+    {
+      lang_string_free (string);
+      node = node->next;
+      continue;
+    }
+    
+    lang_strings_add (strings, string);
+    node = node->next;
+  }
+
+  xml_parser_free_tree (root);
+  lang->strings = strings;
+}
+
+const char *
+lang_get_string (lang_info_t *lang, char *id)
+{
+  lang_string_t **list;
+
+  if (!lang || !id)
+    return NULL;
+  
+  for (list = lang->strings->list; *list; *list++)
+  {
+    lang_string_t *string = (lang_string_t *) *list;
+    if (!strcmp (string->id, id))
+      return string->str;
+  }
+
+  return NULL;
 }

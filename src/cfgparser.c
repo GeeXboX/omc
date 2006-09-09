@@ -339,6 +339,8 @@ parse_config (void)
     printf ("No language specified or found. Using english as default.\n");
     cfg->lang_info = lang_info_parse ("en");
   }
+
+  lang_strings_parse (cfg->lang_info);
   
   return cfg;
 }

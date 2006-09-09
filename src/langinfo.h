@@ -80,14 +80,26 @@ typedef struct lang_regions_s {
   lang_region_t **list;
 } lang_regions_t;
 
+typedef struct lang_string_s {
+  char *id;
+  char *str;
+} lang_string_t;
+
+typedef struct lang_strings_s {
+  lang_string_t **list;
+} lang_strings_t;
+
 typedef struct lang_info_s {
   lang_country_t *country;
   lang_charset_t *charset;
   lang_dvd_t *dvd;
   lang_regions_t *regions;
+  lang_strings_t *strings;
 } lang_info_t;
 
 lang_info_t *lang_info_parse (char *lang);
 void lang_info_free (lang_info_t *info);
+void lang_strings_parse (lang_info_t *lang);
+const char *lang_get_string (lang_info_t *lang, char *id);
 
 #endif /* _LANG_INFO_H_ */
