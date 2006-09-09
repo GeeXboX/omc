@@ -22,8 +22,8 @@
  */
 
 /* xml lexer */
-#ifndef XML_LEXER_H
-#define XML_LEXER_H
+#ifndef _EXML_LEXER_H_
+#define _EXML_LEXER_H_
 
 /* public constants */
 #define T_ERROR         -1   /* lexer error */

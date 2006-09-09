@@ -20,8 +20,8 @@
  *  $Id: xmlparser.h,v 1.4 2006/02/14 02:25:01 dsalt Exp $
  *
  */
-#ifndef XML_PARSER_H
-#define XML_PARSER_H
+#ifndef _EXML_PARSER_H_
+#define _EXML_PARSER_H_
 
 /* parser modes */
 #define XML_PARSER_CASE_INSENSITIVE  0
