@@ -662,6 +662,8 @@ lang_strings_parse (lang_info_t *lang)
   struct stat st;
   int fd;
   
+  if (!lang || !lang->country || !lang->country->code)
+    return;
   file = get_strings_file (lang->country->code);
   if (!file)
     return;
