@@ -3,6 +3,7 @@ omc_SOURCES= \
 	omc.h omc.c \
 	cfgparser.h cfgparser.c \
 	langinfo.h langinfo.c \
+	lang_i18n.h lang_i18n.c \
 	exmllexer.h exmllexer.c \
 	exmlparser.h exmlparser.c \
 	widget.h widget.c \

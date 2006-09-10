@@ -2,6 +2,15 @@
 <strings>
   <string id="AppName">GeeXboX Open Media Center</string>
 
+  <string id="AppVersion">Development Release</string>
+  <string id="AppCopyright">GeeXboX team (C) 2006</string>
+
+  <string id="MenuVideoPlayer">Video Player</string>
+  <string id="MenuAudioPlayer">Audio JukeBox</string>
+  <string id="MenuTV">TV Center</string>
+  <string id="MenuPictures">Pictures Viewer</string>
+  <string id="MenuSettings">Settings</string>
+
   <string id="DateMonday">Monday</string>
   <string id="DateTuesday">Tuesday</string>
   <string id="DateWednesday">Wednesday</string>
