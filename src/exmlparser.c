@@ -59,10 +59,10 @@ static char * strtoupper(char * str) {
   return str;
 }
 
-static xml_node_t * new_exml_node(void) {
-  xml_node_t * new_node;
+static exml_node_t * new_exml_node(void) {
+  exml_node_t * new_node;
 
-  new_node = (xml_node_t*) malloc(sizeof(xml_node_t));
+  new_node = (exml_node_t*) malloc(sizeof(exml_node_t));
   new_node->name  = NULL;
   new_node->data  = NULL;
   new_node->props = NULL;
@@ -71,23 +71,23 @@ static xml_node_t * new_exml_node(void) {
   return new_node;
 }
 
-static void free_exml_node(xml_node_t * node) {
+static void free_exml_node(exml_node_t * node) {
   free (node->name);
   free (node->data);
   free(node);
 }
 
-static xml_property_t * new_exml_property(void) {
-  xml_property_t * new_property;
+static exml_property_t * new_exml_property(void) {
+  exml_property_t * new_property;
 
-  new_property = (xml_property_t*) malloc(sizeof(xml_property_t));
+  new_property = (exml_property_t*) malloc(sizeof(exml_property_t));
   new_property->name  = NULL;
   new_property->value = NULL;
   new_property->next  = NULL;
   return new_property;
 }
 
-static void free_exml_property(xml_property_t * property) {
+static void free_exml_property(exml_property_t * property) {
   free (property->name);
   free (property->value);
   free(property);
@@ -99,7 +99,7 @@ void exml_parser_init(const char * buf, int size, int mode) {
   xml_parser_mode = mode;
 }
 
-static void exml_parser_free_props(xml_property_t *current_property) {
+static void exml_parser_free_props(exml_property_t *current_property) {
   if (current_property) {
     if (!current_property->next) {
       free_exml_property(current_property);
@@ -110,7 +110,7 @@ static void exml_parser_free_props(xml_property_t *current_property) {
   }
 }
 
-static void exml_parser_free_tree_rec(xml_node_t *current_node, int free_next) {
+static void exml_parser_free_tree_rec(exml_node_t *current_node, int free_next) {
   /*lprintf("xml_parser_free_tree_rec: %s\n", current_node->name);*/
 
   if (current_node) {
@@ -127,8 +127,8 @@ static void exml_parser_free_tree_rec(xml_node_t *current_node, int free_next) {
 
     /* next nodes */
     if (free_next) {
-      xml_node_t *next_node = current_node->next;
-      xml_node_t *next_next_node;
+      exml_node_t *next_node = current_node->next;
+      exml_node_t *next_next_node;
 
       while (next_node) {
         next_next_node = next_node->next;
@@ -142,7 +142,7 @@ static void exml_parser_free_tree_rec(xml_node_t *current_node, int free_next) {
   }
 }
 
-void exml_parser_free_tree(xml_node_t *current_node) {
+void exml_parser_free_tree(exml_node_t *current_node) {
   /*lprintf("xml_parser_free_tree\n");*/
    exml_parser_free_tree_rec(current_node, 1);
 }
@@ -151,7 +151,7 @@ void exml_parser_free_tree(xml_node_t *current_node) {
 #define STATE_NODE    1
 #define STATE_COMMENT 7
 
-static int exml_parser_get_node (xml_node_t *current_node, char *root_name, int rec) {
+static int exml_parser_get_node (exml_node_t *current_node, char *root_name, int rec) {
   char tok[TOKEN_SIZE];
   char property_name[TOKEN_SIZE];
   char node_name[TOKEN_SIZE];
@@ -159,10 +159,10 @@ static int exml_parser_get_node (xml_node_t *current_node, char *root_name, int 
   int res = 0;
   int parse_res;
   int bypass_get_token = 0;
-  xml_node_t *subtree = NULL;
-  xml_node_t *current_subtree = NULL;
-  xml_property_t *current_property = NULL;
-  xml_property_t *properties = NULL;
+  exml_node_t *subtree = NULL;
+  exml_node_t *current_subtree = NULL;
+  exml_property_t *current_property = NULL;
+  exml_property_t *properties = NULL;
 
   if (rec < MAX_RECURSION) {
 
@@ -448,8 +448,8 @@ static int exml_parser_get_node (xml_node_t *current_node, char *root_name, int 
   }
 }
 
-int exml_parser_build_tree(xml_node_t **root_node) {
-  xml_node_t *tmp_node;
+int exml_parser_build_tree(exml_node_t **root_node) {
+  exml_node_t *tmp_node;
   int res;
 
   tmp_node = new_exml_node();
@@ -466,9 +466,9 @@ int exml_parser_build_tree(xml_node_t **root_node) {
   return res;
 }
 
-char *exml_parser_get_property (const xml_node_t *node, const char *name) {
+char *exml_parser_get_property (const exml_node_t *node, const char *name) {
 
-  xml_property_t *prop;
+  exml_property_t *prop;
 
   prop = node->props;
   while (prop) {
@@ -486,7 +486,7 @@ char *exml_parser_get_property (const xml_node_t *node, const char *name) {
   return NULL;
 }
 
-int exml_parser_get_property_int (const xml_node_t *node, const char *name, 
+int exml_parser_get_property_int (const exml_node_t *node, const char *name, 
 				 int def_value) {
 
   char *v;
@@ -503,7 +503,7 @@ int exml_parser_get_property_int (const xml_node_t *node, const char *name,
     return ret;
 }
 
-int exml_parser_get_property_bool (const xml_node_t *node, const char *name, 
+int exml_parser_get_property_bool (const exml_node_t *node, const char *name, 
 				  int def_value) {
 
   char *v;
@@ -517,7 +517,7 @@ int exml_parser_get_property_bool (const xml_node_t *node, const char *name,
 }
 
 static int exml_escape_string_internal (char *buf, const char *s,
-				       xml_escape_quote_t quote_type)
+				       exml_escape_quote_t quote_type)
 {
   int c, length = 0;
   int sl = buf ? 8 : 0;
@@ -544,16 +544,16 @@ static int exml_escape_string_internal (char *buf, const char *s,
   return length + 1;
 }
 
-char *exml_escape_string (const char *s, xml_escape_quote_t quote_type)
+char *exml_escape_string (const char *s, exml_escape_quote_t quote_type)
 {
   char *buf = calloc (1, exml_escape_string_internal (NULL, s, quote_type));
   return buf ? (exml_escape_string_internal (buf, s, quote_type), buf) : NULL;
 }
 
-static void exml_parser_dump_node (const xml_node_t *node, int indent) {
+static void exml_parser_dump_node (const exml_node_t *node, int indent) {
 
-  xml_property_t *p;
-  xml_node_t     *n;
+  exml_property_t *p;
+  exml_node_t     *n;
   int             l;
 
   printf ("%*s<%s ", indent, "", node->name);
@@ -583,6 +583,6 @@ static void exml_parser_dump_node (const xml_node_t *node, int indent) {
   printf ("%*s</%s>\n", indent, "", node->name);
 }
 
-void exml_parser_dump_tree (const xml_node_t *node) {
+void exml_parser_dump_tree (const exml_node_t *node) {
   exml_parser_dump_node (node, 0);
 }

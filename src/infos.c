@@ -295,10 +295,10 @@ curl_http_file_get (void *buffer, size_t size, size_t nmemb, void *stream)
   return fwrite (buffer, size, nmemb, f);
 }
 
-static xml_node_t *
-exml_find_node (xml_node_t *root, char *name)
+static exml_node_t *
+exml_find_node (exml_node_t *root, char *name)
 {
-  xml_node_t *n = NULL;
+  exml_node_t *n = NULL;
 
   if (!root || !root->name || !name)
     return NULL;
@@ -423,7 +423,7 @@ amazon_get_cover (item_t *item, char *country, char *type)
 {
   CURL *curl;
   char *info = NULL;
-  xml_node_t *root_node, *node;
+  exml_node_t *root_node, *node;
   char keywords[1024];
   char escaped_keywords[2048];
   char *x = NULL, *item_name = NULL;

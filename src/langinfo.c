@@ -368,10 +368,10 @@ lang_info_free (lang_info_t *info)
 #define NODE_COUNTRY_DESCRIPTION "description"
 
 static void
-parse_node_country (lang_info_t *info, xml_node_t *node)
+parse_node_country (lang_info_t *info, exml_node_t *node)
 {
   lang_country_t *country;
-  xml_node_t *n;
+  exml_node_t *n;
   
   if (!info || !node)
     return;
@@ -401,10 +401,10 @@ parse_node_country (lang_info_t *info, xml_node_t *node)
 #define NODE_CHARSET_SUBTITLE "subtitle"
 
 static void
-parse_node_charset (lang_info_t *info, xml_node_t *node)
+parse_node_charset (lang_info_t *info, exml_node_t *node)
 {
   lang_charset_t *set;
-  xml_node_t *n;
+  exml_node_t *n;
   
   if (!info || !node)
     return;
@@ -435,10 +435,10 @@ parse_node_charset (lang_info_t *info, xml_node_t *node)
 #define NODE_DVD_SUBTITLE "subtitle"
 
 static void
-parse_node_dvd (lang_info_t *info, xml_node_t *node)
+parse_node_dvd (lang_info_t *info, exml_node_t *node)
 {
   lang_dvd_t *dvd;
-  xml_node_t *n;
+  exml_node_t *n;
   
   if (!info || !node)
     return;
@@ -474,11 +474,11 @@ parse_node_dvd (lang_info_t *info, xml_node_t *node)
 #define NODE_REGION_SPEED "speedunit"
 
 static void
-parse_node_region (lang_regions_t *regions, xml_node_t *node)
+parse_node_region (lang_regions_t *regions, exml_node_t *node)
 {
   lang_region_t *r;
-  xml_node_t *n;
-  struct xml_property_s *props;
+  exml_node_t *n;
+  struct exml_property_s *props;
   
   if (!regions || !node)
     return;
@@ -560,10 +560,10 @@ parse_node_region (lang_regions_t *regions, xml_node_t *node)
 #define NODE_REGIONS_NAME "regions"
 
 static void
-parse_node_regions (lang_info_t *info, xml_node_t *node)
+parse_node_regions (lang_info_t *info, exml_node_t *node)
 {
   lang_regions_t *regions;
-  xml_node_t *n;
+  exml_node_t *n;
   
   if (!info || !node)
     return;
@@ -592,7 +592,7 @@ lang_info_t *
 lang_info_parse (char *lang)
 {
   lang_info_t *info = NULL;
-  xml_node_t *root, *node;
+  exml_node_t *root, *node;
   char *file, *buffer;
   struct stat st;
   int fd;
@@ -656,7 +656,7 @@ lang_info_parse (char *lang)
 void
 lang_strings_parse (lang_info_t *lang)
 {
-  xml_node_t *root, *node;
+  exml_node_t *root, *node;
   lang_strings_t *strings;
   char *file, *buffer;
   struct stat st;
@@ -693,7 +693,7 @@ lang_strings_parse (lang_info_t *lang)
   node = root->child;
   while (node)
   {
-    struct xml_property_s *props;
+    struct exml_property_s *props;
     lang_string_t *string;
     
     if (!node->name || !node->data)

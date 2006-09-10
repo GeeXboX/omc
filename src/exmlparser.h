@@ -33,31 +33,31 @@
 
 
 /* xml property */
-typedef struct xml_property_s {
+typedef struct exml_property_s {
 	char *name;
 	char *value;
-	struct xml_property_s *next;
-} xml_property_t;
+	struct exml_property_s *next;
+} exml_property_t;
 
 /* xml node */
-typedef struct xml_node_s {
+typedef struct exml_node_s {
 	char *name;
 	char *data;
-	struct xml_property_s *props;
-	struct xml_node_s *child;
-	struct xml_node_s *next;
-} xml_node_t;
+	struct exml_property_s *props;
+	struct exml_node_s *child;
+	struct exml_node_s *next;
+} exml_node_t;
 
 void exml_parser_init(const char * buf, int size, int mode);
 
-int exml_parser_build_tree(xml_node_t **root_node);
+int exml_parser_build_tree(exml_node_t **root_node);
 
-void exml_parser_free_tree(xml_node_t *root_node);
+void exml_parser_free_tree(exml_node_t *root_node);
 
-char *exml_parser_get_property (const xml_node_t *node, const char *name);
-int   exml_parser_get_property_int (const xml_node_t *node, const char *name, 
+char *exml_parser_get_property (const exml_node_t *node, const char *name);
+int   exml_parser_get_property_int (const exml_node_t *node, const char *name, 
 				   int def_value);
-int exml_parser_get_property_bool (const xml_node_t *node, const char *name, 
+int exml_parser_get_property_bool (const exml_node_t *node, const char *name, 
 				  int def_value);
 
 /* for output:
@@ -69,13 +69,13 @@ typedef enum {
   XML_ESCAPE_NO_QUOTE,
   XML_ESCAPE_SINGLE_QUOTE,
   XML_ESCAPE_DOUBLE_QUOTE
-} xml_escape_quote_t;
-char *exml_escape_string (const char *s, xml_escape_quote_t quote_type);
+} exml_escape_quote_t;
+char *exml_escape_string (const char *s, exml_escape_quote_t quote_type);
 
 /* for debugging purposes: dump read-in xml tree in a nicely
  * indented fashion
  */
 
-void exml_parser_dump_tree (const xml_node_t *node) ;
+void exml_parser_dump_tree (const exml_node_t *node) ;
 
 #endif
