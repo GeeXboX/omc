@@ -35,6 +35,7 @@
 #include "filter.h"
 #include "avplayer.h"
 #include "infos.h"
+#include "amazon.h"
 #include "screen_audio.h"
 #include "screen_video.h"
 #include "screen_viewer.h"
