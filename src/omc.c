@@ -28,7 +28,7 @@
 #include "screen.h"
 #include "omc.h"
 #include "screen_main.h"
-#include "player.h"
+#include "avplayer.h"
 #include "filter.h"
 #include "cfgparser.h"
 
@@ -74,7 +74,7 @@ main_start(int argc, char **argv)
    evas_font_cache_set (omc->evas, 1 * 1024 * 1024);
    evas_font_path_append (omc->evas, OMC_DATA_DIR);
    
-   omc->player = player_init ();
+   omc->player = av_player_init ();
    
    return 1;
 }
@@ -161,7 +161,7 @@ omc_uninit (omc_t *o)
   if (o->screen)
     screen_uninit (o->screen);
   if (o->player)
-    player_uninit (o->player);
+    av_player_uninit (o->player);
   free (o);
 }
 

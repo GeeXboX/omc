@@ -37,7 +37,7 @@ typedef struct omc_s {
   config_t *cfg;
   char *cwd;
   screen_t *screen;
-  struct player_s *player;
+  struct av_player_s *player;
   int w;
   int h;
 } omc_t;

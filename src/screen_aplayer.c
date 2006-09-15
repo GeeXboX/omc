@@ -29,7 +29,7 @@
 #include "omc.h"
 #include "filter.h"
 #include "widget.h"
-#include "player.h"
+#include "avplayer.h"
 #include "screen_audio.h"
 #include "screen_aplayer.h"
 
@@ -175,21 +175,21 @@ static void
 cb_player_prev_mrl (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   printf ("Previous MRL\n");
-  player_prev_mrl (omc->player);
+  av_player_prev_mrl (omc->player);
 }
 
 static void
 cb_player_rewind (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   printf ("Rewind\n");
-  player_fast_rewind (omc->player, 10);
+  av_player_fast_rewind (omc->player, 10);
 }
 
 static void
 cb_player_stop (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   printf ("Stop\n");
-  player_stop (omc->player);
+  av_player_stop (omc->player);
 }
 
 static void
@@ -198,23 +198,23 @@ cb_player_toggle_pause (void *data, Evas *e,
 {
   printf ("Toggle Pause\n");
   if (omc->player->state != PLAYER_STATE_IDLE)
-    player_pause_playback (omc->player);
+    av_player_pause_playback (omc->player);
   else
-    player_start (omc->player);
+    av_player_start (omc->player);
 }
 
 static void
 cb_player_forward (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   printf ("Forward\n");
-  player_fast_forward (omc->player, 10);
+  av_player_fast_forward (omc->player, 10);
 }
 
 static void
 cb_player_next_mrl (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   printf ("Next MRL\n");
-  player_next_mrl (omc->player);
+  av_player_next_mrl (omc->player);
 }
 
 static void
@@ -783,7 +783,7 @@ void
 screen_aplayer_display (screen_t *screen)
 {
   aplayer_t *aplayer = NULL;
-  player_t *player = NULL;
+  av_player_t *player = NULL;
 
   aplayer = (aplayer_t *) screen->private;
   if (!aplayer)

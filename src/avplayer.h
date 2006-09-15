@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef _PLAYER_H_
-#define _PLAYER_H_
+#ifndef _AV_PLAYER_H_
+#define _AV_PLAYER_H_
 
 #include "widget.h"
 #include <xine.h>
@@ -36,48 +36,48 @@ enum {
   PLAYER_MRL_TYPE_IMAGE
 };
 
-typedef struct mrl_s {
+typedef struct av_mrl_s {
   char *file;
   int type;
   char *infos;
   char *cover;
-} mrl_t;
+} av_mrl_t;
 
-typedef struct player_s {
+typedef struct av_player_s {
   xine_t *xine;
   xine_stream_t *stream;
   xine_event_queue_t *event_queue;
   xine_video_port_t *vo_port;
   xine_audio_port_t *ao_port;
   Evas_List *playlist;
-  mrl_t *current;
+  av_mrl_t *current;
   int state;
   int type;
   int loop;
   int shuffle;
   int x, y;
   int w, h;
-} player_t;
+} av_player_t;
 
-player_t *player_init (void);
-void player_uninit (player_t *player);
+av_player_t *av_player_init (void);
+void av_player_uninit (av_player_t *player);
 
-void player_start (player_t *player);
-void player_prev_mrl (player_t *player);
-void player_next_mrl (player_t *player);
-void player_pause_playback (player_t *player);
-void player_stop (player_t *player);
+void av_player_start (av_player_t *player);
+void av_player_prev_mrl (av_player_t *player);
+void av_player_next_mrl (av_player_t *player);
+void av_player_pause_playback (av_player_t *player);
+void av_player_stop (av_player_t *player);
 
-void player_fast_forward (player_t *player, int value);
-void player_fast_rewind (player_t *player, int value);
-void player_volume_up (player_t *player, int value);
-void player_volume_down (player_t *player, int value);
+void av_player_fast_forward (av_player_t *player, int value);
+void av_player_fast_rewind (av_player_t *player, int value);
+void av_player_volume_up (av_player_t *player, int value);
+void av_player_volume_down (av_player_t *player, int value);
 
 enum {
   PLAYER_ADD_MRL_NOW,
   PLAYER_ADD_MRL_QUEUE
 };
 
-void player_add_mrl (player_t *player, item_t *item, int when);
+void av_player_add_mrl (av_player_t *player, item_t *item, int when);
 
-#endif /* _PLAYER_H_ */
+#endif /* _AV_PLAYER_H_ */

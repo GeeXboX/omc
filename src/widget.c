@@ -33,7 +33,7 @@
 #include "omc.h"
 #include "widget.h"
 #include "filter.h"
-#include "player.h"
+#include "avplayer.h"
 #include "infos.h"
 #include "screen_audio.h"
 #include "screen_video.h"
@@ -971,11 +971,11 @@ cb_browser_entry_execute (void *data, Evas *e,
       {
       case MOUSE_BUTTON_LEFT:
         printf ("Play File : %s\n", item->mrl);
-        player_add_mrl (omc->player, item, PLAYER_ADD_MRL_NOW);
+        av_player_add_mrl (omc->player, item, PLAYER_ADD_MRL_NOW);
         break;
       case MOUSE_BUTTON_RIGHT:
         printf ("Append File to playlist : %s\n", item->mrl);
-        player_add_mrl (omc->player, item, PLAYER_ADD_MRL_QUEUE);
+        av_player_add_mrl (omc->player, item, PLAYER_ADD_MRL_QUEUE);
         break;
       default:
         break;
@@ -1007,7 +1007,7 @@ cb_browser_mrl_execute (void *data, Evas *e,
   {
   case MOUSE_BUTTON_LEFT:
   {
-    mrl_t *mrl = NULL;
+    av_mrl_t *mrl = NULL;
     Evas_List *list;
     
     printf ("Need to find MRL for %s\n", item->mrl);
@@ -1016,9 +1016,9 @@ cb_browser_mrl_execute (void *data, Evas *e,
 
     for (list = omc->player->playlist; list; list = list->next)
     {
-      mrl_t *tmp = NULL;
+      av_mrl_t *tmp = NULL;
 
-      tmp = (mrl_t *) list->data;
+      tmp = (av_mrl_t *) list->data;
       if (!tmp)
         continue;
       
@@ -1033,7 +1033,7 @@ cb_browser_mrl_execute (void *data, Evas *e,
     {
       printf ("Found the corresponding MRL in playlist\n");
       omc->player->current = mrl;
-      player_start (omc->player);
+      av_player_start (omc->player);
     }
     
     break;
@@ -1211,11 +1211,11 @@ browser_update (omc_t *omc, browser_t *browser)
 
       for (list = omc->player->playlist; list; list = list->next)
       {
-        mrl_t *mrl;
+        av_mrl_t *mrl;
         item_t *item = NULL;
         Evas_Object *txt = NULL;
 
-        mrl = (mrl_t *) list->data;
+        mrl = (av_mrl_t *) list->data;
         if (!mrl)
           continue;
         

@@ -33,7 +33,7 @@
 #include "filter.h"
 #include "widget.h"
 #include "gfx.h"
-#include "player.h"
+#include "avplayer.h"
 #include "screen_image.h"
 #include "screen_viewer.h"
 

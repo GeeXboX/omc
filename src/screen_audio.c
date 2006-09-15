@@ -29,7 +29,7 @@
 #include "omc.h"
 #include "filter.h"
 #include "widget.h"
-#include "player.h"
+#include "avplayer.h"
 #include "screen_audio.h"
 #include "screen_video.h"
 #include "screen_image.h"
@@ -98,9 +98,9 @@ cb_play_dir (void *data, Evas *e, Evas_Object *obj, void *event_info)
         && item->mrl_type == PLAYER_MRL_TYPE_AUDIO)
     {
       if (omc->player->state == PLAYER_STATE_IDLE)
-        player_add_mrl (omc->player, item, PLAYER_ADD_MRL_NOW);
+        av_player_add_mrl (omc->player, item, PLAYER_ADD_MRL_NOW);
       else
-        player_add_mrl (omc->player, item, PLAYER_ADD_MRL_QUEUE);
+        av_player_add_mrl (omc->player, item, PLAYER_ADD_MRL_QUEUE);
     }
   }
 }

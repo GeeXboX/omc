@@ -10,7 +10,7 @@ omc_SOURCES= \
 	filter.h filter.c \
 	infos.h infos.c \
 	gfx.h gfx.c \
-	player.h player.c \
+	avplayer.h avplayer.c \
 	screen.h screen.c \
 	screen_main.h screen_main.c \
 	screen_audio.h screen_audio.c \

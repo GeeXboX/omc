@@ -38,7 +38,7 @@
 #include "screen.h"
 #include "omc.h"
 #include "widget.h"
-#include "player.h"
+#include "avplayer.h"
 
 #define MAX_TAG_SIZE 1024
 
