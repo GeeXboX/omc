@@ -27,6 +27,9 @@ AC_CHECK_HEADERS([Ecore_Evas.h], [], [
 AC_CHECK_HEADERS([curl/curl.h], [], [
   AC_MSG_ERROR(*** You need Curl to build this program ! ***)
 ])
+AC_CHECK_HEADERS([player.h], [], [
+  AC_MSG_ERROR(*** You need libplayer to build this program ! ***)
+])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -47,6 +50,7 @@ AC_SEARCH_LIBS(evas_new, evas, [], [exit])
 AC_SEARCH_LIBS(ecore_timer_add, ecore, [], [exit])
 AC_SEARCH_LIBS(ecore_evas_init, ecore_evas, [], [exit])
 AC_SEARCH_LIBS(curl_easy_perform, curl, [], [exit])
+AC_SEARCH_LIBS(player_init, player, [], [exit])
 
 AM_PATH_XINE(1.0.1,, AC_MSG_ERROR(*** Please install xine-lib first! ***))
 AC_SEARCH_LIBS(xine_init, xine, [], [exit])
