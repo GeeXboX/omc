@@ -17,10 +17,17 @@
  *
  */
 
-#ifndef _WIDGET_IMAGE_H_
-#define _WIDGET_IMAGE_H_
+#ifndef _WIDGET_COLOR_H_
+#define _WIDGET_COLOR_H_
 
-Evas_Object *image_new (omc_t *omc, int focusable, char *name, char *fname,
-                        int layer, char *x, char *y, char *w, char *h);
+typedef struct color_s {
+  int r;
+  int g;
+  int b;
+  int a;
+} color_t;
 
-#endif /* _WIDGET_IMAGE_H_ */
+color_t *color_new (char *color, int alpha);
+void color_free (color_t *color);
+
+#endif /* _WIDGET_COLOR_H_ */

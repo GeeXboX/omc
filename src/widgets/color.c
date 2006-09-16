@@ -17,10 +17,42 @@
  *
  */
 
-#ifndef _WIDGET_IMAGE_H_
-#define _WIDGET_IMAGE_H_
+#include <stdlib.h>
+#include <string.h>
+#include "color.h"
 
-Evas_Object *image_new (omc_t *omc, int focusable, char *name, char *fname,
-                        int layer, char *x, char *y, char *w, char *h);
+color_t *
+color_new (char *color, int alpha)
+{
+  color_t *cl = NULL;
 
-#endif /* _WIDGET_IMAGE_H_ */
+  cl = (color_t *) malloc (sizeof (color_t));
+  cl->r = cl->g = cl->b = 0;
+  cl->a = alpha;
+
+  if (cl->a < 0)
+    cl->a = 0;
+  if (cl->a > 255)
+    cl->a = 255;
+  
+  if (color && color[0] == '#' && strlen (color) == 7)
+    {
+      char *end;
+      int val = strtol (color + 1, &end, 16);
+      if (end > color + 1 && *end == '\0')
+      {
+        cl->r = (val & 0xFF0000) >> 1;
+        cl->g = (val & 0x00FF00) >> 8;
+        cl->b = (val & 0x0000FF);
+      }
+    }
+
+  return cl;
+}
+
+void
+color_free (color_t *color)
+{
+  if (color)
+    free (color);
+}

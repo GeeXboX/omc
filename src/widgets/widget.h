@@ -23,6 +23,9 @@
 #include <Ecore.h>
 
 #include "image.h"
+#include "color.h"
+#include "text.h"
+#include "textblock.h"
 
 typedef struct menu_s {
   int x, y;
@@ -65,10 +68,6 @@ menu_add_menuitem (omc_t *omc, menu_t *menu,
 void menu_compute_items (menu_t *menu);
 void menu_free (menu_t *menu);
 
-Evas_Object *
-text_new (omc_t *omc, int focusable, font_t *font, char *str,
-          int alpha, int layer, char *x, char *y);
-
 void object_add_default_cb (Evas_Object *obj);
 
 #define ITEM_TYPE_DIRECTORY 0
@@ -106,24 +105,6 @@ browser_t *
 browser_new (screen_t *screen, font_t *font, int filter_type,
              char *x, char *y, char *w, char *h);
 void browser_free (browser_t *browser);
-
-enum {
-  BLK_NEW_LINE,
-  BLK_NEW_TAB
-};
-
-#define BLK_ALIGN_LEFT "left"
-#define BLK_ALIGN_CENTER "center"
-#define BLK_ALIGN_RIGHT "right"
-#define BLK_ALIGN_TOP "top"
-#define BLK_ALIGN_BOTTOM "bottom"
-
-void text_block_format (Evas_Object *blk, int format);
-void text_block_add_text (Evas_Object *blk, char *text);
-Evas_Object *
-text_block_new (omc_t *omc, int editable, char *x, char *y,
-                char *w, char *h, int layer, font_t *font,
-                char *align_h, char *align_v);
 
 Evas_Object *
 object_clipper (omc_t *omc, char *x, char *y, char *w, char *h);

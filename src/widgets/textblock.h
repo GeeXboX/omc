@@ -17,10 +17,25 @@
  *
  */
 
-#ifndef _WIDGET_IMAGE_H_
-#define _WIDGET_IMAGE_H_
+#ifndef _WIDGET_TEXT_BLOCK_H_
+#define _WIDGET_TEXT_BLOCK_H_
 
-Evas_Object *image_new (omc_t *omc, int focusable, char *name, char *fname,
-                        int layer, char *x, char *y, char *w, char *h);
+enum {
+  BLK_NEW_LINE,
+  BLK_NEW_TAB
+};
 
-#endif /* _WIDGET_IMAGE_H_ */
+#define BLK_ALIGN_LEFT "left"
+#define BLK_ALIGN_CENTER "center"
+#define BLK_ALIGN_RIGHT "right"
+#define BLK_ALIGN_TOP "top"
+#define BLK_ALIGN_BOTTOM "bottom"
+
+void text_block_format (Evas_Object *blk, int format);
+void text_block_add_text (Evas_Object *blk, char *text);
+
+Evas_Object *text_block_new (omc_t *omc, int editable, char *x, char *y,
+                             char *w, char *h, int layer, font_t *font,
+                             char *align_h, char *align_v);
+
+#endif /* _WIDGET_TEXT_BLOCK_H_ */

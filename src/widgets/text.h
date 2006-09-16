@@ -17,10 +17,10 @@
  *
  */
 
-#ifndef _WIDGET_IMAGE_H_
-#define _WIDGET_IMAGE_H_
+#ifndef _WIDGET_TEXT_H_
+#define _WIDGET_TEXT_H_
 
-Evas_Object *image_new (omc_t *omc, int focusable, char *name, char *fname,
-                        int layer, char *x, char *y, char *w, char *h);
+Evas_Object * text_new (omc_t *omc, int focusable, font_t *font, char *str,
+                        int alpha, int layer, char *x, char *y);
 
-#endif /* _WIDGET_IMAGE_H_ */
+#endif /* _WIDGET_TEXT_H_ */
