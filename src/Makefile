@@ -2,6 +2,8 @@ include ../config.mak
 
 BIN_NAME = omc
 
+SUBDIRS = exml screens
+
 SRCS =	omc.c \
 	cfgparser.c \
 	langinfo.c \
@@ -49,16 +51,18 @@ $(BIN_NAME): $(DEP_LIBS) $(OBJS)
 clean:
 	rm -f *.o $(BIN_NAME) config.h
 	rm -f .depend
-	$(MAKE) -C exml clean
-	$(MAKE) -C screens clean
+	for s in $(SUBDIRS); do \
+	  $(MAKE) -C $$s clean; \
+	done
 
 install: $(BIN_NAME)
 	$(INSTALL) -c $(BIN_NAME) $(PREFIX)/bin
 
 depend:
 	$(CC) -MM $(CFLAGS) $(SRCS) 1>.depend
-	$(MAKE) -C exml depend
-	$(MAKE) -C screens depend
+	for s in $(SUBDIRS); do \
+	  $(MAKE) -C $$s depend; \
+	done
 
 .phony: clean depend
 
