@@ -107,14 +107,15 @@ image_fit_to_screen (Evas_Object *img)
   {
     float ratio;
 
-    ratio = (float) ((float) cw / (float) ch);
     if (cw >= ch)
     {
+      ratio = (float) ((float) cw / (float) ch);
       cw = omc->w;
       ch = (int) (cw / ratio);
     }
     else
     {
+      ratio = (float) ((float) ch / (float) cw);
       ch = omc->h;
       cw = (int) (ch / ratio);
     }
