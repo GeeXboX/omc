@@ -19,7 +19,6 @@
 
 #ifndef _AMAZON_H_
 #define _AMAZON_H_
-#include "widget.h"
 
 void grab_file_covers (item_t *item);
 

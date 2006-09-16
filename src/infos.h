@@ -19,7 +19,6 @@
 
 #ifndef _INFO_GRABBER_H_
 #define _INFO_GRABBER_H_
-#include "widget.h"
 
 void grab_file_infos (item_t *item);
 

@@ -20,7 +20,7 @@
 #ifndef _AV_PLAYER_H_
 #define _AV_PLAYER_H_
 
-#include "widget.h"
+#include "widgets/widget.h"
 #include <xine.h>
 
 #define PLAYER_MRL_TYPE_IMAGE 3

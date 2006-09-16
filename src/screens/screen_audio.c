@@ -29,7 +29,7 @@
 #include "screen.h"
 #include "omc.h"
 #include "filter.h"
-#include "widget.h"
+#include "widgets/widget.h"
 #include "avplayer.h"
 #include "screen_audio.h"
 #include "screen_video.h"

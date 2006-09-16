@@ -32,7 +32,7 @@
 #include "screen.h"
 #include "omc.h"
 #include "filter.h"
-#include "widget.h"
+#include "widgets/widget.h"
 #include "gfx.h"
 #include "avplayer.h"
 #include "screen_image.h"

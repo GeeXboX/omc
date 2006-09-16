@@ -28,7 +28,7 @@
 
 #include "screen.h"
 #include "omc.h"
-#include "widget.h"
+#include "widgets/widget.h"
 #include "filter.h"
 #include "screen_audio.h"
 #include "screen_image.h"

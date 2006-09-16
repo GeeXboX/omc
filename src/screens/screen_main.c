@@ -29,7 +29,7 @@
 #include "screen.h"
 #include "omc.h"
 #include "cfgparser.h"
-#include "widget.h"
+#include "widgets/widget.h"
 #include "screen_main.h"
 #include "screen_video.h"
 #include "screen_audio.h"

@@ -2,13 +2,12 @@ include ../config.mak
 
 BIN_NAME = omc
 
-SUBDIRS = exml screens
+SUBDIRS = exml screens widgets
 
 SRCS =	omc.c \
 	cfgparser.c \
 	langinfo.c \
 	lang_i18n.c \
-	widget.c \
 	filter.c \
 	infos.c \
 	gfx.c \
@@ -19,6 +18,7 @@ SRCS =	omc.c \
 DEP_LIBS = \
 	exml/exml.a \
 	screens/screens.a \
+	widgets/widgets.a \
 
 LDFLAGS += -levas -lecore_evas -lecore
 LDFLAGS += -lplayer
@@ -44,6 +44,9 @@ exml/exml.a:
 
 screens/screens.a:
 	$(MAKE) -C screens
+
+widgets/widgets.a:
+	$(MAKE) -C widgets
 
 $(BIN_NAME): $(DEP_LIBS) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(DEP_LIBS) $(LDFLAGS) -o $(BIN_NAME)

@@ -21,8 +21,6 @@
 #define _WIDGET_H_
 
 #include <Ecore.h>
-#include "cfgparser.h"
-#include "omc.h"
 
 typedef struct menu_s {
   int x, y;

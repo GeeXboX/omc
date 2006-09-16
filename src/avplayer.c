@@ -26,7 +26,7 @@
 
 #include "screens/screen.h"
 #include "omc.h"
-#include "widget.h"
+#include "widgets/widget.h"
 #include "avplayer.h"
 #include "screens/screen_aplayer.h"
 

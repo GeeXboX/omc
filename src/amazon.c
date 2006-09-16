@@ -36,7 +36,7 @@
 #include "exml/parser.h"
 #include "screens/screen.h"
 #include "omc.h"
-#include "widget.h"
+#include "widgets/widget.h"
 #include "avplayer.h"
 
 #define AMAZON_DEVEL_ID "0HV80J2YXZPNRRPKVTG2"

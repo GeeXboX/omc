@@ -1,0 +1,4 @@
+precious ^(\.deps)$
+precious ^(\.depend)$
+precious ^(.*\.o)$
+precious ^(.*\.a)$

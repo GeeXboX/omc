@@ -26,7 +26,8 @@
 #include <Ecore_Evas.h>
 
 #include "screens/screen.h"
-#include "widget.h"
+#include "omc.h"
+#include "widgets/widget.h"
 #include "av_demuxer.h"
 
 static void *
