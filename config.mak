@@ -4,6 +4,7 @@ RANLIB = ranlib
 INSTALL = install
 
 PREFIX = /usr
+CFG = /etc
 
 CFLAGS = -Wall -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT
 LDFLAGS = 

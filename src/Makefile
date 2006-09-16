@@ -35,16 +35,20 @@ OBJS = $(SRCS:.c=.o)
 
 .SUFFIXES: .c .o
 
-all: depend $(BIN_NAME)
+all: config.h depend $(BIN_NAME)
 
 .c.o:
 	$(CC) -c $(CFLAGS) -o $@ $<
+
+config.h:
+	echo "#define CFG_DIR \"$(CFG)/omc\"" >> config.h
+	echo "#define DATA_DIR \"$(PREFIX)/share/omc\"" >> config.h
 
 $(BIN_NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(BIN_NAME)
 
 clean:
-	rm -f *.o $(BIN_NAME)
+	rm -f *.o $(BIN_NAME) config.h
 	rm -f .depend
 
 install: $(BIN_NAME)
