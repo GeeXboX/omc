@@ -44,7 +44,7 @@ $(BIN_NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(BIN_NAME)
 
 clean:
-	rm -f *.o
+	rm -f *.o $(BIN_NAME)
 	rm -f .depend
 
 install: $(BIN_NAME)
