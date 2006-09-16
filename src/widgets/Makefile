@@ -9,6 +9,7 @@ SRCS = \
 	text.c \
 	textblock.c \
 	notifier.c \
+	border.c \
 
 OBJS = $(SRCS:.c=.o)
 CFLAGS += -I..

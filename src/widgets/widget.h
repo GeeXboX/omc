@@ -27,6 +27,7 @@
 #include "text.h"
 #include "textblock.h"
 #include "notifier.h"
+#include "border.h"
 
 typedef struct menu_s {
   int x, y;
@@ -44,17 +45,7 @@ enum {
   MENU_ALIGN_RIGHT
 };
 
-enum {
-  BORDER_TYPE_PLAIN,
-  BORDER_TYPE_MENU,
-  BORDER_TYPE_COVER
-};
-
 int omc_compute_coord (char *coord, int max);
-
-Evas_Object *
-border_new (omc_t *omc, Evas_List *list,
-            int type, char *cx, char *cy, char *cw, char *ch);
 
 menu_t *menu_new (omc_t *omc, font_t *font, int align,
                          char *select, char *select_w, char *select_h,
