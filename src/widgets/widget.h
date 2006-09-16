@@ -28,37 +28,9 @@
 #include "textblock.h"
 #include "notifier.h"
 #include "border.h"
-
-typedef struct menu_s {
-  int x, y;
-  int w, h;
-  int align;
-  font_t *font;
-  Evas_Object *select;
-  Evas_List *items;
-  Evas_List *hidden;
-} menu_t;
-
-enum {
-  MENU_ALIGN_LEFT,
-  MENU_ALIGN_CENTER,
-  MENU_ALIGN_RIGHT
-};
+#include "menu.h"
 
 int omc_compute_coord (char *coord, int max);
-
-menu_t *menu_new (omc_t *omc, font_t *font, int align,
-                         char *select, char *select_w, char *select_h,
-                         char *x, char *y, char *w, char *h);
-
-Evas_Object *
-menu_add_menuitem (omc_t *omc, menu_t *menu,
-                   char *str, char *logo,
-                   char *logo_x, char *logo_y,
-                   char *logo_w, char *logo_h);
-
-void menu_compute_items (menu_t *menu);
-void menu_free (menu_t *menu);
 
 void object_add_default_cb (Evas_Object *obj);
 
