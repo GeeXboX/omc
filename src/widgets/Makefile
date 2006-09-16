@@ -13,6 +13,8 @@ SRCS = \
 	menu.c \
 	cover.c \
 	clipper.c \
+	item.c \
+	browser.c \
 
 OBJS = $(SRCS:.c=.o)
 CFLAGS += -I..

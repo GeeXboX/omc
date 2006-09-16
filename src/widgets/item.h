@@ -17,35 +17,31 @@
  *
  */
 
-#ifndef _WIDGET_H_
-#define _WIDGET_H_
+#ifndef _WIDGET_ITEM_H_
+#define _WIDGET_ITEM_H_
 
-#include <Ecore.h>
+#define ITEM_TYPE_DIRECTORY 0
+#define ITEM_TYPE_FILE 1
 
-#include "image.h"
-#include "color.h"
-#include "text.h"
-#include "textblock.h"
-#include "notifier.h"
-#include "border.h"
-#include "menu.h"
-#include "cover.h"
-#include "clipper.h"
-#include "browser.h"
-#include "item.h"
+typedef struct item_s {
+  browser_t *browser;
+  Evas_Object *icon;
+  Evas_Object *text;
+  Evas_Object *clip;
+  mrl_t *mrl;
+  int type;
+  //char *mrl;
+  //int mrl_type;
+  char *infos;
+  char *artist;
+  char *album;
+  char *cover;
+  int updated;
+} item_t;
 
-int omc_compute_coord (char *coord, int max);
+item_t *item_new (browser_t *browser, Evas_Object *icon, Evas_Object *text,
+                  int type, char *mrl, int mrl_type);
 
-void object_add_default_cb (Evas_Object *obj);
+void item_free (item_t *item);
 
-typedef struct cwd_s {
-  Evas_List *border;
-  Evas_Object *path;
-} cwd_t;
-
-cwd_t *cwd_new (void);
-void cwd_free (cwd_t *cwd);
-
-char *getExtension (char *filename);
-
-#endif /* _WIDGET_H_ */
+#endif /* _WIDGET_ITEM_H_ */

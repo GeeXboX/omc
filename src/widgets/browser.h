@@ -17,35 +17,24 @@
  *
  */
 
-#ifndef _WIDGET_H_
-#define _WIDGET_H_
+#ifndef _WIDGET_BROWSER_H_
+#define _WIDGET_BROWSER_H_
 
-#include <Ecore.h>
+typedef struct browser_s {
+  int x, y;
+  int w, h;
+  int pos;
+  int capacity_w;
+  int capacity_h;
+  int filter_type;
+  Evas_List *entries;
+  Evas_Object *clip;
+  font_t *font;
+} browser_t;
 
-#include "image.h"
-#include "color.h"
-#include "text.h"
-#include "textblock.h"
-#include "notifier.h"
-#include "border.h"
-#include "menu.h"
-#include "cover.h"
-#include "clipper.h"
-#include "browser.h"
-#include "item.h"
+browser_t *browser_new (screen_t *screen, font_t *font, int filter_type,
+                        char *x, char *y, char *w, char *h);
 
-int omc_compute_coord (char *coord, int max);
+void browser_free (browser_t *browser);
 
-void object_add_default_cb (Evas_Object *obj);
-
-typedef struct cwd_s {
-  Evas_List *border;
-  Evas_Object *path;
-} cwd_t;
-
-cwd_t *cwd_new (void);
-void cwd_free (cwd_t *cwd);
-
-char *getExtension (char *filename);
-
-#endif /* _WIDGET_H_ */
+#endif /* _WIDGET_BROWSER_H_ */
