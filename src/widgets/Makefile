@@ -4,6 +4,7 @@ LIBNAME = widgets.a
 
 SRCS = \
 	widget.c \
+	image.c \
 
 OBJS = $(SRCS:.c=.o)
 CFLAGS += -I..

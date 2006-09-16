@@ -22,6 +22,8 @@
 
 #include <Ecore.h>
 
+#include "image.h"
+
 typedef struct menu_s {
   int x, y;
   int w, h;
@@ -62,10 +64,6 @@ menu_add_menuitem (omc_t *omc, menu_t *menu,
 
 void menu_compute_items (menu_t *menu);
 void menu_free (menu_t *menu);
-
-Evas_Object *
-image_new (omc_t *omc, int focusable, char *name, char *fname,
-           int layer, char *x, char *y, char *w, char *h);
 
 Evas_Object *
 text_new (omc_t *omc, int focusable, font_t *font, char *str,

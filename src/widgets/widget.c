@@ -106,14 +106,6 @@ omc_compute_coord (char *coord, int max)
 
 /* Callbacks */
 static void
-cb_img_focus_update (void *data, Evas *e, Evas_Object *obj, void *event_info)
-{
-  char *file = (char *) data;
-  if (obj)
-    evas_object_image_file_set (obj, file, NULL);
-}
-
-static void
 cb_text_focus_update (void *data, Evas *e, Evas_Object *obj, void *event_info)
 {
   color_t *color = (color_t *) data;
@@ -192,45 +184,7 @@ cb_mouse_menu_hide_selector (void *data, Evas *e,
     evas_object_hide (select);
 }
 
-/* Image Object */
-static Evas_Object *
-evas_image_new (omc_t *omc, int focusable, char *name, char *fname,
-                int layer, int x, int y, int w, int h)
-{
-  Evas_Object *img = NULL;
-  
-  img = evas_object_image_add (omc->evas);
-  evas_object_image_file_set (img, name, NULL);
-  evas_object_move (img, x, y); 
-  evas_object_resize (img, w, h);
-  evas_object_image_fill_set (img, 0, 0, w, h);
-  evas_object_layer_set (img, layer);
-  evas_object_image_smooth_scale_set (img, 1);
 
-  if (focusable && fname)
-  {
-    evas_object_event_callback_add (img, EVAS_CALLBACK_FOCUS_IN,
-                                    cb_img_focus_update, fname);
-    evas_object_event_callback_add (img, EVAS_CALLBACK_FOCUS_OUT,
-                                    cb_img_focus_update, name);
-  }
-
-  return img;
-}
-
-Evas_Object *
-image_new (omc_t *omc, int focusable, char *name, char *fname,
-           int layer, char *x, char *y, char *w, char *h)
-{
-  int x2, y2, w2, h2;
-
-  x2 = omc_compute_coord (x, omc->w);
-  y2 = omc_compute_coord (y, omc->h);
-  w2 = omc_compute_coord (w, omc->w);
-  h2 = omc_compute_coord (h, omc->h);
-    
-  return evas_image_new (omc, focusable, name, fname, layer, x2, y2, w2, h2);
-}
 
 /* Text Object */
 static Evas_Object *
