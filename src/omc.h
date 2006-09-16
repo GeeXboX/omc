@@ -20,11 +20,7 @@
 #ifndef _OMC_H_
 #define _OMC_H_
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#else
-#error "Missing config.h file : run configure again"
-#endif
 
 #include <Evas.h>
 #include <Ecore_Evas.h>
