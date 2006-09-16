@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <player.h>
 
 #include "screen.h"
 #include "omc.h"
@@ -95,7 +96,7 @@ cb_play_dir (void *data, Evas *e, Evas_Object *obj, void *event_info)
       continue;
 
     if (item->type == ITEM_TYPE_FILE
-        && item->mrl_type == PLAYER_MRL_TYPE_AUDIO)
+        && item->mrl->type == PLAYER_MRL_TYPE_AUDIO)
     {
       if (omc->player->state == PLAYER_STATE_IDLE)
         av_player_add_mrl (omc->player, item, PLAYER_ADD_MRL_NOW);

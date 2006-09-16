@@ -11,6 +11,7 @@ omc_SOURCES= \
 	infos.h infos.c \
 	gfx.h gfx.c \
 	avplayer.h avplayer.c \
+	av_demuxer.h av_demuxer.c \
 	amazon.h amazon.c \
 	screen.h screen.c \
 	screen_main.h screen_main.c \

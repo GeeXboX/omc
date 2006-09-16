@@ -24,6 +24,7 @@
 #include <Ecore.h>
 #include <Ecore_Evas.h>
 #include <xine.h>
+#include <player.h>
 
 #include "screen.h"
 #include "omc.h"
@@ -334,9 +335,9 @@ screen_aplayer_update_browser (screen_t *screen, char *mrl)
     if (!item)
       continue;
 
-    printf ("Item MRL : %s\n", item->mrl);
+    printf ("Item MRL : %s\n", item->mrl->name);
     
-    if (strcmp (item->mrl, mrl))
+    if (strcmp (item->mrl->name, mrl))
       continue;
    
     if (item->text)

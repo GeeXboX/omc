@@ -28,12 +28,14 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <player.h>
 
 #include "screen.h"
 #include "omc.h"
 #include "widget.h"
 #include "filter.h"
 #include "avplayer.h"
+#include "av_demuxer.h"
 #include "infos.h"
 #include "amazon.h"
 #include "screen_audio.h"
@@ -601,8 +603,7 @@ item_new (browser_t *browser, Evas_Object *icon, Evas_Object *text,
   item->text = text;
   item->clip = NULL;
   item->type = type;
-  item->mrl = mrl ? strdup (mrl) : NULL;
-  item->mrl_type = mrl_type;
+  item->mrl = mrl ? mrl_new (mrl, mrl_type) : NULL;
   item->infos = NULL;
   item->artist = NULL;
   item->album = NULL;
@@ -625,7 +626,7 @@ item_free (item_t *item)
   if (item->clip)
     evas_object_del (item->clip);
   if (item->mrl)
-    free (item->mrl);
+    mrl_free (item->mrl, 0);
   if (item->infos)
     free (item->infos);
   if (item->artist)
@@ -759,7 +760,7 @@ browser_display_update (browser_t *browser)
         /* the image thumbnail hasn't been calculated yet */
         if (!item->updated && item->type == ITEM_TYPE_FILE)
         {
-          evas_object_image_file_set (icon, item->mrl, NULL);
+          evas_object_image_file_set (icon, item->mrl->name, NULL);
           evas_object_image_size_get (icon, &cw, &ch);
 
           /* do not consider small files (usually amazon retrieved dummy
@@ -960,22 +961,22 @@ cb_browser_entry_execute (void *data, Evas *e,
   
   if (item->type == ITEM_TYPE_DIRECTORY)
   {
-    compute_directory (dir, item->mrl);
+    compute_directory (dir, item->mrl->name);
     browser_update (omc, item->browser);
   }
   else if (item->type == ITEM_TYPE_FILE)
   {
-    switch (item->mrl_type)
+    switch (item->mrl->type)
     {
     case PLAYER_MRL_TYPE_AUDIO:
       switch (event->button)
       {
       case MOUSE_BUTTON_LEFT:
-        printf ("Play File : %s\n", item->mrl);
+        printf ("Play File : %s\n", item->mrl->name);
         av_player_add_mrl (omc->player, item, PLAYER_ADD_MRL_NOW);
         break;
       case MOUSE_BUTTON_RIGHT:
-        printf ("Append File to playlist : %s\n", item->mrl);
+        printf ("Append File to playlist : %s\n", item->mrl->name);
         av_player_add_mrl (omc->player, item, PLAYER_ADD_MRL_QUEUE);
         break;
       default:
@@ -983,8 +984,8 @@ cb_browser_entry_execute (void *data, Evas *e,
       }
       break;
     case PLAYER_MRL_TYPE_IMAGE:
-      printf ("To be viewed : %s\n", item->mrl);
-      switch_screen (SCREEN_VIEWER_TITLE, strdup (item->mrl));
+      printf ("To be viewed : %s\n", item->mrl->name);
+      switch_screen (SCREEN_VIEWER_TITLE, strdup (item->mrl->name));
       break;
     default:
       break;
@@ -1011,7 +1012,7 @@ cb_browser_mrl_execute (void *data, Evas *e,
     av_mrl_t *mrl = NULL;
     Evas_List *list;
     
-    printf ("Need to find MRL for %s\n", item->mrl);
+    printf ("Need to find MRL for %s\n", item->mrl->name);
     if (!omc->player || !omc->player->playlist)
       break;
 
@@ -1023,7 +1024,7 @@ cb_browser_mrl_execute (void *data, Evas *e,
       if (!tmp)
         continue;
       
-      if (!strcmp (item->mrl, tmp->file))
+      if (!strcmp (item->mrl->name, tmp->file))
       {
         mrl = tmp;
         break;
@@ -1054,6 +1055,8 @@ cb_browser_get_file_info (void *data, Evas *e,
   if (!item)
     return;
 
+  av_demux_mrl (item);
+  
   switch (omc->screen->type)
   {
   case SCREEN_TYPE_AUDIO:

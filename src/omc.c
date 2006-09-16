@@ -24,11 +24,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <inttypes.h>
+#include <player.h>
 
 #include "screen.h"
 #include "omc.h"
 #include "screen_main.h"
 #include "avplayer.h"
+#include "av_demuxer.h"
 #include "filter.h"
 #include "cfgparser.h"
 
@@ -75,6 +78,7 @@ main_start(int argc, char **argv)
    evas_font_path_append (omc->evas, OMC_DATA_DIR);
    
    omc->player = av_player_init ();
+   omc->demuxer = av_demuxer_init (PLAYER_TYPE_XINE);
    
    return 1;
 }
@@ -111,6 +115,7 @@ omc_init (void)
   o->cwd = NULL;
   o->screen = NULL;
   o->player = NULL;
+  o->demuxer = NULL;
 
   filter = filter_new (FILTER_TYPE_AUDIO);
   o->filters = evas_list_append (o->filters, filter);
@@ -162,7 +167,9 @@ omc_uninit (omc_t *o)
     screen_uninit (o->screen);
   if (o->player)
     av_player_uninit (o->player);
-  free (o);
+  if (o->demuxer)
+    av_demuxer_uninit (o->demuxer);
+  free (o); 
 }
 
 int

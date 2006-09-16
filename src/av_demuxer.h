@@ -17,40 +17,23 @@
  *
  */
 
-#ifndef _OMC_H_
-#define _OMC_H_
+#ifndef _AV_DEMUXER_H_
+#define _AV_DEMUXER_H_
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#else
-#error "Missing config.h file : run configure again"
-#endif
+#include <player.h>
+#include <pthread.h>
 
-#include <Evas.h>
-#include <Ecore_Evas.h>
-#include "cfgparser.h"
+typedef struct demuxer_s {
+  int busy;
+  pthread_t th;
+  pthread_cond_t cond;
+  pthread_mutex_t mutex;
+  struct player_s *player;
+  item_t *current;
+} demuxer_t;
 
-typedef struct omc_s {
-  Evas *evas;  
-  Ecore_Evas *ee;
-  Evas_List *filters;
-  config_t *cfg;
-  char *cwd;
-  screen_t *screen;
-  struct av_player_s *player;
-  struct demuxer_s *demuxer;
-  int w;
-  int h;
-} omc_t;
+demuxer_t *av_demuxer_init (player_type_t type);
+void av_demuxer_uninit (demuxer_t *demuxer);
+void av_demux_mrl (item_t *item);
 
-void omc_update_cwd (omc_t *omc, char *dir);
-
-omc_t *omc;
-
-#define OMC_DEFAULT_WIDTH  800
-#define OMC_DEFAULT_HEIGHT 600
-#define OMC_WM_TITLE "GeeXboX Open Media Center"
-#define OMC_DATA_DIR DATA_DIR
-#define OMC_MEDIA_DIR "/"
-
-#endif /* _OMC_H_ */
+#endif /* _AV_DEMUXER_H_ */

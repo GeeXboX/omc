@@ -28,6 +28,7 @@
 #include <fcntl.h>
 #include <xine.h>
 #include <pthread.h>
+#include <player.h>
 
 #include "screen.h"
 #include "omc.h"
@@ -49,7 +50,7 @@ grab_file_title (item_t *item, xine_stream_t *stream)
   if (title)
     strcat (item->infos, (char *) title);
   else
-    strcat (item->infos, basename (item->mrl));
+    strcat (item->infos, basename (item->mrl->name));
   strcat (item->infos, "\n");
 }
 
@@ -62,7 +63,7 @@ grab_file_size (item_t *item)
   if (!item || !item->mrl)
     return;
 
-  stat (item->mrl, &st);
+  stat (item->mrl->name, &st);
   memset (tag, '\0', MAX_TAG_SIZE);
   sprintf (tag, "Size : %.2f MB\n", (float) st.st_size / 1024 / 1024);
   strcat (item->infos, tag);
@@ -214,9 +215,9 @@ th_info_grabber (void *data)
     memset (item->infos, '\0', 1024);
   }
   
-  xine_open (stream, item->mrl);
+  xine_open (stream, item->mrl->name);
 
-  switch (item->mrl_type)
+  switch (item->mrl->type)
   {
   case PLAYER_MRL_TYPE_AUDIO:
     grab_audio_file_info (item, stream);
@@ -225,7 +226,8 @@ th_info_grabber (void *data)
     grab_video_file_info (item, stream);
     break;
   case PLAYER_MRL_TYPE_IMAGE:
-
+    break;
+  default:
     break;
   }
 

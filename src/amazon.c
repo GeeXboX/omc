@@ -31,6 +31,7 @@
 #include <curl/types.h>
 #include <curl/easy.h>
 #include <pthread.h>
+#include <player.h>
 
 #include "exmlparser.h"
 #include "screen.h"
@@ -214,7 +215,7 @@ amazon_get_cover (item_t *item, char *country, char *type)
     return;
 
   /* fill in keywords */
-  switch (item->mrl_type)
+  switch (item->mrl->type)
   {
   case PLAYER_MRL_TYPE_AUDIO:
     memset (keywords, '\0', 1024);
@@ -227,7 +228,7 @@ amazon_get_cover (item_t *item, char *country, char *type)
     }
     if (!item->artist && !item->album)
     {
-      item_name = strdup (basename (item->mrl));
+      item_name = strdup (basename (item->mrl->name));
       x = strrchr (item_name, '.');
       if (x)
         *x = '\0';
@@ -236,11 +237,13 @@ amazon_get_cover (item_t *item, char *country, char *type)
     break;
   case PLAYER_MRL_TYPE_VIDEO:
     memset (keywords, '\0', 1024);
-    item_name = strdup (basename (item->mrl));
+    item_name = strdup (basename (item->mrl->name));
     x = strrchr (item_name, '.');
     if (x)
       *x = '\0';
     strcat (keywords, item_name);
+    break;
+  default:
     break;
   }
 
@@ -279,9 +282,9 @@ amazon_get_cover (item_t *item, char *country, char *type)
     char cover_file_name[1024];
     struct stat st;
 
-    if (item->mrl_type == PLAYER_MRL_TYPE_AUDIO)
+    if (item->mrl->type == PLAYER_MRL_TYPE_AUDIO)
       sprintf (cover_file_name, "%s/%s", omc->cwd, DEFAULT_AUDIO_COVER_FILE);
-    else if (item->mrl_type == PLAYER_MRL_TYPE_VIDEO)
+    else if (item->mrl->type == PLAYER_MRL_TYPE_VIDEO)
       sprintf (cover_file_name, "%s/%s.png", omc->cwd, item_name);
 
     stat (item->cover, &st);
@@ -327,7 +330,7 @@ th_cover_grabber (void *data)
   if (!item)
     return NULL;
 
-  switch (item->mrl_type)
+  switch (item->mrl->type)
   {
   case PLAYER_MRL_TYPE_AUDIO:
     /* 1. Look for a FRONT or COVER file in current path. */
@@ -391,7 +394,7 @@ th_cover_grabber (void *data)
     
   case PLAYER_MRL_TYPE_VIDEO:
     /* 1. Look for a picture file with same name than movie file. */
-    item_name = strdup (basename (item->mrl));
+    item_name = strdup (basename (item->mrl->name));
     x = strrchr (item_name, '.');
     if (x)
       *x = '\0';
@@ -452,6 +455,8 @@ th_cover_grabber (void *data)
     break;
   case PLAYER_MRL_TYPE_IMAGE:
     /* no covers available for images */
+    break;
+  default:
     break;
   }
 

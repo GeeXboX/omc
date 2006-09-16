@@ -20,6 +20,7 @@
 #include <Evas.h>
 #include <Ecore.h>
 #include <Ecore_Evas.h>
+#include <player.h>
 
 #include <string.h>
 #include <stdio.h>

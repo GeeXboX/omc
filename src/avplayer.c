@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <libgen.h>
 #include <xine.h>
+#include <player.h>
 
 #include "screen.h"
 #include "omc.h"
@@ -30,7 +31,7 @@
 #include "screen_aplayer.h"
 
 av_mrl_t *
-mrl_new (char *file, int type, char *infos, char *cover)
+av_mrl_new (char *file, int type, char *infos, char *cover)
 {
   av_mrl_t *mrl = NULL;
 
@@ -47,7 +48,7 @@ mrl_new (char *file, int type, char *infos, char *cover)
 }
 
 void
-mrl_free (av_mrl_t *mrl)
+av_mrl_free (av_mrl_t *mrl)
 {
   if (!mrl)
     return;
@@ -162,7 +163,7 @@ av_player_uninit (av_player_t *av_player)
 
     mrl = (av_mrl_t *) list->data;
     if (mrl)
-      mrl_free (mrl);
+      av_mrl_free (mrl);
   }
   
   free (av_player);
@@ -391,7 +392,7 @@ av_player_add_mrl (av_player_t *av_player, item_t *item, int when)
   if (!item)
     return;
 
-  mrl = mrl_new (item->mrl, item->mrl_type, item->infos, item->cover);
+  mrl = av_mrl_new (item->mrl->name, item->mrl->type, item->infos, item->cover);
   av_player->playlist = evas_list_append (av_player->playlist, mrl);
 
   if (when == PLAYER_ADD_MRL_NOW)

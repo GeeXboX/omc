@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <player.h>
 
 #include "screen.h"
 #include "omc.h"

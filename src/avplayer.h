@@ -23,18 +23,7 @@
 #include "widget.h"
 #include <xine.h>
 
-enum {
-  PLAYER_STATE_IDLE,
-  PLAYER_STATE_PAUSE,
-  PLAYER_STATE_RUNNING
-};
-
-enum {
-  PLAYER_MRL_TYPE_NONE,
-  PLAYER_MRL_TYPE_AUDIO,
-  PLAYER_MRL_TYPE_VIDEO,
-  PLAYER_MRL_TYPE_IMAGE
-};
+#define PLAYER_MRL_TYPE_IMAGE 3
 
 typedef struct av_mrl_s {
   char *file;
@@ -72,11 +61,6 @@ void av_player_fast_forward (av_player_t *player, int value);
 void av_player_fast_rewind (av_player_t *player, int value);
 void av_player_volume_up (av_player_t *player, int value);
 void av_player_volume_down (av_player_t *player, int value);
-
-enum {
-  PLAYER_ADD_MRL_NOW,
-  PLAYER_ADD_MRL_QUEUE
-};
 
 void av_player_add_mrl (av_player_t *player, item_t *item, int when);
 
