@@ -30,6 +30,7 @@
 #include "border.h"
 #include "menu.h"
 #include "cover.h"
+#include "clipper.h"
 
 int omc_compute_coord (char *coord, int max);
 
@@ -70,9 +71,6 @@ browser_t *
 browser_new (screen_t *screen, font_t *font, int filter_type,
              char *x, char *y, char *w, char *h);
 void browser_free (browser_t *browser);
-
-Evas_Object *
-object_clipper (omc_t *omc, char *x, char *y, char *w, char *h);
 
 typedef struct cwd_s {
   Evas_List *border;

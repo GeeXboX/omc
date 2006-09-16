@@ -905,26 +905,6 @@ browser_update (omc_t *omc, browser_t *browser)
   screen_update_cwd (omc->screen);
 }
 
-Evas_Object *
-object_clipper (omc_t *omc, char *x, char *y, char *w, char *h)
-{
-  Evas_Object *clip = NULL;
-  Evas_Coord x2, y2, w2, h2;
-
-  x2 = omc_compute_coord (x, omc->w);
-  y2 = omc_compute_coord (y, omc->h);
-  w2 = omc_compute_coord (w, omc->w);
-  h2 = omc_compute_coord (h, omc->h);
-
-  clip = evas_object_rectangle_add (omc->evas);
-
-  evas_object_move (clip, x2, y2);
-  evas_object_resize (clip, w2, h2);
-  omc->screen->objects = evas_list_append (omc->screen->objects, clip);
-
-  return clip;
-}
-
 browser_t *
 browser_new (screen_t *screen, font_t *font, int filter_type,
              char *x, char *y, char *w, char *h)

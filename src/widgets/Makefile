@@ -12,6 +12,7 @@ SRCS = \
 	border.c \
 	menu.c \
 	cover.c \
+	clipper.c \
 
 OBJS = $(SRCS:.c=.o)
 CFLAGS += -I..
