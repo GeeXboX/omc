@@ -17,28 +17,54 @@
  *
  */
 
-#ifndef _WIDGET_H_
-#define _WIDGET_H_
-
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <Evas.h>
 #include <Ecore.h>
+#include <player.h>
 
-#include "image.h"
-#include "color.h"
-#include "text.h"
-#include "textblock.h"
-#include "notifier.h"
-#include "border.h"
-#include "menu.h"
-#include "cover.h"
-#include "clipper.h"
-#include "browser.h"
-#include "item.h"
-#include "cwd.h"
+#include "screens/screen.h"
+#include "omc.h"
+#include "widget.h"
 
-int omc_compute_coord (char *coord, int max);
+/* Current Working Directory (CWD) items */
+cwd_t *
+cwd_new (void)
+{
+  cwd_t *cwd = NULL;
 
-void object_add_default_cb (Evas_Object *obj);
+  cwd = (cwd_t *) malloc (sizeof (cwd_t));
+  cwd->border = NULL;
+  cwd->path = NULL;
 
-char *getExtension (char *filename);
+  return cwd;
+}
 
-#endif /* _WIDGET_H_ */
+void
+cwd_free (cwd_t *cwd)
+{
+  Evas_List *list;
+  
+  if (!cwd)
+    return;
+
+  if (cwd->border)
+  {
+    for (list = cwd->border; list; list = list->next)
+    {
+      Evas_Object *obj = NULL;
+    
+      obj = (Evas_Object *) list->data;
+      if (!obj)
+        continue;
+      
+      evas_object_del (obj);
+      cwd->border = evas_list_remove_list (cwd->border, cwd->border);
+    }
+    free (cwd->border);
+  }
+  if (cwd->path)
+    evas_object_del (cwd->path);
+  free (cwd);
+}

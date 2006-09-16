@@ -17,28 +17,15 @@
  *
  */
 
-#ifndef _WIDGET_H_
-#define _WIDGET_H_
+#ifndef _WIDGET_CWD_H_
+#define _WIDGET_CWD_H_
 
-#include <Ecore.h>
+typedef struct cwd_s {
+  Evas_List *border;
+  Evas_Object *path;
+} cwd_t;
 
-#include "image.h"
-#include "color.h"
-#include "text.h"
-#include "textblock.h"
-#include "notifier.h"
-#include "border.h"
-#include "menu.h"
-#include "cover.h"
-#include "clipper.h"
-#include "browser.h"
-#include "item.h"
-#include "cwd.h"
+cwd_t *cwd_new (void);
+void cwd_free (cwd_t *cwd);
 
-int omc_compute_coord (char *coord, int max);
-
-void object_add_default_cb (Evas_Object *obj);
-
-char *getExtension (char *filename);
-
-#endif /* _WIDGET_H_ */
+#endif /* _WIDGET_CWD_H_ */

@@ -15,6 +15,7 @@ SRCS = \
 	clipper.c \
 	item.c \
 	browser.c \
+	cwd.c \
 
 OBJS = $(SRCS:.c=.o)
 CFLAGS += -I..
