@@ -30,7 +30,7 @@
 
 item_t *
 item_new (browser_t *browser, Evas_Object *icon, Evas_Object *text,
-          int type, char *mrl, int mrl_type)
+          item_type_t type, char *mrl, int mrl_type)
 {
   item_t *item = NULL;
 

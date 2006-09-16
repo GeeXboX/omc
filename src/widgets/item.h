@@ -20,8 +20,10 @@
 #ifndef _WIDGET_ITEM_H_
 #define _WIDGET_ITEM_H_
 
-#define ITEM_TYPE_DIRECTORY 0
-#define ITEM_TYPE_FILE 1
+typedef enum item_type {
+  ITEM_TYPE_DIRECTORY = 0,
+  ITEM_TYPE_FILE
+} item_type_t;
 
 typedef struct item_s {
   browser_t *browser;
@@ -40,7 +42,7 @@ typedef struct item_s {
 } item_t;
 
 item_t *item_new (browser_t *browser, Evas_Object *icon, Evas_Object *text,
-                  int type, char *mrl, int mrl_type);
+                  item_type_t type, char *mrl, int mrl_type);
 
 void item_free (item_t *item);
 
