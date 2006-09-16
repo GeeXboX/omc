@@ -8,6 +8,7 @@ SRCS = \
 	color.c \
 	text.c \
 	textblock.c \
+	notifier.c \
 
 OBJS = $(SRCS:.c=.o)
 CFLAGS += -I..

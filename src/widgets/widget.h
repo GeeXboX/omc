@@ -26,6 +26,7 @@
 #include "color.h"
 #include "text.h"
 #include "textblock.h"
+#include "notifier.h"
 
 typedef struct menu_s {
   int x, y;
@@ -124,23 +125,6 @@ typedef struct cwd_s {
 
 cwd_t *cwd_new (void);
 void cwd_free (cwd_t *cwd);
-
-typedef struct notifier_s {
-  Ecore_Timer *timer;
-  Evas_List *border;
-  Evas_Object *cover;
-  Evas_Object *infos;
-  int show;
-  int padding;
-} notifier_t;
-
-notifier_t *
-notifier_new (omc_t *omc, font_t *font,
-              char *x, char *y, char *w, char *h);
-void notifier_free (notifier_t *notifier);
-void notifier_update (notifier_t *notifier, char *cover, char *infos);
-void notifier_show (notifier_t *notifier);
-void notifier_hide (notifier_t *notifier);
 
 char *getExtension (char *filename);
 
