@@ -12,25 +12,16 @@
  => either running a thread in background when entering directory.
 * do not display cover border when no cover (or when cover file grabbed from amazon is empty).
 * find a way to handle text_blocks alpha level (used in notifier).
-* grab DVD covers from Amazon for movie-type browser.
 * define new widget entrybox which is an editable textbox (need to check for the text_block code for cursor alignment and keyboard bindings).
 * add fade-in/out for menu items associated image appearance/disappearance.
-* add playdir button in audio menu to add all files from browser to playlist.
 * add new widget check box.
 * add new widget progress bar to show loading.
-* fix browser elements and display calculation.
 * add image browser :
  => should display thumbnails of images from current dir.
  => use generic .thumbnails directory ?
  => use EFL Epsilon library or not ?
  => should display generic temporary picture until the thumbnail is ready to be displayed.
  => do we display filename below thumbnail or not (it will anyhow be required for directories).
-* add image viewer screen with some buttons/utilities like :
- => previous/next
- => start diaporama
- => zoom in/out
- => move up/down/left/right
- => keep 1:1 aspect ratio or maximized pictures where w/h < screenw/screenh
 * add support for popups (should keep focus over all other elements).
 * add new button in audio player screen for :
  => loop on/off
@@ -42,10 +33,8 @@
  => add file(s) to disc and burn it ? (libisofs and libburn)
  => vobcopy DVD to HDD ?
 * support for internationalization (not gettext !! as not supported by uClibc)
- => extra XML file (as with MPUI) with predefined IDs (like for fonts support)
  => should support runtime langage switch.
 * use Curl function to avoid trying fecthing HTTP URLs if no Internet connection's available.
-* more generic player bindings (player bindings should _ONLY_ be in player.{h,c} i.e no xine_* in other files) to be able to support other players than Xine (MPlayer, GStreamer, VLC ...) in a near future.
 * add a OMC default/generic cover for video/audio files that do not have one.
 * all objects x/y coords should be % and not static for better resolution change.
 * support for fullscreen switch :
