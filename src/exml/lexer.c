@@ -28,7 +28,7 @@
 */
 
 /*#include "xineutils.h"*/
-#include "exmllexer.h"
+#include "exml/lexer.h"
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>

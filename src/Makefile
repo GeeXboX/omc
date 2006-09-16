@@ -6,8 +6,6 @@ SRCS =	omc.c \
 	cfgparser.c \
 	langinfo.c \
 	lang_i18n.c \
-	exmllexer.c \
-	exmlparser.c \
 	widget.c \
 	filter.c \
 	infos.c \
@@ -24,6 +22,9 @@ SRCS =	omc.c \
 	screen_settings.c \
 	screen_viewer.c \
 	screen_aplayer.c
+
+DEP_LIBS = \
+	exml/exml.a \
 
 LDFLAGS += -levas -lecore_evas -lecore
 LDFLAGS += -lplayer
@@ -44,18 +45,23 @@ config.h:
 	echo "#define CFG_DIR \"$(CFG)/omc\"" >> config.h
 	echo "#define DATA_DIR \"$(PREFIX)/share/omc\"" >> config.h
 
-$(BIN_NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(BIN_NAME)
+exml/exml.a:
+	$(MAKE) -C exml
+
+$(BIN_NAME): $(DEP_LIBS) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(DEP_LIBS) $(LDFLAGS) -o $(BIN_NAME)
 
 clean:
 	rm -f *.o $(BIN_NAME) config.h
 	rm -f .depend
+	$(MAKE) -C exml clean
 
 install: $(BIN_NAME)
 	$(INSTALL) -c $(BIN_NAME) $(PREFIX)/bin
 
 depend:
 	$(CC) -MM $(CFLAGS) $(SRCS) 1>.depend
+	$(MAKE) -C exml depend
 
 .phony: clean depend
 

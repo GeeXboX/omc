@@ -25,7 +25,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include "exmlparser.h"
+#include "exml/parser.h"
 #include "config.h"
 #include "langinfo.h"
 

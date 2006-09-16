@@ -33,7 +33,7 @@
 #include <pthread.h>
 #include <player.h>
 
-#include "exmlparser.h"
+#include "exml/parser.h"
 #include "screen.h"
 #include "omc.h"
 #include "widget.h"

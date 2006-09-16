@@ -36,8 +36,8 @@
 */
 
 /*#include "xineutils.h"*/
-#include "exmllexer.h"
-#include "exmlparser.h"
+#include "exml/lexer.h"
+#include "exml/parser.h"
 
 
 #define TOKEN_SIZE  4 * 1024
