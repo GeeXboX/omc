@@ -6,14 +6,16 @@ http://enlightenment.freedesktop.org/fetch.php?file=evas-0.9.9.023.tar.gz
   Evas must be compiled with png support.
 - Ecore >= 0.9.9.023 :
 http://enlightenment.freedesktop.org/fetch.php?file=ecore-0.9.9.023.tar.gz
-- Xine-lib >= 1.1.1 :
+- Xine-lib >= 1.1.1 (deprecated) :
 http://prdownloads.sourceforge.net/xine/xine-lib-1.1.1.tar.gz
+- libplayer (always use latest Arch version)
 - Curl
 
 Build
 *****
 
-./configure --prefix=$PREFIX
+Edit config.mak:
+Set $PREFIX and $CFG according to your needs.
 make
 
 Install
@@ -30,6 +32,10 @@ Configuration
  * screenw : screen width
  * screenh : screen height
  * fonts : fonts description (size, color, name etc ...)
+ * show_infos: display demuxed file information ?
+ * show_cover: display audio/video files covers (local or Amazon.com) ?
+ * save_cover: save remotely acquiered covers to disk ?
+ * lang: UI langage.
 
 Usage
 *****
