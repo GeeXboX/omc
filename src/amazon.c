@@ -34,7 +34,7 @@
 #include <player.h>
 
 #include "exml/parser.h"
-#include "screen.h"
+#include "screens/screen.h"
 #include "omc.h"
 #include "widget.h"
 #include "avplayer.h"

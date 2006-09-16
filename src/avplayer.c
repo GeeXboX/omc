@@ -24,11 +24,11 @@
 #include <xine.h>
 #include <player.h>
 
-#include "screen.h"
+#include "screens/screen.h"
 #include "omc.h"
 #include "widget.h"
 #include "avplayer.h"
-#include "screen_aplayer.h"
+#include "screens/screen_aplayer.h"
 
 av_mrl_t *
 av_mrl_new (char *file, int type, char *infos, char *cover)

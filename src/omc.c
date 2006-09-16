@@ -27,9 +27,9 @@
 #include <inttypes.h>
 #include <player.h>
 
-#include "screen.h"
+#include "screens/screen.h"
 #include "omc.h"
-#include "screen_main.h"
+#include "screens/screen_main.h"
 #include "avplayer.h"
 #include "av_demuxer.h"
 #include "filter.h"

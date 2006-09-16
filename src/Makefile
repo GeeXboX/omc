@@ -13,18 +13,10 @@ SRCS =	omc.c \
 	avplayer.c \
 	av_demuxer.c \
 	amazon.c \
-	screen.c \
-	screen_main.c \
-	screen_audio.c \
-	screen_video.c \
-	screen_tv.c \
-	screen_image.c \
-	screen_settings.c \
-	screen_viewer.c \
-	screen_aplayer.c
 
 DEP_LIBS = \
 	exml/exml.a \
+	screens/screens.a \
 
 LDFLAGS += -levas -lecore_evas -lecore
 LDFLAGS += -lplayer
@@ -48,6 +40,9 @@ config.h:
 exml/exml.a:
 	$(MAKE) -C exml
 
+screens/screens.a:
+	$(MAKE) -C screens
+
 $(BIN_NAME): $(DEP_LIBS) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(DEP_LIBS) $(LDFLAGS) -o $(BIN_NAME)
 
@@ -55,6 +50,7 @@ clean:
 	rm -f *.o $(BIN_NAME) config.h
 	rm -f .depend
 	$(MAKE) -C exml clean
+	$(MAKE) -C screens clean
 
 install: $(BIN_NAME)
 	$(INSTALL) -c $(BIN_NAME) $(PREFIX)/bin
@@ -62,6 +58,7 @@ install: $(BIN_NAME)
 depend:
 	$(CC) -MM $(CFLAGS) $(SRCS) 1>.depend
 	$(MAKE) -C exml depend
+	$(MAKE) -C screens depend
 
 .phony: clean depend
 

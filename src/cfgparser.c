@@ -26,7 +26,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include "screen.h"
+#include "screens/screen.h"
 #include "omc.h"
 #include "cfgparser.h"
 #include "langinfo.h"

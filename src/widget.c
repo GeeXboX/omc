@@ -30,7 +30,7 @@
 #include <unistd.h>
 #include <player.h>
 
-#include "screen.h"
+#include "screens/screen.h"
 #include "omc.h"
 #include "widget.h"
 #include "filter.h"
@@ -38,9 +38,9 @@
 #include "av_demuxer.h"
 #include "infos.h"
 #include "amazon.h"
-#include "screen_audio.h"
-#include "screen_video.h"
-#include "screen_viewer.h"
+#include "screens/screen_audio.h"
+#include "screens/screen_video.h"
+#include "screens/screen_viewer.h"
 
 /* Colors */
 typedef struct color_s {

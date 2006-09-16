@@ -21,7 +21,6 @@
 #define _SCREEN_AUDIO_H_
 
 #define SCREEN_AUDIO_TITLE "audio"
-#include "widget.h"
 
 typedef struct audio_s {
   Evas_Object *infobox;

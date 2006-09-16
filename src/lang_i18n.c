@@ -19,7 +19,7 @@
 
 #include <stdlib.h>
 
-#include "screen.h"
+#include "screens/screen.h"
 #include "omc.h"
 #include "lang_i18n.h"
 
