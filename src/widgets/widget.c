@@ -985,47 +985,6 @@ browser_free (browser_t *browser)
   free (browser);
 }
 
-/* Cover items */
-cover_t *
-cover_new (void)
-{
-  cover_t *cover = NULL;
-
-  cover = (cover_t *) malloc (sizeof (cover_t));
-  cover->border = NULL;
-  cover->cover = NULL;
-
-  return cover;
-}
-
-void
-cover_free (cover_t *cover)
-{
-  Evas_List *list;
-  
-  if (!cover)
-    return;
-
-  if (cover->border)
-  {
-    for (list = cover->border; list; list = list->next)
-    {
-      Evas_Object *obj = NULL;
-    
-      obj = (Evas_Object *) list->data;
-      if (!obj)
-        continue;
-      
-      evas_object_del (obj);
-      cover->border = evas_list_remove_list (cover->border, cover->border);
-    }
-    free (cover->border);
-  }
-  if (cover->cover)
-    evas_object_del (cover->cover);
-  free (cover);
-}
-
 /* Current Working Directory (CWD) items */
 cwd_t *
 cwd_new (void)

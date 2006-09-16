@@ -29,6 +29,7 @@
 #include "notifier.h"
 #include "border.h"
 #include "menu.h"
+#include "cover.h"
 
 int omc_compute_coord (char *coord, int max);
 
@@ -72,14 +73,6 @@ void browser_free (browser_t *browser);
 
 Evas_Object *
 object_clipper (omc_t *omc, char *x, char *y, char *w, char *h);
-
-typedef struct cover_s {
-  Evas_List *border;
-  Evas_Object *cover;
-} cover_t;
-
-cover_t *cover_new (void);
-void cover_free (cover_t *cover);
 
 typedef struct cwd_s {
   Evas_List *border;
