@@ -618,7 +618,7 @@ browser_update (omc_t *omc, browser_t *browser)
           evas_object_clip_set (txt, browser->clip);
        
         item = item_new (browser, NULL, txt, ITEM_TYPE_FILE,
-                         "empty", PLAYER_MRL_TYPE_NONE);
+                         "empty", PLAYER_MRL_TYPE_UNKNOWN);
         browser->entries = evas_list_append (browser->entries, item);
       }
     }
@@ -645,7 +645,7 @@ browser_update (omc_t *omc, browser_t *browser)
       char *path = NULL;
       int type = -1;
       size_t len;
-      int mrl_type = PLAYER_MRL_TYPE_NONE;
+      int mrl_type = PLAYER_MRL_TYPE_UNKNOWN;
       
       /* do not consider hidden files */
       if ((namelist[i]->d_name[0] == '.' && namelist[i]->d_name[1] != '.'))

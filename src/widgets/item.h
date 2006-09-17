@@ -31,7 +31,7 @@ typedef struct item_s {
   Evas_Object *text;
   Evas_Object *clip;
   mrl_t *mrl;
-  int type;
+  item_type_t type;
   //char *mrl;
   //int mrl_type;
   char *infos;

@@ -20,8 +20,6 @@
 #ifndef _AV_PLAYER_H_
 #define _AV_PLAYER_H_
 
-#define PLAYER_MRL_TYPE_IMAGE 3
-
 player_t *av_player_init (player_type_t type);
 void av_player_uninit (player_t *player);
 
