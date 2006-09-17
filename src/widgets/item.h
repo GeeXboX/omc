@@ -32,11 +32,7 @@ typedef struct item_s {
   Evas_Object *clip;
   mrl_t *mrl;
   item_type_t type;
-  //char *mrl;
-  //int mrl_type;
   char *infos;
-  char *artist;
-  char *album;
   char *cover;
   int updated;
 } item_t;

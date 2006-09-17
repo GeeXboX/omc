@@ -23,6 +23,7 @@
 #include <pthread.h>
 
 #include "omc.h"
+#include "infos.h"
 
 static void *
 th_demuxer (void *data)
@@ -39,7 +40,8 @@ th_demuxer (void *data)
     player_mrl_get_properties (demuxer->player, demuxer->current->mrl);
     player_mrl_get_metadata (demuxer->player, demuxer->current->mrl);
     demuxer->current->updated = 1;
-
+    compute_file_infos (demuxer->current);
+    
     demuxer->current = NULL;
     demuxer->busy = 0;
     pthread_testcancel ();  

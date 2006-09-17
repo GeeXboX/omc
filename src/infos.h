@@ -20,6 +20,6 @@
 #ifndef _INFO_GRABBER_H_
 #define _INFO_GRABBER_H_
 
-void grab_file_infos (item_t *item);
+void compute_file_infos (item_t *item);
 
 #endif /* _INFO_GRABBER_H_ */

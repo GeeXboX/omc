@@ -216,6 +216,7 @@ amazon_get_cover (item_t *item, char *country, char *type)
   {
   case PLAYER_MRL_TYPE_AUDIO:
     memset (keywords, '\0', 1024);
+/*
     if (item->artist)
       strcat (keywords, item->artist);
     if (item->album)
@@ -230,7 +231,8 @@ amazon_get_cover (item_t *item, char *country, char *type)
       if (x)
         *x = '\0';
       strcat (keywords, item_name);
-    }
+      }
+*/
     break;
   case PLAYER_MRL_TYPE_VIDEO:
     memset (keywords, '\0', 1024);

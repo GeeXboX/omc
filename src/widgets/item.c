@@ -34,8 +34,6 @@ item_new (browser_t *browser, Evas_Object *icon, Evas_Object *text,
   item->type = type;
   item->mrl = mrl ? mrl_new (mrl, mrl_type) : NULL;
   item->infos = NULL;
-  item->artist = NULL;
-  item->album = NULL;
   item->cover = NULL;
   item->updated = 0;
   
@@ -58,10 +56,6 @@ item_free (item_t *item)
     mrl_free (item->mrl, 0);
   if (item->infos)
     free (item->infos);
-  if (item->artist)
-    free (item->artist);
-  if (item->album)
-    free (item->album);
   if (item->cover)
     free (item->cover);
   

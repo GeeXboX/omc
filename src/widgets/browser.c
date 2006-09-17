@@ -723,9 +723,6 @@ browser_update (omc_t *omc, browser_t *browser)
       
       if (item->type == ITEM_TYPE_FILE && mrl_type != PLAYER_MRL_TYPE_IMAGE)
       {
-        if (omc->cfg->show_infos)
-          grab_file_infos (item);
-        
         if (omc->cfg->show_cover)
         {
           if (cwd_cover)
