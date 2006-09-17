@@ -69,4 +69,13 @@ void screen_update_notifier (screen_t *screen,
                              char *cover, char *infos);
 void screen_update_cwd (screen_t *screen);
 
+#include "screen_aplayer.h"
+#include "screen_audio.h"
+#include "screen_image.h"
+#include "screen_main.h"
+#include "screen_settings.h"
+#include "screen_tv.h"
+#include "screen_video.h"
+#include "screen_viewer.h"
+
 #endif /* _SCREEN_H_ */

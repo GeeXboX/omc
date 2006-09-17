@@ -24,19 +24,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <Evas.h>
-#include <Ecore.h>
-#include <Ecore_Evas.h>
-#include <player.h>
 
-#include "screen.h"
 #include "omc.h"
 #include "filter.h"
-#include "widgets/widget.h"
 #include "gfx.h"
-#include "avplayer.h"
-#include "screen_image.h"
-#include "screen_viewer.h"
 
 #define SCREEN_IMG_BACKGROUND OMC_DATA_DIR"/back_brushed3.png"
 

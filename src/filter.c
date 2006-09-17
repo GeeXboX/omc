@@ -17,11 +17,11 @@
  *
  */
 
-#include <Evas.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
+#include "omc.h"
 #include "filter.h"
 
 // Xine Supported Extensions : anx axa axv spx wvx wax mng wve cin mve mv8 vqa roq str iki ik2 dps xas xap cpk cak 4xm vmd nsf voc trp pes pva nsv iff svx 8svx 16sv ilbm ham ham6 ham8 anim anim3 anim5 anim7 anim8 dif mp+ shn mpv asc txt sub srt smi ssa

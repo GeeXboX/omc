@@ -20,13 +20,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <player.h>
 
-#include "screens/screen.h"
 #include "omc.h"
-#include "widgets/widget.h"
-#include "avplayer.h"
-#include "screens/screen_aplayer.h"
 
 static int
 avplayer_event_cb (player_event_t e, void *data)

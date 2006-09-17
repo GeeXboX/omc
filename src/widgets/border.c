@@ -20,13 +20,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <Evas.h>
-#include <Ecore.h>
-#include <player.h>
 
-#include "screens/screen.h"
 #include "omc.h"
-#include "widget.h"
 
 #define IMG_PLAIN_CENTER OMC_DATA_DIR"/border-plain-c.png"
 #define IMG_PLAIN_TOP OMC_DATA_DIR"/border-plain-t.png"

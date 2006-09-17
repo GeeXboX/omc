@@ -17,21 +17,12 @@
  *
  */
 
-#include <Evas.h>
-#include <Ecore.h>
-#include <Ecore_Evas.h>
-#include <player.h>
-
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "screen.h"
 #include "omc.h"
-#include "widgets/widget.h"
 #include "filter.h"
-#include "screen_audio.h"
-#include "screen_image.h"
 
 typedef struct simage_s {
   browser_t *browser;
@@ -148,7 +139,7 @@ screen_image_setup (screen_t *screen, char *data)
   if (!screen || screen->type != SCREEN_TYPE_IMAGE)
     return;
 
-  screen->private = (audio_t *) simage_new ();
+  screen->private = (simage_t *) simage_new ();
   
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);

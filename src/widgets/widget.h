@@ -20,8 +20,6 @@
 #ifndef _WIDGET_H_
 #define _WIDGET_H_
 
-#include <Ecore.h>
-
 #include "image.h"
 #include "color.h"
 #include "text.h"

@@ -17,23 +17,12 @@
  *
  */
 
-#include <Evas.h>
-#include <Ecore.h>
-#include <Ecore_Evas.h>
-
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <inttypes.h>
-#include <player.h>
 
-#include "screens/screen.h"
 #include "omc.h"
-#include "screens/screen_main.h"
-#include "avplayer.h"
-#include "av_demuxer.h"
 #include "filter.h"
-#include "cfgparser.h"
 
 static int
 main_signal_exit (void *data, int ev_type, void *ev)

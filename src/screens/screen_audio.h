@@ -22,13 +22,6 @@
 
 #define SCREEN_AUDIO_TITLE "audio"
 
-typedef struct audio_s {
-  Evas_Object *infobox;
-  cover_t *cover;
-  browser_t *browser;
-  notifier_t *notifier;
-} audio_t;
-
 void screen_audio_setup (screen_t *screen, char *data);
 void screen_audio_display (screen_t *screen);
 void screen_audio_free (screen_t *screen);

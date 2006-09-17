@@ -17,26 +17,11 @@
  *
  */
 
-#include <Evas.h>
-#include <Ecore.h>
-#include <Ecore_Evas.h>
-
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <player.h>
 
-#include "screen.h"
 #include "omc.h"
-#include "widgets/widget.h"
-#include "screen_main.h"
-#include "screen_video.h"
-#include "screen_audio.h"
-#include "screen_tv.h"
-#include "screen_image.h"
-#include "screen_settings.h"
-#include "screen_aplayer.h"
-#include "screen_viewer.h"
 
 void
 signal_quit_cb (void *data, Evas_Object *o,

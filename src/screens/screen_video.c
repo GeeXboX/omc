@@ -20,18 +20,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <Evas.h>
-#include <Ecore.h>
-#include <Ecore_Evas.h>
-#include <player.h>
 
-#include "screen.h"
 #include "omc.h"
-#include "widgets/widget.h"
 #include "filter.h"
-#include "screen_audio.h"
-#include "screen_video.h"
-#include "screen_image.h"
 
 typedef struct video_s {
   Evas_Object *infobox;

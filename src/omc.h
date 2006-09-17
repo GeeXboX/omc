@@ -23,9 +23,12 @@
 #include "config.h"
 
 #include <Evas.h>
+#include <Ecore.h>
 #include <Ecore_Evas.h>
-#include "cfgparser.h"
 #include <player.h>
+
+#include "cfgparser.h"
+#include "screens/screen.h"
 
 typedef struct omc_s {
   Evas *evas;  
@@ -39,6 +42,10 @@ typedef struct omc_s {
   int w;
   int h;
 } omc_t;
+
+#include "widgets/widget.h"
+#include "av_demuxer.h"
+#include "avplayer.h"
 
 void omc_update_cwd (omc_t *omc, char *dir);
 

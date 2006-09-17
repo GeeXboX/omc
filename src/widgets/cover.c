@@ -18,15 +18,8 @@
  */
 
 #include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <Evas.h>
-#include <Ecore.h>
-#include <player.h>
 
-#include "screens/screen.h"
 #include "omc.h"
-#include "widget.h"
 
 cover_t *
 cover_new (void)

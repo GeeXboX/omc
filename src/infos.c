@@ -28,12 +28,8 @@
 #include <fcntl.h>
 #include <xine.h>
 #include <pthread.h>
-#include <player.h>
 
-#include "screens/screen.h"
 #include "omc.h"
-#include "widgets/widget.h"
-#include "avplayer.h"
 
 #define MAX_TAG_SIZE 1024
 

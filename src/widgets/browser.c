@@ -26,21 +26,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include <Evas.h>
-#include <Ecore.h>
-#include <player.h>
-
-#include "screens/screen.h"
 #include "omc.h"
-#include "widget.h"
 #include "filter.h"
-#include "avplayer.h"
-#include "av_demuxer.h"
 #include "infos.h"
 #include "amazon.h"
-#include "screens/screen_audio.h"
-#include "screens/screen_video.h"
-#include "screens/screen_viewer.h"
 
 #define BROWSER_THUMBNAIL_MAX_SIZE_W 164
 #define BROWSER_THUMBNAIL_MAX_SIZE_H 110

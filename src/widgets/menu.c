@@ -18,15 +18,7 @@
  */
 
 #include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <Evas.h>
-#include <Ecore.h>
-#include <player.h>
-
-#include "screens/screen.h"
 #include "omc.h"
-#include "widget.h"
 
 static void
 cb_mouse_menu_item_logo_hide (void *data, Evas *e,

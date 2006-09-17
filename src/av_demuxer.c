@@ -20,15 +20,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
-#include <player.h>
 #include <pthread.h>
-#include <Evas.h>
-#include <Ecore_Evas.h>
 
-#include "screens/screen.h"
 #include "omc.h"
-#include "widgets/widget.h"
-#include "av_demuxer.h"
 
 static void *
 th_demuxer (void *data)

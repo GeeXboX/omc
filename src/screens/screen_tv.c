@@ -17,18 +17,10 @@
  *
  */
 
-#include <Evas.h>
-#include <Ecore.h>
-#include <Ecore_Evas.h>
-#include <player.h>
-
 #include <string.h>
 #include <stdio.h>
 
-#include "screen.h"
 #include "omc.h"
-#include "widgets/widget.h"
-#include "screen_tv.h"
 
 #define IMG_ICON_LOGO_TV OMC_DATA_DIR"/logo_tv_small.png"
 

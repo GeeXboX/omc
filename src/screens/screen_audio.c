@@ -17,24 +17,20 @@
  *
  */
 
-#include <Evas.h>
-#include <Ecore.h>
-#include <Ecore_Evas.h>
-
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <player.h>
 
-#include "screen.h"
 #include "omc.h"
 #include "filter.h"
-#include "widgets/widget.h"
 #include "avplayer.h"
-#include "screen_audio.h"
-#include "screen_video.h"
-#include "screen_image.h"
-#include "screen_aplayer.h"
+
+typedef struct audio_s {
+  Evas_Object *infobox;
+  cover_t *cover;
+  browser_t *browser;
+  notifier_t *notifier;
+} audio_t;
 
 static audio_t *
 audio_new (void)

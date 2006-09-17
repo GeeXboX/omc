@@ -31,12 +31,9 @@
 #include <curl/types.h>
 #include <curl/easy.h>
 #include <pthread.h>
-#include <player.h>
 
 #include "exml/parser.h"
-#include "screens/screen.h"
 #include "omc.h"
-#include "widgets/widget.h"
 #include "avplayer.h"
 
 #define AMAZON_DEVEL_ID "0HV80J2YXZPNRRPKVTG2"
