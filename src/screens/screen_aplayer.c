@@ -566,63 +566,63 @@ timer_position (void *data)
   border = aplayer->time_border;
   progress = aplayer->time_bar;
   
-  if (omc->player->stream && omc->player->state == PLAYER_STATE_RUNNING)
-  {
-    char time[1024];
-    int pos_time, pos, pos_m = 0, pos_s = 0;
-    int length_time, len, len_m = 0, len_s = 0;
+/*   if (omc->player->stream && omc->player->state == PLAYER_STATE_RUNNING) */
+/*   { */
+/*     char time[1024]; */
+/*     int pos_time, pos, pos_m = 0, pos_s = 0; */
+/*     int length_time, len, len_m = 0, len_s = 0; */
 
-    xine_get_pos_length (omc->player->stream, NULL, &pos_time, &length_time);
-    pos = (int) (pos_time / 1000);
-    pos_m = (int) (pos / 60);
-    pos_s = pos - (pos_m * 60);
-    len = (int) (length_time / 1000);
-    len_m = (int) (len / 60);
-    len_s = len - (len_m * 60);
+/*     xine_get_pos_length (omc->player->stream, NULL, &pos_time, &length_time); */
+/*     pos = (int) (pos_time / 1000); */
+/*     pos_m = (int) (pos / 60); */
+/*     pos_s = pos - (pos_m * 60); */
+/*     len = (int) (length_time / 1000); */
+/*     len_m = (int) (len / 60); */
+/*     len_s = len - (len_m * 60); */
 
-    if (opos)
-    {
-      memset (time, '\0', 1024);
-      sprintf (time, "%.2d:%.2d", pos_m, pos_s);
-      evas_object_text_text_set (opos, time);
-    }
-    if (olen)
-    {
-      memset (time, '\0', 1024);
-      sprintf (time, "%.2d:%.2d", len_m, len_s);
-      evas_object_text_text_set (olen, time);
-    }
-    if (border && progress)
-    {
-      Evas_Coord wb, wp, hp;
-      int percent = 0;
+/*     if (opos) */
+/*     { */
+/*       memset (time, '\0', 1024); */
+/*       sprintf (time, "%.2d:%.2d", pos_m, pos_s); */
+/*       evas_object_text_text_set (opos, time); */
+/*     } */
+/*     if (olen) */
+/*     { */
+/*       memset (time, '\0', 1024); */
+/*       sprintf (time, "%.2d:%.2d", len_m, len_s); */
+/*       evas_object_text_text_set (olen, time); */
+/*     } */
+/*     if (border && progress) */
+/*     { */
+/*       Evas_Coord wb, wp, hp; */
+/*       int percent = 0; */
       
-      evas_object_geometry_get (border, NULL, NULL, &wb, NULL);
-      evas_object_geometry_get (progress, NULL, NULL, NULL, &hp);
-      percent = (int) (pos * 100 / len);
-      wp = (int) (wb * percent / 100);
-      if (wp > wb)
-        wp = wb;
-      evas_object_resize (progress, wp, hp);
-    }
-  }
-  else if (omc->player->state == PLAYER_STATE_IDLE)
-  {
-    char time[1024];
-    memset (time, '\0', 1024);
-    sprintf (time, "%.2d:%.2d", 0, 0);
+/*       evas_object_geometry_get (border, NULL, NULL, &wb, NULL); */
+/*       evas_object_geometry_get (progress, NULL, NULL, NULL, &hp); */
+/*       percent = (int) (pos * 100 / len); */
+/*       wp = (int) (wb * percent / 100); */
+/*       if (wp > wb) */
+/*         wp = wb; */
+/*       evas_object_resize (progress, wp, hp); */
+/*     } */
+/*   } */
+/*   else if (omc->player->state == PLAYER_STATE_IDLE) */
+/*   { */
+/*     char time[1024]; */
+/*     memset (time, '\0', 1024); */
+/*     sprintf (time, "%.2d:%.2d", 0, 0); */
 
-    if (opos)
-      evas_object_text_text_set (opos, time);
-    if (olen)
-      evas_object_text_text_set (olen, time);
-    if (progress)
-    {
-      Evas_Coord h;
-      evas_object_geometry_get (progress, NULL, NULL, NULL, &h);
-      evas_object_resize (progress, 0, h);
-    }
-  }
+/*     if (opos) */
+/*       evas_object_text_text_set (opos, time); */
+/*     if (olen) */
+/*       evas_object_text_text_set (olen, time); */
+/*     if (progress) */
+/*     { */
+/*       Evas_Coord h; */
+/*       evas_object_geometry_get (progress, NULL, NULL, NULL, &h); */
+/*       evas_object_resize (progress, 0, h); */
+/*     } */
+/*   } */
 
   return 1; /* to keep the timer going */
 }
@@ -637,8 +637,8 @@ cb_player_seek (void *data, Evas *e, Evas_Object *obj, void *event_info)
   int length = 0, seek = 0, percent = 0;
   double mx;
 
-  if (!omc->player->stream || omc->player->state == PLAYER_STATE_IDLE)
-    return;
+  //if (!omc->player->stream || omc->player->state == PLAYER_STATE_IDLE)
+  //return;
 
   if (!border)
     return;
@@ -651,9 +651,9 @@ cb_player_seek (void *data, Evas *e, Evas_Object *obj, void *event_info)
   if (percent > 100)
     percent = 100;
   
-  xine_get_pos_length (omc->player->stream, NULL, NULL, &length);
+  //xine_get_pos_length (omc->player->stream, NULL, NULL, &length);
   seek = (int) (percent * length / 100);
-  xine_play (omc->player->stream, 0, seek);
+  //xine_play (omc->player->stream, 0, seek);
 }
 
 #define IMG_ICON_PROGRESS_BORDER OMC_DATA_DIR"/progress_border.png"
@@ -702,8 +702,8 @@ cb_player_volume_update (void *data, Evas *e,
   int len = 0, percent = 0;
   double mx;
 
-  if (!omc->player->stream || omc->player->state == PLAYER_STATE_IDLE)
-    return;
+  //if (!omc->player->stream || omc->player->state == PLAYER_STATE_IDLE)
+  //return;
 
   border = aplayer->volume_border;
   progress = aplayer->volume_bar;
@@ -719,7 +719,7 @@ cb_player_volume_update (void *data, Evas *e,
   if (percent > 100)
     percent = 100;
 
-  xine_set_param (omc->player->stream, XINE_PARAM_AUDIO_VOLUME, percent);
+  //xine_set_param (omc->player->stream, XINE_PARAM_AUDIO_VOLUME, percent);
   len = (int) (percent * w / 100);
   evas_object_geometry_get (border, NULL, NULL, NULL, &h);
   evas_object_resize (progress, len, h);
@@ -742,6 +742,7 @@ aplayer_volume_setup (screen_t *screen)
   aplayer->volume_bar = object_clipper (omc, "7%", "1%", "0%", "5%");
   evas_object_color_set (aplayer->volume_bar, 0, 0, 0, 128);
 
+  /*
   if (omc->player->stream && omc->player->state != PLAYER_STATE_IDLE)
   {
     int vol = 0, len = 0;
@@ -752,7 +753,8 @@ aplayer_volume_setup (screen_t *screen)
     evas_object_geometry_get (aplayer->volume_bar, NULL, NULL, NULL, &h);
     len = (int) (vol * w / 100);
     evas_object_resize (aplayer->volume_bar, len, h);
-  }
+    }
+  */
 
   evas_object_event_callback_add (aplayer->volume_border,
                                   EVAS_CALLBACK_MOUSE_DOWN,
@@ -784,7 +786,7 @@ void
 screen_aplayer_display (screen_t *screen)
 {
   aplayer_t *aplayer = NULL;
-  av_player_t *player = NULL;
+  player_t *player = NULL;
 
   aplayer = (aplayer_t *) screen->private;
   if (!aplayer)
@@ -799,11 +801,13 @@ screen_aplayer_display (screen_t *screen)
   
   if (player && player->state == PLAYER_STATE_RUNNING)
   {
+    /*
     if (player->current->infos)
       screen_aplayer_update_infos (screen, player->current->infos, 1);
     if (player->current->cover)
-      screen_aplayer_update_cover (screen, player->current->cover, 1);
-    screen_aplayer_update_browser (screen, player->current->file);
+    screen_aplayer_update_cover (screen, player->current->cover, 1);
+    */
+    screen_aplayer_update_browser (screen, player->mrl->name);
   }
 }
 

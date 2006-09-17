@@ -417,32 +417,28 @@ cb_browser_mrl_execute (void *data, Evas *e,
   {
   case MOUSE_BUTTON_LEFT:
   {
-    av_mrl_t *mrl = NULL;
-    Evas_List *list;
+    mrl_t *mrl = NULL;
     
     printf ("Need to find MRL for %s\n", item->mrl->name);
-    if (!omc->player || !omc->player->playlist)
+    if (!omc->player)
       break;
 
-    for (list = omc->player->playlist; list; list = list->next)
+    mrl = omc->player->mrl;
+    while (mrl) /* go start of the list */
+      if (mrl->prev)
+        mrl = mrl->prev;
+    
+    while (mrl)
     {
-      av_mrl_t *tmp = NULL;
-
-      tmp = (av_mrl_t *) list->data;
-      if (!tmp)
-        continue;
-      
-      if (!strcmp (item->mrl->name, tmp->file))
-      {
-        mrl = tmp;
+      if (!strcmp (item->mrl->name, mrl->name))
         break;
-      }
+      mrl = mrl->next;
     }
-
+    
     if (mrl)
     {
       printf ("Found the corresponding MRL in playlist\n");
-      omc->player->current = mrl;
+      omc->player->mrl = mrl;
       av_player_start (omc->player);
     }
     
@@ -585,31 +581,31 @@ browser_update (omc_t *omc, browser_t *browser)
   {
     if (omc->player)
     {
-      Evas_List *list;
+      mrl_t *mrl = NULL;
 
-      for (list = omc->player->playlist; list; list = list->next)
+      mrl = omc->player->mrl;
+      while (mrl) /* go start of the list */
+        if (mrl->prev)
+          mrl = mrl->prev;
+      
+      while (mrl)
       {
-        av_mrl_t *mrl;
         item_t *item = NULL;
         Evas_Object *txt = NULL;
 
-        mrl = (av_mrl_t *) list->data;
-        if (!mrl)
-          continue;
-        
-        printf ("MRL : %s\n", mrl->file);
+        printf ("MRL : %s\n", mrl->name);
        
         txt = text_new (omc, 1, browser->font,
-                        basename (mrl->file), 255, 5, "0", "0");
+                        basename (mrl->name), 255, 5, "0", "0");
         object_add_default_cb (txt);
       
         if (browser->clip)
           evas_object_clip_set (txt, browser->clip);
        
         item = item_new (browser, NULL, txt,
-                         ITEM_TYPE_FILE, mrl->file, mrl->type);
-        item->infos = mrl->infos ? strdup (mrl->infos) : NULL;
-        item->cover = mrl->cover ? strdup (mrl->cover) : NULL;
+                         ITEM_TYPE_FILE, mrl->name, mrl->type);
+        item->infos = NULL; //mrl->infos ? strdup (mrl->infos) : NULL;
+        item->cover = NULL; //mrl->cover ? strdup (mrl->cover) : NULL;
         
         evas_object_event_callback_add (txt, EVAS_CALLBACK_MOUSE_DOWN,
                                         cb_browser_mrl_execute, item);
@@ -617,6 +613,7 @@ browser_update (omc_t *omc, browser_t *browser)
                                         cb_browser_mouse_wheel, browser);
 
         browser->entries = evas_list_append (browser->entries, item);
+        mrl = mrl->next;
       }
 
       if (!browser->entries || evas_list_count (browser->entries) == 0)

@@ -25,6 +25,7 @@
 #include <Evas.h>
 #include <Ecore_Evas.h>
 #include "cfgparser.h"
+#include <player.h>
 
 typedef struct omc_s {
   Evas *evas;  
@@ -33,7 +34,7 @@ typedef struct omc_s {
   config_t *cfg;
   char *cwd;
   screen_t *screen;
-  struct av_player_s *player;
+  player_t *player;
   struct demuxer_s *demuxer;
   int w;
   int h;

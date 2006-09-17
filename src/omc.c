@@ -77,7 +77,7 @@ main_start(int argc, char **argv)
    evas_font_cache_set (omc->evas, 1 * 1024 * 1024);
    evas_font_path_append (omc->evas, OMC_DATA_DIR);
    
-   omc->player = av_player_init ();
+   omc->player = av_player_init (PLAYER_TYPE_XINE);
    omc->demuxer = av_demuxer_init (PLAYER_TYPE_XINE);
    
    return 1;
