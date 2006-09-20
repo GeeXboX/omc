@@ -44,8 +44,10 @@ notifier_new (omc_t *omc, font_t *font,
   notifier->border = evas_list_append (notifier->border, dummy);
   border_new (omc, notifier->border, BORDER_TYPE_PLAIN, x, y, w, h);
 
-  notifier->cover =
-    image_new (omc, 0, NULL, NULL, 10, x, y, w, h);
+  if (h>w) /* Make cover images square */
+    notifier->cover = image_new (omc, 0, NULL, NULL, 10, x, y, h, h);
+  else
+    notifier->cover = image_new (omc, 0, NULL, NULL, 10, x, y, w, w);
 
   cx = omc_compute_coord (x, omc->w);
   cw = omc_compute_coord (w, omc->w);
