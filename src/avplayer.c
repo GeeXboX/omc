@@ -96,7 +96,8 @@ av_player_start (player_t *av_player)
 {
   player_playback_start (av_player);
   
-  printf ("Now playing : %s\n", av_player->mrl->name);
+  if (av_player->mrl && av_player->mrl->name)
+    printf ("Now playing : %s\n", av_player->mrl->name);
 
   /*
   if (omc->screen->type == SCREEN_TYPE_APLAYER)
