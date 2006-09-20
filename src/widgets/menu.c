@@ -94,7 +94,7 @@ menu_new (omc_t *omc, font_t *font, int align,
 }
 
 Evas_Object *
-menu_add_menuitem (omc_t *omc, menu_t *menu,
+menu_add_menu_item (omc_t *omc, menu_t *menu,
                    char *str, char *logo,
                    char *logo_x, char *logo_y,
                    char *logo_w, char *logo_h)

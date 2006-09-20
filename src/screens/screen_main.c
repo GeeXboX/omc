@@ -114,31 +114,31 @@ main_menu_setup (screen_t *screen)
     menu_new (omc, font, MENU_ALIGN_RIGHT, IMG_MENU_SELECTOR, "50%", "50",
               "55%", "20%", "40%", "63%");
 
-  item = menu_add_menuitem (omc, smain->menu,
+  item = menu_add_menu_item (omc, smain->menu,
                             i18n_get_string (STR_MENU_VIDEO_PLAYER),
                             IMG_MENU_MOVIES, "10%", "25%", "35%", "56%");
   evas_object_event_callback_add (item, EVAS_CALLBACK_MOUSE_DOWN,
                                   cb_switch_screen, SCREEN_VIDEO_TITLE);
 
-  item = menu_add_menuitem (omc, smain->menu,
+  item = menu_add_menu_item (omc, smain->menu,
                             i18n_get_string (STR_MENU_AUDIO_PLAYER),
                             IMG_MENU_AUDIO, "11%", "25%", "30%", "56%");
   evas_object_event_callback_add (item, EVAS_CALLBACK_MOUSE_DOWN,
                                   cb_switch_screen, SCREEN_AUDIO_TITLE);
 
-  item = menu_add_menuitem (omc, smain->menu,
+  item = menu_add_menu_item (omc, smain->menu,
                             i18n_get_string (STR_MENU_TV),
                             IMG_MENU_TV, "5%", "30%", "35%", "40%");
   evas_object_event_callback_add (item, EVAS_CALLBACK_MOUSE_DOWN,
                                   cb_switch_screen, SCREEN_TV_TITLE);
 
-  item = menu_add_menuitem (omc, smain->menu,
+  item = menu_add_menu_item (omc, smain->menu,
                             i18n_get_string (STR_MENU_PICTURES),
                             IMG_MENU_PICTURES, "8%", "20%", "35%", "65%");
   evas_object_event_callback_add (item, EVAS_CALLBACK_MOUSE_DOWN,
                                   cb_switch_screen, SCREEN_IMAGE_TITLE);
 
-  item = menu_add_menuitem (omc, smain->menu,
+  item = menu_add_menu_item (omc, smain->menu,
                             i18n_get_string (STR_MENU_SETTINGS),
                             IMG_MENU_SETTINGS, "8%", "35%", "35%", "40%");
   evas_object_event_callback_add (item, EVAS_CALLBACK_MOUSE_DOWN,
