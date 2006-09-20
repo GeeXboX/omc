@@ -45,7 +45,7 @@ notifier_new (omc_t *omc, font_t *font,
   border_new (omc, notifier->border, BORDER_TYPE_PLAIN, x, y, w, h);
 
   notifier->cover =
-    image_new (omc, 0, NULL, NULL, 10, x, y, h, h);
+    image_new (omc, 0, NULL, NULL, 10, x, y, w, h);
 
   cx = omc_compute_coord (x, omc->w);
   cw = omc_compute_coord (w, omc->w);
