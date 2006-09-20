@@ -24,7 +24,6 @@ LDFLAGS += -levas -lecore_evas -lecore
 LDFLAGS += -lplayer
 LDFLAGS += -lcurl
 LDFLAGS += -lpthread
-LDFLAGS += -lxine
 
 OBJS = $(SRCS:.c=.o)
 
