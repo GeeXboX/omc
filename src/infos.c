@@ -115,19 +115,26 @@ compute_file_infos (item_t *item)
    {
      if (mrl->prop && mrl->prop->video)
      {
-       memset (tag, '\0', MAX_TAG_SIZE);
-       sprintf (tag, "Res. : %d x %d",
-                mrl->prop->video->width, mrl->prop->video->height);
-       strcat (item->infos, tag);
-       strcat (item->infos, "\n");
+             /*
+       if (mrl->prop->video->width && mrl->prop->video->height)
+       {
+         memset (tag, '\0', MAX_TAG_SIZE);
+         sprintf (tag, "Res. : %d x %d",
+                  mrl->prop->video->width, mrl->prop->video->height);
+         strcat (item->infos, tag);
+         strcat (item->infos, "\n");
+       }
 
-       memset (tag, '\0', MAX_TAG_SIZE);
-       sprintf (tag, "Video : %s", mrl->prop->video->codec);
-       strcat (item->infos, tag);
-       strcat (item->infos, "\n");
+       if (mrl->prop->video->codec)
+       {
+         memset (tag, '\0', MAX_TAG_SIZE);
+         sprintf (tag, "Video : %s", mrl->prop->video->codec);
+         strcat (item->infos, tag);
+         strcat (item->infos, "\n");
+       }*/
      }
      
-     if (mrl->prop && mrl->prop->audio)
+     if (mrl->prop && mrl->prop->audio && mrl->prop->audio->codec)
      {
        memset (tag, '\0', MAX_TAG_SIZE);
        sprintf (tag, "Audio : %s", mrl->prop->audio->codec);
