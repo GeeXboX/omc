@@ -115,7 +115,6 @@ compute_file_infos (item_t *item)
    {
      if (mrl->prop && mrl->prop->video)
      {
-             /*
        if (mrl->prop->video->width && mrl->prop->video->height)
        {
          memset (tag, '\0', MAX_TAG_SIZE);
@@ -131,7 +130,7 @@ compute_file_infos (item_t *item)
          sprintf (tag, "Video : %s", mrl->prop->video->codec);
          strcat (item->infos, tag);
          strcat (item->infos, "\n");
-       }*/
+       }
      }
      
      if (mrl->prop && mrl->prop->audio && mrl->prop->audio->codec)
