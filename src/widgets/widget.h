@@ -20,6 +20,38 @@
 #ifndef _WIDGET_H_
 #define _WIDGET_H_
 
+typedef enum widget_type {
+  WIDGET_TYPE_UNKNOWN,
+  WIDGET_TYPE_TEXT
+} widget_type_t;
+
+typedef struct widget_s {
+  char *id; /* unique identifier */
+  widget_type_t type;
+
+  /* position and common display properties */
+  uint32_t x;
+  uint32_t y;
+  uint32_t w;
+  uint32_t h;
+  uint32_t layer;
+
+  /* widget type specific data */
+  void *priv;
+  
+  int (*show) (struct widget_s *widget); /* called to show widget */
+  int (*hide) (struct widget_s *widget); /* called to hide widget */
+  void (*free) (struct widget_s *widget); /* called to free widget */
+} widget_t;
+
+widget_t *widget_new (char *id, widget_type_t type,
+                      uint32_t x, uint32_t y, uint32_t w, uint32_t h,
+                      uint32_t layer);
+
+void widget_show (widget_t *widget);
+void widget_hide (widget_t *widget);
+void widget_free (widget_t *widget);
+
 #include "image.h"
 #include "color.h"
 #include "text.h"

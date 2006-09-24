@@ -18,7 +18,9 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include "omc.h"
+#include "color.h"
 
 /* Callbacks */
 static void
@@ -76,4 +78,76 @@ text_new (omc_t *omc, int focusable, font_t *font, char *str,
                        layer, font->size, font->style, cl, fcl);
 
   return txt;
+}
+
+static int widget_text_show (widget_t *widget)
+{
+  return 0;
+}
+
+static int widget_text_hide (widget_t *widget)
+{
+  return 0;
+}
+
+static void widget_text_free (widget_t *widget)
+{
+  widget_text_t *text;
+  
+  if (!widget)
+    return;
+
+  text = (widget_text_t *) widget->priv;
+
+  if (text->obj)
+    evas_object_del (text->obj);
+  if (text->str)
+    free (text->str);
+  //if (text->font)
+  //font_free (text->font);
+  if (text->color)
+    color_free (text->color);
+  if (text->fcolor)
+    color_free (text->fcolor);
+}
+
+widget_t *
+widget_text_new (char *id, uint32_t x, uint32_t y, uint32_t layer,
+                 char *str, font_t *font, uint32_t alpha)
+{
+  widget_t *widget = NULL;
+  widget_text_t *text = NULL;
+  
+  if (!id) /* mandatory */
+    return NULL;
+  
+  widget = widget_new (id, WIDGET_TYPE_TEXT, x, y, 0, 0, layer);
+  if (!widget)
+    return NULL;
+
+  text = (widget_text_t *) malloc (sizeof (widget_text_t));
+  text->obj = NULL;
+  text->str = strdup (str);
+  text->font = font;
+  text->color = NULL;
+  text->fcolor = NULL;
+  text->size = font->size;
+  text->alpha = alpha;
+
+  if (font->color)
+    text->color = color_new (font->color, alpha);
+  if (font->fcolor)
+    text->fcolor = color_new (font->fcolor, alpha);
+
+  text->obj = evas_text_new (omc, 0, font->ft, str, x, y,
+                             layer, text->size, font->style,
+                            text->color, text->fcolor);
+
+  widget->priv = text;
+
+  widget->show = widget_text_show;
+  widget->hide = widget_text_hide;
+  widget->free = widget_text_free;
+  
+  return widget;
 }

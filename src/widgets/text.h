@@ -23,4 +23,17 @@
 Evas_Object * text_new (omc_t *omc, int focusable, font_t *font, char *str,
                         int alpha, int layer, char *x, char *y);
 
+typedef struct widget_text_s {
+  Evas_Object *obj;
+  char *str;
+  font_t *font;
+  color_t *color;
+  color_t *fcolor;
+  uint32_t size;
+  uint32_t alpha;
+} widget_text_t;
+
+widget_t *widget_text_new (char *id, uint32_t x, uint32_t y, uint32_t layer,
+                           char *str, font_t *font, uint32_t alpha);
+
 #endif /* _WIDGET_TEXT_H_ */

@@ -95,3 +95,57 @@ getExtension (char *filename)
 
   return extension;
 }
+
+widget_t *
+widget_new (char *id, widget_type_t type,
+            uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t layer)
+{
+  widget_t *widget = NULL;
+
+  if (!id) /* mandatory */
+    return NULL;
+  
+  widget = (widget_t *) malloc (sizeof (widget_t));
+  widget->id = strdup (id);
+  widget->type = type;
+  widget->x = x;
+  widget->y = y;
+  widget->w = w;
+  widget->h = h;
+  widget->priv = NULL;
+
+  widget->show = NULL;
+  widget->hide = NULL;
+  widget->free = NULL;
+
+  return widget;
+}
+
+void
+widget_show (widget_t *widget)
+{
+  if (widget && widget->show)
+    widget->show (widget);
+}
+
+void
+widget_hide (widget_t *widget)
+{
+  if (widget && widget->hide)
+    widget->hide (widget);
+}
+
+void
+widget_free (widget_t *widget)
+{
+  if (!widget)
+    return;
+
+  if (widget->id)
+    free (widget->id);
+
+  if (widget->free)
+    widget->free (widget);
+
+  free (widget);
+}
