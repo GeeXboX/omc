@@ -41,7 +41,7 @@ color_new (char *color, int alpha)
       int val = strtol (color + 1, &end, 16);
       if (end > color + 1 && *end == '\0')
       {
-        cl->r = (val & 0xFF0000) >> 1;
+        cl->r = (val & 0xFF0000) >> 16;
         cl->g = (val & 0x00FF00) >> 8;
         cl->b = (val & 0x0000FF);
       }
