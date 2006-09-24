@@ -75,10 +75,5 @@ text_new (omc_t *omc, int focusable, font_t *font, char *str,
   txt = evas_text_new (omc, focusable, font->ft, str, x2, y2,
                        layer, font->size, font->style, cl, fcl);
 
-  if (cl)
-    color_free (cl);
-  if (fcl)
-    color_free (fcl);
-
   return txt;
 }
