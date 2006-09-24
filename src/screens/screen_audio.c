@@ -318,10 +318,17 @@ audio_notifier_setup (screen_t *screen)
 void
 screen_audio_setup (screen_t *screen, char *data)
 {
+  audio_t *audio = NULL;
+  notifier_t *notifier = NULL;
+
   if (!screen || screen->type != SCREEN_TYPE_AUDIO)
     return;
 
   screen->private = (audio_t *) audio_new ();
+  audio = (audio_t *) screen->private;
+
+  if (!audio)
+    return;
   
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);
@@ -332,6 +339,10 @@ screen_audio_setup (screen_t *screen, char *data)
   audio_infos_setup (screen);
   audio_cover_setup (screen);
   audio_notifier_setup (screen);
+
+  notifier = (notifier_t *) audio->notifier;
+  if (notifier)
+    notifier_hide (notifier);
 }
 
 void

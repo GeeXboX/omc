@@ -225,10 +225,17 @@ main_notifier_setup (screen_t *screen)
 void
 screen_main_setup (screen_t *screen, char *data)
 {
+  smain_t *smain = NULL;
+  notifier_t *notifier = NULL;
+
   if (!screen || screen->type != SCREEN_TYPE_MAIN)
     return;
 
   screen->private = (smain_t *) smain_new ();
+  smain = (smain_t *) screen->private;
+
+  if (!smain)
+    return;
   
   widget_background_setup (screen);
   
@@ -236,6 +243,10 @@ screen_main_setup (screen_t *screen, char *data)
   main_menu_setup (screen);
   main_buttons_setup (screen);
   main_notifier_setup (screen);
+
+  notifier = (notifier_t *) smain->notifier;
+  if (notifier)
+    notifier_hide (notifier);
 }
 
 void

@@ -244,10 +244,17 @@ video_notifier_setup (screen_t *screen)
 void
 screen_video_setup (screen_t *screen, char *data)
 {
+  video_t *video = NULL;
+  notifier_t *notifier = NULL;
+
   if (!screen || screen->type != SCREEN_TYPE_VIDEO)
     return;
 
   screen->private = (video_t *) video_new ();
+  video = (video_t *) screen->private;
+
+  if (!video)
+    return;
   
   widget_background_setup (screen);
   widget_common_toolbar_setup (screen);
@@ -257,6 +264,10 @@ screen_video_setup (screen_t *screen, char *data)
   video_cover_setup (screen);
   video_browser_setup (screen);
   video_notifier_setup (screen);
+
+  notifier = (notifier_t *) video->notifier;
+  if (notifier)
+    notifier_hide (notifier);
 }
 
 void
