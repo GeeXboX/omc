@@ -122,6 +122,7 @@ filter_new (int type)
   
   filter = (filter_t *) malloc (sizeof (filter_t));
   filter->type = type;
+  filter->exts = NULL;
 
   switch (filter->type)
   {
