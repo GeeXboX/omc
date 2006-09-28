@@ -89,10 +89,17 @@ text_new (omc_t *omc, int focusable, font_t *font, char *str,
 static int
 widget_text_show (widget_t *widget)
 {
-  if (widget && widget->obj)
+  if (widget)
   {
-    evas_object_show (widget->obj);
-    return 0;
+    widget_text_t *text = (widget_text_t *) widget->priv;
+    
+    if (text && text->obj)
+    {
+      evas_object_show (text->obj);
+      return 0;
+    }
+    
+    return -1;
   }
 
   return -1;
@@ -101,10 +108,17 @@ widget_text_show (widget_t *widget)
 static int
 widget_text_hide (widget_t *widget)
 {
-  if (widget && widget->obj)
+  if (widget)
   {
-    evas_object_hide (widget->obj);
-    return 0;
+    widget_text_t *text = (widget_text_t *) widget->priv;
+    
+    if (text && text->obj)
+    {
+      evas_object_hide (text->obj);
+      return 0;
+    }
+    
+    return -1;
   }
 
   return -1;
