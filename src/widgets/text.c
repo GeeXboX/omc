@@ -88,12 +88,24 @@ text_new (omc_t *omc, int focusable, font_t *font, char *str,
 
 static int widget_text_show (widget_t *widget)
 {
-  return 0;
+  if (widget && widget->obj)
+  {
+    evas_object_show (widget->obj);
+    return 0;
+  }
+
+  return -1;
 }
 
 static int widget_text_hide (widget_t *widget)
 {
-  return 0;
+  if (widget && widget->obj)
+  {
+    evas_object_hide (widget->obj);
+    return 0;
+  }
+
+  return -1;
 }
 
 static void widget_text_free (widget_t *widget)
