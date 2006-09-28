@@ -116,6 +116,7 @@ widget_new (char *id, widget_type_t type,
 
   widget->show = NULL;
   widget->hide = NULL;
+  widget->action = NULL;
   widget->free = NULL;
 
   return widget;
