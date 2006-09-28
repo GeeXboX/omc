@@ -86,7 +86,8 @@ text_new (omc_t *omc, int focusable, font_t *font, char *str,
   return txt;
 }
 
-static int widget_text_show (widget_t *widget)
+static int
+widget_text_show (widget_t *widget)
 {
   if (widget && widget->obj)
   {
@@ -97,7 +98,8 @@ static int widget_text_show (widget_t *widget)
   return -1;
 }
 
-static int widget_text_hide (widget_t *widget)
+static int
+widget_text_hide (widget_t *widget)
 {
   if (widget && widget->obj)
   {
@@ -108,7 +110,8 @@ static int widget_text_hide (widget_t *widget)
   return -1;
 }
 
-static void widget_text_free (widget_t *widget)
+static void
+widget_text_free (widget_t *widget)
 {
   widget_text_t *text;
   
