@@ -121,18 +121,22 @@ widget_new (char *id, widget_type_t type,
   return widget;
 }
 
-void
+int
 widget_show (widget_t *widget)
 {
   if (widget && widget->show)
-    widget->show (widget);
+    return widget->show (widget);
+
+  return -1;
 }
 
-void
+int
 widget_hide (widget_t *widget)
 {
   if (widget && widget->hide)
-    widget->hide (widget);
+    return widget->hide (widget);
+
+  return -1;
 }
 
 int

@@ -58,8 +58,8 @@ widget_t *widget_new (char *id, widget_type_t type,
                       uint32_t x, uint32_t y, uint32_t w, uint32_t h,
                       uint32_t layer);
 
-void widget_show (widget_t *widget);
-void widget_hide (widget_t *widget);
+int widget_show (widget_t *widget);
+int widget_hide (widget_t *widget);
 int widget_action (widget_t *widget, action_event_type_t ev);
 void widget_free (widget_t *widget);
 
