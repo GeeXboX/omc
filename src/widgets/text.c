@@ -24,12 +24,8 @@
 
 typedef struct widget_text_s {
   Evas_Object *obj;
-  char *str;
-  font_t *font;
   color_t *color;
   color_t *fcolor;
-  uint32_t size;
-  uint32_t alpha;
 } widget_text_t;
 
 /* Callbacks */
@@ -111,10 +107,6 @@ static void widget_text_free (widget_t *widget)
 
   if (text->obj)
     evas_object_del (text->obj);
-  if (text->str)
-    free (text->str);
-  //if (text->font)
-  //font_free (text->font);
   if (text->color)
     color_free (text->color);
   if (text->fcolor)
@@ -123,12 +115,13 @@ static void widget_text_free (widget_t *widget)
 
 widget_t *
 widget_text_new (char *id, uint32_t x, uint32_t y, uint32_t layer,
-                 char *str, font_t *font, uint32_t alpha)
+                 char *str, char *font, char *color, char *fcolor,
+                 uint32_t size, uint32_t alpha)
 {
   widget_t *widget = NULL;
   widget_text_t *text = NULL;
   
-  if (!id) /* mandatory */
+  if (!id || !str || !font) /* mandatory */
     return NULL;
   
   widget = widget_new (id, WIDGET_TYPE_TEXT, x, y, 0, 0, layer);
@@ -137,21 +130,16 @@ widget_text_new (char *id, uint32_t x, uint32_t y, uint32_t layer,
 
   text = (widget_text_t *) malloc (sizeof (widget_text_t));
   text->obj = NULL;
-  text->str = strdup (str);
-  text->font = font;
   text->color = NULL;
   text->fcolor = NULL;
-  text->size = font->size;
-  text->alpha = alpha;
 
-  if (font->color)
-    text->color = color_new (font->color, alpha);
-  if (font->fcolor)
-    text->fcolor = color_new (font->fcolor, alpha);
+  if (color)
+    text->color = color_new (color, alpha);
+  if (fcolor)
+    text->fcolor = color_new (fcolor, alpha);
 
-  text->obj = evas_text_new (omc, 0, font->ft, str, x, y,
-                             layer, text->size, font->style,
-                            text->color, text->fcolor);
+  text->obj = evas_text_new (omc, 0, font, str, x, y,
+                             layer, size, 0, color, fcolor);
 
   widget->priv = text;
 
