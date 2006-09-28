@@ -174,7 +174,7 @@ widget_text_new (char *id, uint32_t x, uint32_t y, uint32_t layer,
     text->fcolor = color_new (fcolor, alpha);
 
   text->obj = evas_text_new (omc, 0, font, str, x, y,
-                             layer, size, 0, color, fcolor);
+                             layer, size, 0, text->color, text->fcolor);
 
   widget->priv = text;
 
