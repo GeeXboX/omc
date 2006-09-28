@@ -22,6 +22,16 @@
 #include "omc.h"
 #include "color.h"
 
+typedef struct widget_text_s {
+  Evas_Object *obj;
+  char *str;
+  font_t *font;
+  color_t *color;
+  color_t *fcolor;
+  uint32_t size;
+  uint32_t alpha;
+} widget_text_t;
+
 /* Callbacks */
 static void
 cb_text_focus_update (void *data, Evas *e, Evas_Object *obj, void *event_info)
