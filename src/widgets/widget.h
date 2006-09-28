@@ -25,6 +25,15 @@ typedef enum widget_type {
   WIDGET_TYPE_TEXT
 } widget_type_t;
 
+typedef enum action_event_type {
+  ACTION_EVENT_GO_UP,
+  ACTION_EVENT_GO_DOWN,
+  ACTION_EVENT_GO_LEFT,
+  ACTION_EVENT_GO_RIGHT,
+  ACTION_EVENT_CANCEL,
+  ACTION_EVENT_OK
+} action_event_type_t;
+
 typedef struct widget_s {
   char *id; /* unique identifier */
   widget_type_t type;
@@ -41,6 +50,7 @@ typedef struct widget_s {
   
   int (*show) (struct widget_s *widget); /* called to show widget */
   int (*hide) (struct widget_s *widget); /* called to hide widget */
+  int (*action) (struct widget_s *widget, action_event_type_t ev);
   void (*free) (struct widget_s *widget); /* called to free widget */
 } widget_t;
 
@@ -50,6 +60,7 @@ widget_t *widget_new (char *id, widget_type_t type,
 
 void widget_show (widget_t *widget);
 void widget_hide (widget_t *widget);
+int widget_action (widget_t *widget, action_event_type_t ev);
 void widget_free (widget_t *widget);
 
 #include "image.h"

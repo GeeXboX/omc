@@ -135,6 +135,15 @@ widget_hide (widget_t *widget)
     widget->hide (widget);
 }
 
+int
+widget_action (widget_t *widget, action_event_type_t ev)
+{
+  if (widget && widget->action)
+    return widget->action (widget, ev);
+  
+  return -1;
+}
+
 void
 widget_free (widget_t *widget)
 {
