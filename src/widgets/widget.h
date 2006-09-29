@@ -63,6 +63,25 @@ int widget_hide (widget_t *widget);
 int widget_action (widget_t *widget, action_event_type_t ev);
 void widget_free (widget_t *widget);
 
+typedef struct neighbours_s {
+  widget_t *up;
+  widget_t *down;
+  widget_t *left;
+  widget_t *right;
+} neighbours_t;
+
+typedef enum neighbours_type {
+  NEIGHBOURS_UP,
+  NEIGHBOURS_DOWN,
+  NEIGHBOURS_LEFT,
+  NEIGHBOURS_RIGHT
+} neighbours_type_t;
+
+neighbours_t *neighbours_new (void);
+void neighbours_set (neighbours_t *nb, widget_t *widget,
+                     neighbours_type_t type);
+void neighbours_free (neighbours_t *nb);
+
 #include "image.h"
 #include "color.h"
 #include "text.h"

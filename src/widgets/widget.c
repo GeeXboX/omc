@@ -163,3 +163,54 @@ widget_free (widget_t *widget)
 
   free (widget);
 }
+
+neighbours_t *
+neighbours_new (void)
+{
+  neighbours_t *nb = NULL;
+
+  nb = (neighbours_t *) malloc (sizeof (neighbours_t));
+  nb->up = NULL;
+  nb->down = NULL;
+  nb->left = NULL;
+  nb->right = NULL;
+
+  return nb;
+}
+
+void
+neighbours_set (neighbours_t *nb, widget_t *widget, neighbours_type_t type)
+{
+  if (!nb)
+    return;
+
+  switch (type)
+  {
+  case NEIGHBOURS_UP:
+    nb->up = widget;
+    break;
+  case NEIGHBOURS_DOWN:
+    nb->down = widget;
+    break;
+  case NEIGHBOURS_LEFT:
+    nb->left = widget;
+    break;
+  case NEIGHBOURS_RIGHT:
+    nb->right = widget;
+    break;
+  }
+}
+
+void
+neighbours_free (neighbours_t *nb)
+{
+  if (!nb)
+    return;
+
+  nb->up = NULL;
+  nb->down = NULL;
+  nb->left = NULL;
+  nb->right = NULL;
+
+  free (nb);
+}
