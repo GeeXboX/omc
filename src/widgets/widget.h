@@ -41,6 +41,8 @@ typedef enum action_event_type {
   ACTION_EVENT_OK
 } action_event_type_t;
 
+typedef struct widget_focus_s widget_focus_t;
+
 typedef struct widget_s {
   char *id; /* unique identifier */
   widget_type_t type;
@@ -53,6 +55,9 @@ typedef struct widget_s {
   uint32_t h;
   uint32_t layer;
 
+  /* when focused description */
+  widget_focus_t *focus;
+  
   /* widget type specific data */
   void *priv;
   
@@ -91,6 +96,13 @@ neighbours_t *neighbours_new (void);
 void neighbours_set (neighbours_t *nb, widget_t *widget,
                      neighbours_type_t type);
 void neighbours_free (neighbours_t *nb);
+
+struct widget_focus_s {
+  neighbours_t *neighbours;
+};
+
+widget_focus_t *widget_focus_new (void);
+void widget_focus_free (widget_focus_t *focus);
 
 #include "image.h"
 #include "color.h"

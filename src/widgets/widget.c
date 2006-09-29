@@ -115,6 +115,7 @@ widget_new (char *id, widget_type_t type,
   widget->y = y;
   widget->w = w;
   widget->h = h;
+  widget->focus = NULL;
   widget->priv = NULL;
 
   if (show)
@@ -247,4 +248,27 @@ neighbours_free (neighbours_t *nb)
   nb->right = NULL;
 
   free (nb);
+}
+
+widget_focus_t *
+widget_focus_new (void)
+{
+  widget_focus_t *focus = NULL;
+
+  focus = (widget_focus_t *) malloc (sizeof (widget_focus_t));
+  focus->neighbours = neighbours_new ();
+
+  return focus;
+}
+
+void
+widget_focus_free (widget_focus_t *focus)
+{
+  if (!focus)
+    return;
+
+  if (focus->neighbours)
+    neighbours_free (focus->neighbours);
+  
+  free (focus);
 }
