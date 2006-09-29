@@ -71,6 +71,8 @@ int widget_hide (widget_t *widget);
 int widget_action (widget_t *widget, action_event_type_t ev);
 void widget_free (widget_t *widget);
 
+widget_t *get_widget_by_id (Evas_List *list, char *id);
+
 typedef struct neighbours_s {
   widget_t *up;
   widget_t *down;

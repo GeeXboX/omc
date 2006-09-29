@@ -175,6 +175,29 @@ widget_free (widget_t *widget)
   free (widget);
 }
 
+widget_t *
+get_widget_by_id (Evas_List *list, char *id)
+{
+  Evas_List *l;
+  
+  if (!list || !id)
+    return NULL;
+
+  for (l = list; l; l = l->next)
+  {
+    widget_t *w;
+    
+    w = (widget_t *) list->data;
+    if (!w || !w->id)
+      continue;
+
+    if (!strcmp (w->id, id))
+      return w;
+  }
+
+  return NULL;
+}
+
 neighbours_t *
 neighbours_new (void)
 {
