@@ -125,6 +125,7 @@ widget_new (char *id, widget_type_t type,
   
   widget->show = NULL;
   widget->hide = NULL;
+  widget->set_focus = NULL;
   widget->action = NULL;
   widget->free = NULL;
 
@@ -147,6 +148,23 @@ widget_hide (widget_t *widget)
   if (widget && widget->hide)
     if (widget->flags & WIDGET_FLAG_SHOW) /* current state: display */
       return widget->hide (widget);
+
+  return -1;
+}
+
+int
+widget_set_focus (widget_t *widget, uint32_t state)
+{
+  if (!widget || !(widget->flags & WIDGET_FLAG_FOCUSABLE))
+    return -1;
+
+  if (state)
+    widget->flags |= WIDGET_FLAG_FOCUSED;
+  else
+    widget->flags &= WIDGET_FLAG_FOCUSED;
+  
+  if (widget->set_focus)
+    return widget->set_focus (widget);
 
   return -1;
 }

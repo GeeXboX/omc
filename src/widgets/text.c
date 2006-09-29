@@ -125,6 +125,37 @@ widget_text_hide (widget_t *widget)
 }
 
 static int
+widget_text_set_focus (widget_t *widget)
+{
+  widget_text_t *text;
+  uint32_t focus;
+  color_t *cl;
+  
+  if (!widget)
+    return -1;
+
+  focus = widget->flags & WIDGET_FLAG_FOCUSED;
+  text = (widget_text_t *) widget->priv;
+  if (!text || !text->obj)
+    return -1;
+  
+  if (!focus && text->color)
+  {
+    cl = text->color;
+    evas_object_color_set (text->obj, cl->r, cl->g, cl->b, cl->a);
+    return 0;
+  }
+  else if (focus && text->fcolor)
+  {
+    cl = text->fcolor;
+    evas_object_color_set (text->obj, cl->r, cl->g, cl->b, cl->a);
+    return 0;
+  }
+
+  return -1;
+}
+
+static int
 widget_text_action (widget_t *widget, action_event_type_t ev)
 {
   return -1;
@@ -182,6 +213,7 @@ widget_text_new (char *id, uint32_t x, uint32_t y, uint32_t layer,
 
   widget->show = widget_text_show;
   widget->hide = widget_text_hide;
+  widget->set_focus = widget_text_set_focus;
   widget->action = widget_text_action;
   widget->free = widget_text_free;
   
