@@ -26,6 +26,7 @@ Evas_Object * text_new (omc_t *omc, int focusable, font_t *font, char *str,
 widget_t *
 widget_text_new (char *id, uint32_t x, uint32_t y, uint32_t layer,
                  char *str, char *font, char *color, char *fcolor,
-                 uint32_t size, uint32_t alpha);
+                 uint32_t size, uint32_t alpha,
+                 uint32_t show, uint32_t focusable);
 
 #endif /* _WIDGET_TEXT_H_ */

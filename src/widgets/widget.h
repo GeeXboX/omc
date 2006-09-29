@@ -25,6 +25,13 @@ typedef enum widget_type {
   WIDGET_TYPE_TEXT
 } widget_type_t;
 
+typedef enum widget_flags {
+  WIDGET_FLAG_NONE                  = 0x00,
+  WIDGET_FLAG_SHOW                  = 0x01,
+  WIDGET_FLAG_FOCUSABLE             = 0x02,
+  WIDGET_FLAG_FOCUSED               = 0x04
+} widget_flags_t;
+
 typedef enum action_event_type {
   ACTION_EVENT_GO_UP,
   ACTION_EVENT_GO_DOWN,
@@ -37,7 +44,8 @@ typedef enum action_event_type {
 typedef struct widget_s {
   char *id; /* unique identifier */
   widget_type_t type;
-
+  int flags;
+  
   /* position and common display properties */
   uint32_t x;
   uint32_t y;
@@ -56,7 +64,7 @@ typedef struct widget_s {
 
 widget_t *widget_new (char *id, widget_type_t type,
                       uint32_t x, uint32_t y, uint32_t w, uint32_t h,
-                      uint32_t layer);
+                      uint32_t layer, uint32_t show, uint32_t focusable);
 
 int widget_show (widget_t *widget);
 int widget_hide (widget_t *widget);

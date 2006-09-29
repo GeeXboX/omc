@@ -151,7 +151,8 @@ widget_text_free (widget_t *widget)
 widget_t *
 widget_text_new (char *id, uint32_t x, uint32_t y, uint32_t layer,
                  char *str, char *font, char *color, char *fcolor,
-                 uint32_t size, uint32_t alpha)
+                 uint32_t size, uint32_t alpha,
+                 uint32_t show, uint32_t focusable)
 {
   widget_t *widget = NULL;
   widget_text_t *text = NULL;
@@ -159,7 +160,8 @@ widget_text_new (char *id, uint32_t x, uint32_t y, uint32_t layer,
   if (!id || !str || !font) /* mandatory */
     return NULL;
   
-  widget = widget_new (id, WIDGET_TYPE_TEXT, x, y, 0, 0, layer);
+  widget = widget_new (id, WIDGET_TYPE_TEXT,
+                       x, y, 0, 0, layer, show, focusable);
   if (!widget)
     return NULL;
 

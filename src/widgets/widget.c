@@ -98,7 +98,9 @@ getExtension (char *filename)
 
 widget_t *
 widget_new (char *id, widget_type_t type,
-            uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t layer)
+            uint32_t x, uint32_t y,
+            uint32_t w, uint32_t h,
+            uint32_t layer, uint32_t show, uint32_t focusable)
 {
   widget_t *widget = NULL;
 
@@ -108,12 +110,18 @@ widget_new (char *id, widget_type_t type,
   widget = (widget_t *) malloc (sizeof (widget_t));
   widget->id = strdup (id);
   widget->type = type;
+  widget->flags = WIDGET_FLAG_NONE;
   widget->x = x;
   widget->y = y;
   widget->w = w;
   widget->h = h;
   widget->priv = NULL;
 
+  if (show)
+    widget->flags |= WIDGET_FLAG_SHOW;
+  if (focusable)
+    widget->flags |= WIDGET_FLAG_FOCUSABLE;
+  
   widget->show = NULL;
   widget->hide = NULL;
   widget->action = NULL;
@@ -126,7 +134,8 @@ int
 widget_show (widget_t *widget)
 {
   if (widget && widget->show)
-    return widget->show (widget);
+    if (!(widget->flags & WIDGET_FLAG_SHOW)) /* current state: hidden */
+      return widget->show (widget);
 
   return -1;
 }
@@ -135,7 +144,8 @@ int
 widget_hide (widget_t *widget)
 {
   if (widget && widget->hide)
-    return widget->hide (widget);
+    if (widget->flags & WIDGET_FLAG_SHOW) /* current state: display */
+      return widget->hide (widget);
 
   return -1;
 }
@@ -144,7 +154,8 @@ int
 widget_action (widget_t *widget, action_event_type_t ev)
 {
   if (widget && widget->action)
-    return widget->action (widget, ev);
+    if (widget->flags & WIDGET_FLAG_FOCUSED) /* widget has focus */
+      return widget->action (widget, ev);
   
   return -1;
 }
