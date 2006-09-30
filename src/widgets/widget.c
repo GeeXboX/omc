@@ -318,6 +318,7 @@ widget_focus_new (void)
 
   focus = (widget_focus_t *) malloc (sizeof (widget_focus_t));
   focus->neighbours = neighbours_new ();
+  focus->actions = NULL;
 
   return focus;
 }
@@ -325,11 +326,81 @@ widget_focus_new (void)
 void
 widget_focus_free (widget_focus_t *focus)
 {
+  Evas_List *l;
+  
   if (!focus)
     return;
 
   if (focus->neighbours)
     neighbours_free (focus->neighbours);
+
+  for (l = focus->actions; l; l = l->next)
+  {
+    widget_action_t *action = NULL;
+    action = (widget_action_t *) l->data;
+    if (action)
+      widget_action_free (action);
+    focus->actions = evas_list_remove (focus->actions, focus->actions);
+  }
   
   free (focus);
+}
+
+void
+widget_focus_add_action (widget_focus_t *focus, widget_action_t *action)
+{
+  if (!focus || !action)
+    return -1;
+
+  focus->actions = evas_list_append (focus->actions, action);
+  return 0;
+}
+
+widget_action_t *
+widget_action_new (char *name, action_event_type_t type)
+{
+  widget_action_t *action = NULL;
+
+  if (!name)
+    return NULL;
+  
+  action = (widget_action_t *) malloc (sizeof (widget_action_t));
+  action->name = strdup (name);
+  action->type = type;
+  action->params = NULL;
+
+  return action;
+}
+
+void
+widget_action_free (widget_action_t *action)
+{
+  Evas_List *l;
+   
+  if (!action)
+    return;
+
+  if (action->name)
+    free (action->name);
+  
+  for (l = action->params; l; l = l->next)
+  {
+    char *param = NULL;
+    param = (char *) l->data;
+    if (param)
+      free (param);
+    action->params = evas_list_remove (action->params, action->params);
+  }
+
+  free (action);
+}
+
+int
+widget_action_add_param (widget_action_t *action, char *param)
+{
+  if (!action || !param)
+    return -1;
+
+  action->params = evas_list_append (action->params, param);
+  return 0;
 }

@@ -99,12 +99,24 @@ void neighbours_set (neighbours_t *nb, widget_t *widget,
                      neighbours_type_t type);
 void neighbours_free (neighbours_t *nb);
 
+typedef struct widget_action_s {
+  char *name;
+  action_event_type_t type;
+  Evas_List *params;
+} widget_action_t;
+
+widget_action_t *widget_action_new (char *name, action_event_type_t type);
+void widget_action_free (widget_action_t *action);
+int widget_action_add_param (widget_action_t *action, char *param);
+
 struct widget_focus_s {
   neighbours_t *neighbours;
+  Evas_List *actions;
 };
 
 widget_focus_t *widget_focus_new (void);
 void widget_focus_free (widget_focus_t *focus);
+void widget_focus_add_action (widget_focus_t *focus, widget_action_t *action);
 int widget_move_focus (widget_t *widget, neighbours_type_t where);
 
 #include "image.h"
