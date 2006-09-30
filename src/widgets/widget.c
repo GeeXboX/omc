@@ -170,6 +170,49 @@ widget_set_focus (widget_t *widget, uint32_t state)
 }
 
 int
+widget_move_focus (widget_t *widget, neighbours_type_t where)
+{
+  widget_focus_t *focus;
+  neighbours_t *nb;
+  widget_t *next;
+  
+  if (!widget || !(widget->flags & WIDGET_FLAG_FOCUSED))
+    return -1;
+
+  focus = widget->focus;
+  if (!focus)
+    return -1;
+
+  nb = focus->neighbours;
+  if (!nb)
+    return -1;
+
+  switch (where)
+  {
+  case NEIGHBOURS_UP:
+    next = nb->up;
+    break;
+  case NEIGHBOURS_DOWN:
+    next = nb->down;
+    break;
+  case NEIGHBOURS_LEFT:
+    next = nb->left;
+    break;
+  case NEIGHBOURS_RIGHT:
+    next = nb->right;
+    break;
+  }
+
+  if (!next) /* no neighbour in that direction */
+    return -1;
+
+  widget_set_focus (widget, 0); /* unfocus current widget */
+  widget_set_focus (next, 1); /* focus new one */
+
+  return 0;
+}
+
+int
 widget_action (widget_t *widget, action_event_type_t ev)
 {
   if (widget && widget->action)

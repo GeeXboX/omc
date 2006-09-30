@@ -105,6 +105,7 @@ struct widget_focus_s {
 
 widget_focus_t *widget_focus_new (void);
 void widget_focus_free (widget_focus_t *focus);
+int widget_move_focus (widget_t *widget, neighbours_type_t where);
 
 #include "image.h"
 #include "color.h"
