@@ -1,0 +1,97 @@
+<!ELEMENT omc (objects | screen)*>
+
+<!ELEMENT objects (image | string | textbox | button)*>
+<!ELEMENT image EMPTY>
+<!ELEMENT string EMPTY>
+<!ELEMENT textbox (string | border)>
+<!ELEMENT button (image | string | border)>
+<!ELEMENT slideshow (picture)*>
+<!ELEMENT browser EMPTY>
+<!ELEMENT sound EMPTY>
+
+<!ELEMENT screen (img | str | txtbox | btn)*>
+<!ELEMENT img (focus)>
+<!ELEMENT str (focus)>
+<!ELEMENT txtbox (focus)>
+<!ELEMENT btn (focus)>
+<!ELEMENT slshow EMPTY>
+<!ELEMENT brw (focus)>
+<!ELEMENT snd EMPTY)>
+
+<!ELEMENT focus (neighbours | actions | objs | snd)*>
+<!ELEMENT neighbours EMPTY>
+<!ELEMENT actions (action)*>
+<!ELEMENT action (action_param)*>
+<!ELEMENT action_param CDATA>
+<!ELEMENT objs (img | str | slshow)*>
+
+<!ATTLIST image id NMTOKEN #REQUIRED
+                x CDATA
+                y CDATA
+                w CDATA
+                h CDATA
+                layer CDATA "0"
+                src CDATA #REQUIRED
+                alpha CDATA "0">
+
+<!ATTLIST img id NMTOKEN #REQUIRED>
+
+<!ATTLIST string id NMTOKEN #REQUIRED
+                 x CDATA
+                 y CDATA
+                 layer CDATA "0"
+                 alpha CDATA "0"
+                 font NMTOKEN #REQUIRED
+                 color CDATA
+                 focus_color CDATA
+                 size CDATA>
+
+<!ATTLIST str id NMTOKEN #REQUIRED>
+
+<!ATTLIST textbox id NMTOKEN #REQUIRED
+                  x CDATA
+                  y CDATA
+                  layer CDATA "0"
+                  input NMTOKEN "no"
+                  multilines NMTOKEN "no"
+                  blur NMTOKEN "no"
+                  hscroll NMTOKEN "no"
+                  vscroll NMTOKEN "no"
+                  dscroll NMTOKEN "no">
+
+<!ATTLIST txtbox id NMTOKEN #REQUIRED>
+
+<!ATTLIST button id NMTOKEN #REQUIRED>
+
+<!ATTLIST btn id NMTOKEN #REQUIRED>
+
+<!ATTLIST slideshow id NMTOKEN #REQUIRED
+                    x CDATA
+                    y CDATA
+                    layer CDATA "0"
+                    alpha CDATA "0"
+                    timer CDATA "0">
+
+<!ATTLIST slshow id NMTOKEN #REQUIRED>
+
+<!ATTLIST picture id NMTOKEN #REQUIRED
+                  src NMTOKEN #REQUIRED
+                  w CDATA
+                  h CDATA>
+
+<!ATTLIST browser id NMTOKEN #REQUIRED
+                  x CDATA
+                  y CDATA
+                  w CDATA
+                  h CDATA
+                  layer CDATA "0"
+                  filter CDATA "all"
+                  alignement CDATA "grid">
+
+<!ATTLIST neighbours left NMTOKEN
+                     right NMTOKEN
+                     up NMTOKEN
+                     down NMTOKEN>
+
+<!ATTLIST action name NMTOKEN #REQUIRED
+                 event NMTOKEN #REQUIRED>
