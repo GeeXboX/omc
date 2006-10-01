@@ -118,6 +118,7 @@ temp_extralibs(){
 }
 
 append(){
+    local var
     var=$1
     shift
     flags_saved && eval "SAVE_$var=\"\$SAVE_$var $*\""
@@ -182,6 +183,7 @@ EOF
 }
 
 check_header(){
+    local header
     log check_header "$@"
     header=$1
     shift
@@ -192,6 +194,7 @@ EOF
 }
 
 check_func(){
+    local func
     log check_func "$@"
     func=$1
     shift
@@ -204,6 +207,7 @@ EOF
 }
 
 check_lib(){
+    local header func err
     log check_lib "$@"
     header="$1"
     func="$2"
