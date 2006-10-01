@@ -1,8 +1,9 @@
-include ../../config.mak
+SRCDIR := ../..
+SUBDIRS :=
 
-LIBNAME = widgets.a
+LIBNAME := widgets.a
 
-SRCS = \
+SRCS := \
 	widget.c \
 	image.c \
 	color.c \
@@ -16,33 +17,12 @@ SRCS = \
 	item.c \
 	browser.c \
 	cwd.c \
+	
+include $(SRCDIR)/Makefile.common
 
-OBJS = $(SRCS:.c=.o)
 CFLAGS += -I..
 
-.SUFFIXES: .c .o
+all:: depend $(LIBNAME)
 
-all: depend $(LIBNAME)
-
-.c.o:
-	$(CC) -c $(CFLAGS) -o $@ $<
-
-$(LIBNAME): $(OBJS)
-	$(AR) r $(LIBNAME) $(OBJS)
-	$(RANLIB) $(LIBNAME)
-
-clean:
-	rm -f *.o *.a *~
-	rm -f .depend
-
-depend:
-	$(CC) -MM $(CFLAGS) $(SRCS) 1>.depend
-
-.phony: clean depend
-
-#
-# include dependency files if they exist
-#
-ifneq ($(wildcard .depend),)
-include .depend
-endif
+clean::
+	$(RM) $(LIBNAME)

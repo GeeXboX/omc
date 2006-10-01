@@ -1,10 +1,10 @@
-include ../config.mak
+SRCDIR := ..
+SUBDIRS := exml screens widgets
 
-BIN_NAME = omc
+BIN_NAME := omc
 
-SUBDIRS = exml screens widgets
-
-SRCS =	omc.c \
+SRCS := \
+	omc.c \
 	cfgparser.c \
 	langinfo.c \
 	lang_i18n.c \
@@ -14,63 +14,30 @@ SRCS =	omc.c \
 	avplayer.c \
 	av_demuxer.c \
 	amazon.c \
-
-DEP_LIBS = \
+	
+DEP_LIBS := \
 	exml/exml.a \
 	screens/screens.a \
 	widgets/widgets.a \
+	
+include $(SRCDIR)/Makefile.common
 
-LDFLAGS += -levas -lecore_evas -lecore
-LDFLAGS += -lplayer
-LDFLAGS += -lcurl
-LDFLAGS += -lpthread
+EXTRALIBS += $(DEP_LIBS)
 
-OBJS = $(SRCS:.c=.o)
+all:: depend $(BIN_NAME)
 
-.SUFFIXES: .c .o
-
-all: config.h depend $(BIN_NAME)
-
-.c.o:
-	$(CC) -c $(CFLAGS) -o $@ $<
-
-config.h:
-	echo "#define CFG_DIR \"$(CFG)/omc\"" >> config.h
-	echo "#define DATA_DIR \"$(PREFIX)/share/omc\"" >> config.h
-
-exml/exml.a:
-	$(MAKE) -C exml
-
-screens/screens.a:
-	$(MAKE) -C screens
-
-widgets/widgets.a:
-	$(MAKE) -C widgets
+$(DEP_LIBS)::
+	$(MAKE) -C $(shell echo $@ | cut -f1 -d/) $(shell echo $@ | cut -f2 -d/)
 
 $(BIN_NAME): $(DEP_LIBS) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(DEP_LIBS) $(LDFLAGS) -o $(BIN_NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(BIN_NAME) $(EXTRALIBS)
 
-clean:
-	rm -f *.o $(BIN_NAME) config.h
-	rm -f .depend
-	for s in $(SUBDIRS); do \
-	  $(MAKE) -C $$s clean; \
-	done
+clean::
+	$(RM) $(BIN_NAME)
 
-install: $(BIN_NAME)
-	$(INSTALL) -c $(BIN_NAME) $(PREFIX)/bin
+install:: $(BIN_NAME)
+	$(INSTALL) -d "$(bindir)"
+	$(INSTALL) -c $(INSTALLSTRIP) -m 755 $(BIN_NAME) "$(bindir)"
 
-depend:
-	$(CC) -MM $(CFLAGS) $(SRCS) 1>.depend
-	for s in $(SUBDIRS); do \
-	  $(MAKE) -C $$s depend; \
-	done
-
-.phony: clean depend
-
-#
-# include dependency files if they exist
-#
-ifneq ($(wildcard .depend),)
-include .depend
-endif
+uninstall::
+	$(RM) "$(bindir)/$(BIN_NAME)"

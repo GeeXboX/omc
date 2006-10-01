@@ -1,9 +1,12 @@
-include ../config.mak
+SRCDIR := ..
+SUBDIRS :=
 
-FONTS = \
+include $(SRCDIR)/Makefile.common
+
+FONTS := \
         Handycandy.ttf
 
-PIXMAPS = \
+PIXMAPS := \
         back_brushed2.png \
         back_brushed3.png \
         back_brushed.png \
@@ -129,10 +132,14 @@ PIXMAPS = \
         viewer_zoom_in.png \
         viewer_zoom_out_focus.png \
         viewer_zoom_out.png \
-        volume.png
+        volume.png \
+	
 
-install: $(FONTS) $(PIXMAPS)
-	$(INSTALL) -c -m 644 $(FONTS) $(PREFIX)/share/omc
-	$(INSTALL) -c -m 644 $(PIXMAPS) $(PREFIX)/share/omc
+install:: $(FONTS) $(PIXMAPS)
+	$(INSTALL) -d "$(DATA_DIR)"
+	$(INSTALL) -c -m 644  $(FONTS) $(PIXMAPS) "$(DATA_DIR)"
 
-.phony: install
+uninstall::
+	for f in $(FONTS) $(PIXMAPS); do \
+		$(RM) "$(DATA_DIR)/$$f"; \
+	done

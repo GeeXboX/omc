@@ -1,16 +1,7 @@
-include config.mak
+SRCDIR := .
+SUBDIRS := src etc data
 
-all: omc
+include $(SRCDIR)/Makefile.common
 
-omc:
-	$(MAKE) -C src
-
-clean:
-	$(MAKE) -C src clean
-
-install:
-	$(MAKE) -C src install
-	$(MAKE) -C etc install
-	$(MAKE) -C data install
-
-.phony: clean
+distclean::
+	$(RM) config.mak config.h config.log
