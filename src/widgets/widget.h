@@ -116,7 +116,7 @@ struct widget_focus_s {
 
 widget_focus_t *widget_focus_new (void);
 void widget_focus_free (widget_focus_t *focus);
-void widget_focus_add_action (widget_focus_t *focus, widget_action_t *action);
+int widget_focus_add_action (widget_focus_t *focus, widget_action_t *action);
 int widget_move_focus (widget_t *widget, neighbours_type_t where);
 
 #include "image.h"

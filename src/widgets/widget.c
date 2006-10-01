@@ -346,7 +346,7 @@ widget_focus_free (widget_focus_t *focus)
   free (focus);
 }
 
-void
+int
 widget_focus_add_action (widget_focus_t *focus, widget_action_t *action)
 {
   if (!focus || !action)
