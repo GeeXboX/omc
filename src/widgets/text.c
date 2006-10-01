@@ -135,10 +135,10 @@ widget_text_set_focus (widget_t *widget)
   if (!text || !text->obj || !text->color)
     return -1;
   
-  if (focus)
-    cl = text->color;
-  else
+  if (focus && text->fcolor)
     cl = text->fcolor;
+  else
+    cl = text->color;
   evas_object_color_set (text->obj, cl->r, cl->g, cl->b, cl->a);
 
   return 0;
