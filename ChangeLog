@@ -1,6 +1,10 @@
+2006-10-01  Alexis Saettler  <asbin@asbin.org>
+
+	* add configure script and update Makefiles
+
 2006-01-22  Benjamin Zores  <ben@geexbox.org>
 
-        * first inclusion of Open Media Center to GeeXboX Arch tree.
+	* first inclusion of Open Media Center to GeeXboX Arch tree.
 	* support for some generic widgets : image, text, menu, border,
 	  clipper, cover, browser (files or MRLs/playlist),
 	  Playing MRL notifier.

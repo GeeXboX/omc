@@ -14,8 +14,10 @@ http://prdownloads.sourceforge.net/xine/xine-lib-1.1.1.tar.gz
 Build
 *****
 
-Edit config.mak:
-Set $PREFIX and $CFG according to your needs.
+To compile, run configure and then make.
+
+Example :
+CC="gcc" CFLAGS="-Os" ./configure --prefix=/usr
 make
 
 Install
