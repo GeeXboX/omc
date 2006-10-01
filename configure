@@ -103,26 +103,42 @@ restore_flags(){
 }
 
 temp_cflags(){
-    save_flags
-    CFLAGS="$CFLAGS $*"
+    temp_append CFLAGS "$@"
 }
 
 temp_ldflags(){
-    save_flags
-    LDFLAGS="$LDFLAGS $*"
+    temp_append LDFLAGS "$@"
 }
 
 temp_extralibs(){
+    temp_append extralibs "$@"
+}
+
+temp_append(){
+    local var
+    var=$1
+    shift
     save_flags
-    extralibs="$extralibs $*"
+    append_var "$var" "$@"
+}
+
+append_var(){
+    local var f
+    var=$1
+    shift
+    for f in $@; do
+      if eval echo \$$var | grep -qv -e "$f"; then
+        eval "$var=\"\$$var $f\""
+      fi
+    done
 }
 
 append(){
     local var
     var=$1
     shift
-    flags_saved && eval "SAVE_$var=\"\$SAVE_$var $*\""
-    eval "$var=\"\$$var $*\""
+    flags_saved && append_var "SAVE_$var" "$@"
+    append_var "$var" "$@"
 }
 
 add_cflags(){
@@ -216,6 +232,28 @@ check_lib(){
     check_header $header && check_func $func && add_extralibs "$@"
     err=$?
     restore_flags
+    return $err
+}
+
+check_libconfig(){
+    local config func ccflags clibs err
+    log check_libconfig "$@"
+    config="$1"
+    func="$2"
+    ccflags="${3:---cflags}"
+    clibs="${4:---libs}"
+    err=1
+    if `which "$config" 1>/dev/null 2>&1`; then
+      cflags=`$config $ccflags`
+      [ -n "$cflags" ] && check_cflags "$cflags"
+      libs=`$config $clibs`
+      if [ -n "$libs" ]; then
+        temp_extralibs "$libs"
+        check_func $func && add_extralibs "$libs"
+        err=$?
+        restore_flags
+      fi
+    fi
     return $err
 }
 
