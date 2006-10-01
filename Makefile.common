@@ -12,6 +12,7 @@ include $(CONFIGMAK)
 OBJS := $(SRCS:.c=.o)
 CFLAGS += $(OPTFLAGS)
 CFLAGS += -I.
+CFLAGS += -I$(SRCDIR)
 
 ##
 ## default target
