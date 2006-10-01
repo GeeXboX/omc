@@ -17,7 +17,7 @@ Build
 To compile, run configure and then make.
 
 Example :
-CC="gcc" CFLAGS="-Os" ./configure --prefix=/usr
+CC="gcc" CFLAGS="-Os" ./configure --prefix=/usr --sysconfdir=/etc 
 make
 
 Install
