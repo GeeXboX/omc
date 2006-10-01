@@ -174,7 +174,7 @@ widget_move_focus (widget_t *widget, neighbours_type_t where)
 {
   widget_focus_t *focus;
   neighbours_t *nb;
-  widget_t *next;
+  widget_t *next = NULL;
   
   if (!widget || !(widget->flags & WIDGET_FLAG_FOCUSED))
     return -1;
