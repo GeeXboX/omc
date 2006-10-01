@@ -98,8 +98,6 @@ widget_text_show (widget_t *widget)
       evas_object_show (text->obj);
       return 0;
     }
-    
-    return -1;
   }
 
   return -1;
@@ -117,8 +115,6 @@ widget_text_hide (widget_t *widget)
       evas_object_hide (text->obj);
       return 0;
     }
-    
-    return -1;
   }
 
   return -1;
@@ -136,23 +132,16 @@ widget_text_set_focus (widget_t *widget)
 
   focus = widget->flags & WIDGET_FLAG_FOCUSED;
   text = (widget_text_t *) widget->priv;
-  if (!text || !text->obj)
+  if (!text || !text->obj || !text->color)
     return -1;
   
-  if (!focus && text->color)
-  {
+  if (focus)
     cl = text->color;
-    evas_object_color_set (text->obj, cl->r, cl->g, cl->b, cl->a);
-    return 0;
-  }
-  else if (focus && text->fcolor)
-  {
+  else
     cl = text->fcolor;
-    evas_object_color_set (text->obj, cl->r, cl->g, cl->b, cl->a);
-    return 0;
-  }
+  evas_object_color_set (text->obj, cl->r, cl->g, cl->b, cl->a);
 
-  return -1;
+  return 0;
 }
 
 static int
