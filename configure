@@ -259,20 +259,15 @@ ranlib="ranlib"
 make="make"
 strip="strip"
 cpu=`uname -m`
-lstatic="yes"
-lshared="no"
 optimize="yes"
 debug="yes"
 dostrip="yes"
 extralibs=""
 installstrip="-s"
 cross_compile="no"
-LDCONFIG="ldconfig"
-SHFLAGS='-shared -Wl,-soname,$@'
 INSTALL="install"
-LIBOBJFLAGS=""
 
-#################################################$lstatic
+#################################################
 #   set cpu variable and specific cpu flags
 #################################################
 case "$cpu" in
@@ -584,7 +579,7 @@ enabled debug && add_cflags -g3
 
 # add some useful compiler flags if supported
 check_cflags -Wall
-check_cflags -W
+#check_cflags -W
 check_cflags -D_LARGEFILE_SOURCE
 check_cflags -D_FILE_OFFSET_BITS=64
 check_cflags -D_REENTRANT
@@ -614,8 +609,6 @@ echolog "  CPU                $cpu ($tune)"
 echolog "  debug symbols      $debug"
 echolog "  strip symbols      $dostrip"
 echolog "  optimize           $optimize"
-echolog "  static             $lstatic"
-echolog "  shared             $lshared"
 echolog ""
 echolog "  CFLAGS             $CFLAGS"
 echolog "  LDFLAGS            $LDFLAGS"
@@ -654,9 +647,6 @@ append_config "EXTRALIBS=$extralibs"
 
 append_config "OPTFLAGS=$CFLAGS"
 append_config "LDFLAGS=$LDFLAGS"
-append_config "LDCONFIG=$LDCONFIG"
-append_config "SHFLAGS=$SHFLAGS"
-append_config "LIBOBJFLAGS=$LIBOBJFLAGS"
 append_config "INSTALL=$INSTALL"
 
 
