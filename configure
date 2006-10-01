@@ -79,7 +79,7 @@ die(){
 }
 
 enabled(){
-    eval test "\$$1"="yes"
+    eval test "x\$$1" = "xyes"
 }
 
 flags_saved(){
