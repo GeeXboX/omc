@@ -568,8 +568,6 @@ check_lib curl/curl.h curl_version -lcurl || die "Error, can't find libcurl !"
 #   checking for libpthread
 #################################################
 echolog "Checking for libpthread ..."
-{ check_cflags -pthread && check_ldflags -pthread; } ||
-{ check_cflags -pthreads && check_ldflags -pthreads; } ||
 check_lib pthread.h pthread_create -lpthread ||
 check_func pthread_create ||
 die "Error, can't find libpthread"
