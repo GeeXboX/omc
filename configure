@@ -572,23 +572,34 @@ check_lib player.h player_init -lplayer || die "Error, can't find libplayer !"
 #   check for evas
 #################################################
 echolog "Checking for libevas ..."
-if [ -n "$evasprefix" ]; then
-  check_cflags -I$evasprefix/include
-  check_ldflags -L$evasprefix/lib
-fi
-check_lib Evas.h evas_init -levas || die "Error, can't find libevas !"
-# TODO : Check if Evas support png images
+evasconfig="/usr/bin/evas-config"
+[ -n "$evasprefix" ] && evasconfig="$evasprefix/bin/evas-config"
+check_libconfig $evasconfig evas_init ||
+{
+  if [ -n "$evasprefix" ]; then
+    check_cflags -I$evasprefix/include
+    check_ldflags -L$evasprefix/lib
+  fi
+  check_lib Evas.h evas_init -levas;
+} || die "Error, can't find libevas !"
+
+# TODO : Check if Evas supports png images
 
 
 #################################################
 #   check for ecore
 #################################################
 echolog "Checking for libecore ..."
-if [ -n "$ecoreprefix" ]; then
-  check_cflags -I$ecoreprefix/include
-  check_ldflags -L$ecoreprefix/lib
-fi
-check_lib Ecore.h ecore_init -lecore || die "Error, can't find libecore !"
+ecoreconfig="/usr/bin/ecore-config"
+[ -n "$ecoreprefix" ] && ecoreconfig="$ecoreprefix/bin/ecore-config"
+check_libconfig $ecoreconfig ecore_init ||
+{
+  if [ -n "$ecoreprefix" ]; then
+    check_cflags -I$ecoreprefix/include
+    check_ldflags -L$ecoreprefix/lib
+  fi
+  check_lib Ecore.h ecore_init -lecore;
+} || die "Error, can't find libecore !"
 
 #################################################
 #   check for ecore_evas
@@ -600,11 +611,16 @@ check_lib Ecore_Evas.h ecore_evas_init -lecore_evas || die "Error, can't find li
 #   check for libcurl
 #################################################
 echolog "Checking for libcurl ..."
-if [ -n "$curlprefix" ]; then
-  check_cflags -I$curlprefix/include
-  check_ldflags -L$curlprefix/lib
-fi
-check_lib curl/curl.h curl_version -lcurl || die "Error, can't find libcurl !"
+curlconfig="/usr/bin/curl-config"
+[ -n "$curlprefix" ] && curlconfig="$curlprefix/bin/curl-config"
+check_libconfig $curlconfig curl_version ||
+{
+  if [ -n "$curlprefix" ]; then
+    check_cflags -I$curlprefix/include
+    check_ldflags -L$curlprefix/lib
+  fi
+  check_lib curl/curl.h curl_version -lcurl;
+} || die "Error, can't find libcurl !"
 
 #################################################
 #   checking for libpthread
