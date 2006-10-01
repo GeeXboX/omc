@@ -3,13 +3,8 @@
 * support for video player.
 * OSD controls to video player.
 * fix memleaks all over the application.
-* correclty close Xine streams open/close.
-* correct Xine MRLs/playlist change (previous/next).
 * add support for keyboard bindings (may require containers first ?)
 * support for LIRC and joysticks bindings.
-* do not grab all A/V file informations when entering a directory (damn slow for videos)
- => either when mouse (keyboard i.e focus) is over for a specified amount of time (using Ecore_Timer).
- => either running a thread in background when entering directory.
 * do not display cover border when no cover (or when cover file grabbed from amazon is empty).
 * find a way to handle text_blocks alpha level (used in notifier).
 * define new widget entrybox which is an editable textbox (need to check for the text_block code for cursor alignment and keyboard bindings).
@@ -32,15 +27,12 @@
  => 2 browsers to copy/move files from a location (CD ?) to another (HDD ?)
  => add file(s) to disc and burn it ? (libisofs and libburn)
  => vobcopy DVD to HDD ?
-* support for internationalization (not gettext !! as not supported by uClibc)
- => should support runtime langage switch.
 * use Curl function to avoid trying fecthing HTTP URLs if no Internet connection's available.
 * add a OMC default/generic cover for video/audio files that do not have one.
 * all objects x/y coords should be % and not static for better resolution change.
 * support for fullscreen switch :
  => may imply runtime resize of all objects
  => or simply change omc->w and omc->h values and update screens.
-* directly uses libogg/mp3/flac to retrieves metadatas from audio files (Xine seems to only be able to grab infos from MP3 files).
 * grab EXIF metdata from JPEG files ?
 * directly uses libpng/libjpeg/... to retrieve infos from image files ?
 * find a place where days last 48h to have time to finish it some day.
