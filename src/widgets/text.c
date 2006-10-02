@@ -132,10 +132,10 @@ widget_text_set_focus (widget_t *widget)
 
   focus = widget->flags & WIDGET_FLAG_FOCUSED;
   text = (widget_text_t *) widget->priv;
-  if (!text || !text->obj || !text->color)
+  if (!text || !text->obj || (!text->color && !focus)||(!text->fcolor && focus))
     return -1;
   
-  if (focus && text->fcolor)
+  if (focus)
     cl = text->fcolor;
   else
     cl = text->color;
