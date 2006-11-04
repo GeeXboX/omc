@@ -8,7 +8,7 @@ http://enlightenment.freedesktop.org/fetch.php?file=evas-0.9.9.023.tar.gz
 http://enlightenment.freedesktop.org/fetch.php?file=ecore-0.9.9.023.tar.gz
 - Xine-lib >= 1.1.1 (deprecated) :
 http://prdownloads.sourceforge.net/xine/xine-lib-1.1.1.tar.gz
-- libplayer (always use latest Arch version)
+- libplayer (always use latest Mercurial version from geexbox repos)
 - Curl
 
 Build
